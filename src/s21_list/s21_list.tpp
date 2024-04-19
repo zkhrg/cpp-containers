@@ -1,7 +1,8 @@
 namespace s21 {
+
 template <typename tmp>
 s21_list<tmp>::s21_list() {
-  Node<value_type>* fake = new Node<value_type>{};
+  Node* fake = new Node{};
   start = finish = fake;
 }
 
@@ -46,8 +47,8 @@ s21_list<tmp>::~s21_list() {
 
 template <typename tmp>
 void s21_list<tmp>::push_back(const_reference val) {
-  Node<value_type>* ptr = finish->back;
-  Node<value_type>* nd = new Node<value_type>;
+  Node* ptr = finish->back;
+  Node* nd = new Node{};
   nd->arg = val;
   if (ptr) {
     ptr->next = nd;
