@@ -19,6 +19,7 @@ class s21_list {
 
   class ListIterator {
     friend class ListConstIterator;
+    friend class s21_list;
 
    private:
     Node* node;
@@ -46,7 +47,7 @@ class s21_list {
 
    public:
     ListConstIterator(Node* const other) : node(other){};
-    ListConstIterator(ListIterator& other) : node(other.node){};
+    ListConstIterator(const ListIterator& other) : node(other.node){};
     ListConstIterator(ListIterator&& other) : node(other.node) {
       other.node = nullptr;
     };
@@ -61,7 +62,7 @@ class s21_list {
     ListConstIterator& operator--();
     ListConstIterator operator++(int);
     ListConstIterator operator--(int);
-    ListConstIterator& operator=(ListIterator& it);
+    ListConstIterator& operator=(const ListIterator& it);
   };
 
  private:
@@ -84,9 +85,8 @@ class s21_list {
   s21_list(const s21_list& l);
   s21_list(s21_list&& l);
   ~s21_list();
-  /*
-  operator=(list &&l);
-  */
+
+  s21_list& operator=(s21_list&& l);
 
   // List Element access
   const_reference front() { return start->arg; }
@@ -100,28 +100,28 @@ class s21_list {
 
   // List Capacity
   bool empty() { return start == finish; };
-  /*
   size_type size();
-  size_type max_size()
+  /* (need more info)
+  size_type max_size();
   */
 
   // List Modifiers
-  void push_back(const_reference val);
-  /*
-  void clear();
   iterator insert(iterator pos, const_reference value);
   void erase(iterator pos);
-  void push_back(const_reference value);
-  void pop_back();
+  void push_back(const_reference val);
   void push_front(const_reference value);
+  void pop_back();
   void pop_front();
-  void swap(list& other);
-  void merge(list& other);
-  void splice(const_iterator pos, list& other);
+  void clear();
+  void swap(s21_list& other);
+  /* (need more info)
+  void merge(s21_list& other);
+  void splice(const_iterator pos, s21_list& other);
+  */
   void reverse();
   void unique();
-  void sort()
-  */
+  void sort();
+ 
 };
 
 };  // namespace s21

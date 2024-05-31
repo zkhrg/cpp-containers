@@ -66,7 +66,7 @@ s21_list<tmp>::ListConstIterator::operator--(int) {
 
 template <typename T>
 typename s21::s21_list<T>::ListConstIterator&
-s21_list<T>::ListConstIterator::operator=(iterator& it) {
+s21_list<T>::ListConstIterator::operator=(const iterator& it) {
   node = it.node;
   return *this;
 }
