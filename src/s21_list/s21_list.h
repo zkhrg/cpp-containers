@@ -114,10 +114,8 @@ class s21_list {
   void pop_front();
   void clear();
   void swap(s21_list& other);
-  /* (need more info)
   void merge(s21_list& other);
   void splice(const_iterator pos, s21_list& other);
-  */
   void reverse();
   void unique();
   void sort();

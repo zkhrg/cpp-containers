@@ -44,7 +44,7 @@ s21_list<tmp>::~s21_list() {
 
 template <typename tmp>
 typename s21::s21_list<tmp>& s21_list<tmp>::operator=(s21_list<tmp>&& list) {
-  if(this != list){
+  if(this != &list){
     clear();
     if(finish) delete finish;
     start = list.start;
@@ -126,21 +126,30 @@ void s21_list<T>::swap(s21_list<T>& other) {
 }
 
 
-// template <typename T>
-// void s21_list<T>::merge(s21_list<T>& other) {
-//   for(iterator it = begin(); it != end() && other.start != other.finish; it++) {
-//     if(other.front() < *it) {
-      
-//     }
-//   }
+template <typename T>
+void s21_list<T>::merge(s21_list<T>& other) {
+  if (this != &other) {
+    for(iterator it = begin(); it != end() && other.start != other.finish; it++) {
+      if(other.front() < *it) {
+        insert(it, other.front());
+        other.pop_front();
+      }
+    }
+    splice(end(), other);
+  }
+}
 
-// }
 
+template <typename T>
+void s21_list<T>::splice(const_iterator pos, s21_list<T>& other) {
+  pos.node->back->next = other.start;
+  other.start->back = pos.node->back;
+  other.finish->back->next = pos.node;
+  pos.node->back = other.finish->back;
+  other.start = other.finish;
+  other.finish->back = nullptr;
+}
 
-// template <typename T>
-// void s21_list<T>::splice(const_iterator pos, s21_list<T>& other) {
-  
-// }
 
 template <typename T>
 void s21_list<T>::reverse() {
