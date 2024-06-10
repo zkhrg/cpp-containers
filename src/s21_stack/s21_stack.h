@@ -18,8 +18,8 @@ class stack {
   // member func:
   stack() : base(){};
   stack(std::initializer_list<value_type> const &items) : base(items){};
-  stack(const stack &s) const : base(s.base){};
-  stack(stack &&s) : base(std::move(s.base)){};
+  stack(const stack &s): base(s.base){};
+  stack(stack &&s): base(std::move(s.base)){};
   ~stack(){};
   stack &operator=(stack &&s);
   // Queue Element access:

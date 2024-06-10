@@ -18,7 +18,7 @@ class queue {
   // member func:
   queue() : base(){};
   queue(std::initializer_list<value_type> const &items) : base(items){};
-  queue(const queue &q) const : base(q.base){};
+  queue(const queue &q): base(q.base){};
   queue(queue &&q) : base(std::move(q.base)){};
   ~queue(){};
   queue &operator=(queue &&q);
