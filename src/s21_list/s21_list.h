@@ -7,7 +7,7 @@
 namespace s21 {
 
 template <class T>
-class s21_list {
+class list {
  private:
   struct Node {
     Node *next, *back;
@@ -19,7 +19,7 @@ class s21_list {
 
   class ListIterator {
     friend class ListConstIterator;
-    friend class s21_list;
+    friend class list;
 
    private:
     Node* node;
@@ -79,14 +79,14 @@ class s21_list {
   using size_type = size_t;
 
   // List Functions
-  s21_list();
-  s21_list(size_type n);
-  s21_list(std::initializer_list<value_type> const& items);
-  s21_list(const s21_list& l);
-  s21_list(s21_list&& l);
-  ~s21_list();
+  list();
+  list(size_type n);
+  list(std::initializer_list<value_type> const& items);
+  list(const list& l);
+  list(list&& l);
+  ~list();
 
-  s21_list& operator=(s21_list&& l);
+  list& operator=(list&& l);
 
   // List Element access
   const_reference front() { return start->arg; }
@@ -113,13 +113,12 @@ class s21_list {
   void pop_back();
   void pop_front();
   void clear();
-  void swap(s21_list& other);
-  void merge(s21_list& other);
-  void splice(const_iterator pos, s21_list& other);
+  void swap(list& other);
+  void merge(list& other);
+  void splice(const_iterator pos, list& other);
   void reverse();
   void unique();
   void sort();
- 
 };
 
 };  // namespace s21
