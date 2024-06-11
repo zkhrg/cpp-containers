@@ -161,12 +161,11 @@ void vector<T>::reserve(size_type size) {
   else if (size > max_size()) {
     throw std::length_error("Size is larger than maximum of capacity")
   }
-  iterator new_vector = new value_type[size];
-  // delete[] data_; std::copy(begin(), end(), data_);
-  std::copy(begin(), end(), new_vector);
+  iterator new_data = new value_type[size];
+  std::copy(begin(), end(), new_data);
   delete[] data_;
   capacity_ = size;
-  data_ = new_vector;
+  data_ = new_data;
 }
 
 template <typename T>
@@ -177,12 +176,11 @@ vector<T>::size_type vector<T>::capacity() const {
 template <typename T>
 void vector<T>::shrink_to_fit() {
   if (size_ < capacity_) {
-    iterator new_vector = new value_type[size_];
-    // delete[] data_; std::copy(begin(), end(), data_);
-    std::copy(begin(), end(), new_vector);
+    iterator new_data = new value_type[size_];
+    std::copy(begin(), end(), new_data);
     delete[] data_;
     capacity_ = size_;
-    data_ = new_vector;
+    data_ = new_data;
   }
 }
 
@@ -194,6 +192,7 @@ void vector<T>::clear() noexcept {
   }
   size_ = 0;
 }
+
 }  // namespace s21
 
 #endif  // CPP2_S21_CONTAINERS_1_SRC_
