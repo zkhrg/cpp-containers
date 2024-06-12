@@ -196,12 +196,25 @@ void vector<T>::clear() noexcept {
 template <typename T>
 vector<T>::iterator vector<T>::insert(iterator pos, const_reference value) {
   if (pos < begin() || pos > end()) return;
-  if (size_ == capacity_) reserve(capacity_ * 2);
-  iterator new_end = end();
-  for (size_t i = 0; i != count; i++) {
-    /* code */
-  }
+  if (size_ == capacity_) reserve(capacity_ ? capacity_ * 2 : 1);
+
+  size_type pos_num = pos - begin();
+  push_back(value);
+  std::rotate(begin() + pos, end() - 1, end());
+
+  iterator new_pos = begin() + pos_num;
+  size_++;
+
+  return new_pos;
 }
+
+template <typename T>
+void vector<T>::erase(iterator pos) {
+  if (pos < begin() || pos > end()) return;
+  std::move(begin() + pos + 1, end(), begin() + pos);
+  pop_back();
+}
+
 }  // namespace s21
 
 #endif  // CPP2_S21_CONTAINERS_1_SRC_
