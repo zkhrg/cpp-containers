@@ -215,6 +215,24 @@ void vector<T>::erase(iterator pos) {
   pop_back();
 }
 
+template <typename T>
+void vector<T>::push_back(const_reference value) {
+  if (size_ == capacity_) reserve(capacity_ ? capacity_ * 2 : 1);
+  data_[size_++] = value;
+}
+
+template <typename T>
+void vector<T>::pop_back() {
+  size_ > 0 ? size_-- : 0;
+}
+
+template <typename T>
+void vector<T>::swap(vector &other) {
+  std::swap(data_, other.data_);
+  std::swap(size_, other.size_);
+  std::swap(capacity_, other.capacity_);
+}
+
 }  // namespace s21
 
 #endif  // CPP2_S21_CONTAINERS_1_SRC_
