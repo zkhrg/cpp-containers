@@ -193,6 +193,15 @@ void vector<T>::clear() noexcept {
   size_ = 0;
 }
 
+template <typename T>
+vector<T>::iterator vector<T>::insert(iterator pos, const_reference value) {
+  if (pos < begin() || pos > end()) return;
+  if (size_ == capacity_) reserve(capacity_ * 2);
+  iterator new_end = end();
+  for (size_t i = 0; i != count; i++) {
+    /* code */
+  }
+}
 }  // namespace s21
 
 #endif  // CPP2_S21_CONTAINERS_1_SRC_
