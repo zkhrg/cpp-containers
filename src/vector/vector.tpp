@@ -64,11 +64,9 @@ vector<T> &vector<T>::operator=(const vector<T> &v) noexcept {
 // (operator =) overload
 template <typename T>
 vector<T> &vector<T>::operator=(vector<T> &&v) noexcept {
-  if (this != &v) {
-    std::swap(data_, v.data_);
-    std::swap(size_, v.size_);
-    std::swap(capacity_, v.capacity_);
-  }
+  std::swap(data_, v.data_);
+  std::swap(size_, v.size_);
+  std::swap(capacity_, v.capacity_);
   return *this;
 }
 
