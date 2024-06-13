@@ -1,4 +1,6 @@
+#include <algorithm>
 #include <iostream>
+#include <limits>
 
 namespace s21 {
 template <typename T>
@@ -12,13 +14,13 @@ class vector {
   using size_type = size_t;
 
   vector() noexcept;
-  vector(size_type n);
+  explicit vector(size_type n);
   vector(std::initializer_list<value_type> const &items);
-  vector(const vector &v);
-  vector(vector &&v) noexcept;
+  vector(const vector<T> &v);
+  vector(vector<T> &&v) noexcept;
   ~vector();
-  vector &operator=(const vector &v);
-  vector &operator=(vector &&v) noexcept;
+  vector &operator=(const vector<T> &v) noexcept;
+  vector &operator=(vector<T> &&v) noexcept;
 
   reference at(size_type pos);
   reference operator[](size_type pos);
@@ -26,6 +28,7 @@ class vector {
   const_reference front() const;
   const_reference back() const;
   iterator data() noexcept;
+  const_iterator data() const noexcept;
 
   iterator begin();
   iterator end();

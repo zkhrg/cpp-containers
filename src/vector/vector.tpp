@@ -28,13 +28,13 @@ vector<T>::vector(std::initializer_list<value_type> const &items)
 
 // Copy constructor
 template <typename T>
-vector<T>::vector(const vector &v) : vector(v.size_) {
+vector<T>::vector(const vector<T> &v) : vector<T>(v.size_) {
   std::copy(v.begin(), v.end(), data_);
 }
 
 // Move constructor
 template <typename T>
-vector<T>::vector(vector &&v) noexcept
+vector<T>::vector(vector<T> &&v) noexcept
     : data_{v.data_}, size_{v.size_}, capacity_{v.capacity_} {
   v.size_ = 0;
   v.capacity_ = 0;
@@ -72,7 +72,7 @@ vector<T> &vector<T>::operator=(vector<T> &&v) noexcept {
 
 // Methods
 template <typename T>
-vector<T>::reference vector<T>::at(size_type pos) {
+typename vector<T>::reference vector<T>::at(size_type pos) {
   if (pos >= size_) {
     throw std::out_of_range("Incorrect input, index is out of range");
   }
@@ -80,7 +80,7 @@ vector<T>::reference vector<T>::at(size_type pos) {
 }
 
 template <typename T>
-vector<T>::reference vector<T>::operator[](size_type pos) {
+typename vector<T>::reference vector<T>::operator[](size_type pos) {
   if (pos >= size_) {
     throw std::out_of_range("Incorrect input, index is out of range");
   }
@@ -88,7 +88,7 @@ vector<T>::reference vector<T>::operator[](size_type pos) {
 }
 
 template <typename T>
-vector<T>::const_reference vector<T>::operator[](size_type pos) const {
+typename vector<T>::const_reference vector<T>::operator[](size_type pos) const {
   if (pos >= size_) {
     throw std::out_of_range("Incorrect input, index is out of range");
   }
@@ -96,43 +96,48 @@ vector<T>::const_reference vector<T>::operator[](size_type pos) const {
 }
 
 template <typename T>
-vector<T>::const_reference vector<T>::front() const {
-  if (this->empty) {
+typename vector<T>::const_reference vector<T>::front() const {
+  if (this->empty()) {
     throw std::out_of_range("Vector is empty");
   }
   return data_[0];
 }
 
 template <typename T>
-vector<T>::const_reference vector<T>::back() const {
-  if (this->empty) {
+typename vector<T>::const_reference vector<T>::back() const {
+  if (this->empty()) {
     throw std::out_of_range("Vector is empty");
   }
   return data_[size_ - 1];
 }
 
 template <typename T>
-vector<T>::iterator vector<T>::data() noexcept {
+inline typename vector<T>::iterator vector<T>::data() noexcept {
   return &data_[0];
 }
 
 template <typename T>
-inline vector<T>::iterator vector<T>::begin() {
+inline typename vector<T>::const_iterator vector<T>::data() const noexcept {
   return &data_[0];
 }
 
 template <typename T>
-inline vector<T>::iterator vector<T>::end() {
+inline typename vector<T>::iterator vector<T>::begin() {
+  return &data_[0];
+}
+
+template <typename T>
+inline typename vector<T>::iterator vector<T>::end() {
   return &data_[size_];
 }
 
 template <typename T>
-inline vector<T>::const_iterator vector<T>::cbegin() const {
+inline typename vector<T>::const_iterator vector<T>::cbegin() const {
   return &data_[0];
 }
 
 template <typename T>
-inline vector<T>::const_iterator vector<T>::cend() const {
+inline typename vector<T>::const_iterator vector<T>::cend() const {
   return &data_[size_];
 }
 
@@ -142,13 +147,13 @@ inline bool vector<T>::empty() const {
 }
 
 template <typename T>
-inline vector<T>::size_type vector<T>::size() const {
+inline typename vector<T>::size_type vector<T>::size() const {
   return size_;
 }
 
 // чё за нах?
 template <typename T>
-inline vector<T>::size_type vector<T>::max_size() const {
+inline typename vector<T>::size_type vector<T>::max_size() const {
   return std::numeric_limits<size_t>::max() / sizeof(int) / 2;
 }
 
@@ -157,7 +162,7 @@ void vector<T>::reserve(size_type size) {
   if (size <= capacity_)
     return;
   else if (size > max_size()) {
-    throw std::length_error("Size is larger than maximum of capacity")
+    throw std::length_error("Size is larger than maximum of capacity");
   }
   iterator new_data = new value_type[size];
   std::copy(begin(), end(), new_data);
@@ -167,7 +172,7 @@ void vector<T>::reserve(size_type size) {
 }
 
 template <typename T>
-vector<T>::size_type vector<T>::capacity() const {
+typename vector<T>::size_type vector<T>::capacity() const {
   return capacity_;
 }
 
@@ -192,8 +197,9 @@ void vector<T>::clear() noexcept {
 }
 
 template <typename T>
-vector<T>::iterator vector<T>::insert(iterator pos, const_reference value) {
-  if (pos < begin() || pos > end()) return;
+typename vector<T>::iterator vector<T>::insert(iterator pos,
+                                               const_reference value) {
+  if (pos < begin() || pos > end()) return 0;
   if (size_ == capacity_) reserve(capacity_ ? capacity_ * 2 : 1);
 
   size_type pos_num = pos - begin();
