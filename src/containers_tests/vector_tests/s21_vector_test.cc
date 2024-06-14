@@ -695,3 +695,205 @@ TEST(VectorTests, TestMethodErase1) {
     EXPECT_EQ(v1[i], v2[i]);
   }
 }
+
+TEST(VectorTests, TestMethodErase2) {
+  s21::vector<int> v1 = {1, 2, 3, 4, 5};
+  std::vector<int> v2 = {1, 2, 3, 4, 5};
+
+  v1.erase(v1.begin() + 2);
+  v2.erase(v2.begin() + 2);
+
+  EXPECT_EQ(v1.size(), 4);
+  EXPECT_EQ(v1.size(), v2.size());
+  EXPECT_EQ(v1[2], 4);
+  EXPECT_EQ(v2[2], 4);
+
+  for (size_t i = 0; i != v1.size() && i != v2.size(); ++i) {
+    EXPECT_EQ(v1[i], v2[i]);
+  }
+}
+
+TEST(VectorTests, TestMethodErase3) {
+  s21::vector<int> v1 = {1, 2, 3, 4, 5};
+  std::vector<int> v2 = {1, 2, 3, 4, 5};
+
+  v1.erase(v1.end() - 2);
+  v2.erase(v2.end() - 2);
+
+  EXPECT_EQ(v1.size(), 4);
+  EXPECT_EQ(v1.size(), v2.size());
+  EXPECT_EQ(v1[3], 5);
+  EXPECT_EQ(v1[3], 5);
+
+  for (size_t i = 0; i != v1.size() && i != v2.size(); ++i) {
+    EXPECT_EQ(v1[i], v2[i]);
+  }
+}
+
+TEST(VectorTests, TestMethodPushBack1) {
+  s21::vector<int> v1 = {1, 2, 3, 4, 5};
+  std::vector<int> v2 = {1, 2, 3, 4, 5};
+
+  v1.push_back(6);
+  v2.push_back(6);
+
+  EXPECT_EQ(v1.size(), 6);
+  EXPECT_EQ(v1.size(), v2.size());
+  EXPECT_EQ(v1[5], 6);
+  EXPECT_EQ(v2[5], 6);
+  for (size_t i = 0; i != v1.size() && i != v2.size(); ++i) {
+    EXPECT_EQ(v1[i], v2[i]);
+  }
+}
+
+TEST(VectorTests, TestMethodPushBack2) {
+  s21::vector<int> v1 = {1, 2, 3, 4, 5};
+  std::vector<int> v2 = {1, 2, 3, 4, 5};
+
+  auto tmp_capacity1 = v1.capacity();
+  auto tmp_capacity2 = v2.capacity();
+
+  v1.push_back(6);
+  v2.push_back(6);
+
+  EXPECT_EQ(v1.capacity(), tmp_capacity1 * 2);
+  EXPECT_EQ(v2.capacity(), tmp_capacity2 * 2);
+  for (size_t i = 0; i != v1.size() && i != v2.size(); ++i) {
+    EXPECT_EQ(v1[i], v2[i]);
+  }
+}
+
+TEST(VectorTests, TestMethodPushBack3) {
+  s21::vector<int> v1;
+  std::vector<int> v2;
+
+  v1.push_back(6);
+  v2.push_back(6);
+
+  EXPECT_EQ(v1.size(), 0);
+  EXPECT_EQ(v1.size(), v2.size());
+  EXPECT_EQ(v1[0], 6);
+}
+
+TEST(VectorTests, TestMethodPopBack1) {
+  s21::vector<int> v1 = {1, 2, 3, 4, 5};
+  std::vector<int> v2 = {1, 2, 3, 4, 5};
+
+  v1.pop_back();
+  v2.pop_back();
+
+  EXPECT_EQ(v1.size(), 4);
+  EXPECT_EQ(v1.size(), v2.size());
+  EXPECT_EQ(v1[4], 0);
+  EXPECT_EQ(v2[4], 0);
+  for (size_t i = 0; i != v1.size() && i != v2.size(); ++i) {
+    EXPECT_EQ(v1[i], v2[i]);
+  }
+}
+
+TEST(VectorTests, TestMethodPopBack2) {
+  s21::vector<int> v1 = {1, 2, 3, 4, 5};
+  std::vector<int> v2 = {1, 2, 3, 4, 5};
+
+  auto tmp_capacity1 = v1.capacity();
+  auto tmp_capacity2 = v2.capacity();
+
+  v1.pop_back();
+  v2.pop_back();
+
+  EXPECT_EQ(v1.capacity(), tmp_capacity1);
+  EXPECT_EQ(v2.capacity(), tmp_capacity2);
+  for (size_t i = 0; i != v1.size() && i != v2.size(); ++i) {
+    EXPECT_EQ(v1[i], v2[i]);
+  }
+}
+
+TEST(VectorTests, TestMethodPopBack3) {
+  s21::vector<int> v1;
+  std::vector<int> v2;
+
+  v1.pop_back();
+  v2.pop_back();
+  EXPECT_EQ(v1.size(), 0);
+  EXPECT_EQ(v1.size(), v2.size());
+}
+
+TEST(VectorTests, TestMethodSwap1) {
+  s21::vector<int> v1 = {1, 2, 3, 4, 5};
+  s21::vector<int> v2 = {6, 7, 8, 9, 10};
+
+  v1.swap(v2);
+  EXPECT_EQ(v1.size(), 5);
+  EXPECT_EQ(v2.size(), 5);
+  for (size_t i = 0; i != v1.size(); ++i) {
+    EXPECT_EQ(v1[i], 6 + i);
+  }
+}
+
+TEST(VectorTests, TestMethodSwap2) {
+  s21::vector<int> v1;
+  s21::vector<int> v1_copy;
+
+  std::vector<int> v2;
+  std::vector<int> v2_copy;
+
+  v1_copy.swap(v1);
+  v2_copy.swap(v2);
+
+  EXPECT_EQ(v1.size(), v2.size());
+  EXPECT_EQ(v1.capacity(), v2.capacity());
+
+  EXPECT_EQ(v1_copy.size(), v2_copy.size());
+  EXPECT_EQ(v1_copy.capacity(), v2_copy.capacity());
+}
+
+TEST(VectorTests, TestMethodSwap3) {
+  s21::vector<int> v1{1, 2, 3, 4, 5};
+  s21::vector<int> v1_copy;
+
+  std::vector<int> v2{1, 2, 3, 4, 5};
+  std::vector<int> v2_copy;
+
+  v1_copy.swap(v1);
+  v2_copy.swap(v2);
+
+  EXPECT_EQ(v1.size(), v2.size());
+  EXPECT_EQ(v1_copy.size(), v2_copy.size());
+
+  EXPECT_EQ(v1.capacity(), v2.capacity());
+  EXPECT_EQ(v1_copy.capacity(), v2_copy.capacity());
+}
+
+TEST(VectorTests, TestMethodSwap4) {
+  s21::vector<int> v1{1, 2, 3, 4, 5};
+  s21::vector<int> v1_copy{1, 2, 3};
+
+  std::vector<int> v2{1, 2, 3, 4, 5};
+  std::vector<int> v2_copy{1, 2, 3};
+
+  v1_copy.swap(v1);
+  v2_copy.swap(v2);
+
+  EXPECT_EQ(v1.size(), v2.size());
+  EXPECT_EQ(v1_copy.size(), v2_copy.size());
+
+  EXPECT_EQ(v1.capacity(), v2.capacity());
+  EXPECT_EQ(v1_copy.capacity(), v2_copy.capacity());
+}
+
+TEST(VectorTests, TestMethodSwap5) {
+  s21::vector<int> v1{1, 2, 3, 4, 5};
+  s21::vector<int> v1_copy{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+  std::vector<int> v2{1, 2, 3, 4, 5};
+  std::vector<int> v2_copy{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+  v1_copy.swap(v1);
+  v2_copy.swap(v2);
+
+  EXPECT_EQ(v1.size(), v2.size());
+  EXPECT_EQ(v1_copy.size(), v2_copy.size());
+
+  EXPECT_EQ(v1.capacity(), v2.capacity());
+  EXPECT_EQ(v1_copy.capacity(), v2_copy.capacity());
+}

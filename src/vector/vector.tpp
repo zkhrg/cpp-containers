@@ -199,7 +199,6 @@ void vector<T>::clear() noexcept {
 template <typename T>
 typename vector<T>::iterator vector<T>::insert(iterator pos,
                                                const_reference value) {
-  if (pos < begin() || pos > end()) return 0;
   if (size_ == capacity_) reserve(capacity_ ? capacity_ * 2 : 1);
 
   size_type pos_num = pos - begin();
@@ -217,6 +216,8 @@ void vector<T>::erase(iterator pos) {
   if (pos < begin() || pos > end()) return;
   std::move(begin() + pos + 1, end(), begin() + pos);
   pop_back();
+
+  size_--;
 }
 
 template <typename T>
