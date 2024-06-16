@@ -1,7 +1,5 @@
-#ifndef CPP2_S21_CONTAINERS_1_SRC_VECTOR_TPP_
-#define CPP2_S21_CONTAINERS_1_SRC_VECTOR_TPP_
-
-#include <cmath>
+#ifndef CPP2_S21_CONTAINERS_1_SRC_VECTOR_S21_VECTOR_TPP_
+#define CPP2_S21_CONTAINERS_1_SRC_VECTOR_S21_VECTOR_TPP_
 
 namespace s21 {
 
@@ -242,4 +240,4 @@ void vector<T>::swap(vector &other) {
 
 }  // namespace s21
 
-#endif  // CPP2_S21_CONTAINERS_1_SRC_VECTOR_TPP_
+#endif  // CPP2_S21_CONTAINERS_1_SRC_VECTOR_S21_VECTOR_TPP_

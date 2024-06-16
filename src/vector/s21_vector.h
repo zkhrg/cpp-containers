@@ -1,5 +1,5 @@
-#ifndef CPP2_S21_CONTAINERS_1_SRC_VECTOR_H_
-#define CPP2_S21_CONTAINERS_1_SRC_VECTOR_H_
+#ifndef CPP2_S21_CONTAINERS_1_SRC_VECTOR_S21_VECTOR_H_
+#define CPP2_S21_CONTAINERS_1_SRC_VECTOR_S21_VECTOR_H_
 
 #include <algorithm>
 #include <iostream>
@@ -62,4 +62,4 @@ class vector {
 }  // namespace s21
 
 #include "vector.tpp"
-#endif  // CPP2_S21_CONTAINERS_1_SRC_VECTOR_H_
+#endif  // CPP2_S21_CONTAINERS_1_SRC_VECTOR_S21_VECTOR_H_

@@ -8,6 +8,8 @@ TEST_RESULT=test
 OBJECTS=$(SOURCES:.cc=.o)
 TEST_OBJECTS=$(TEST_SOURCES:.cc=.o)
 RESULT=s21_matrix_oop.a
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
 
 OS := $(shell uname)
 ifeq ($(OS),Linux)
@@ -47,7 +49,7 @@ clang:
 git:
 	git add .
 	git commit
-	git push origin develop
+	git push origin $(CURRENT_BRANCH)
 
 clean:
 	rm -rf $(RESULT) $(OBJECTS) $(TEST_OBJECTS) $(TEST_RESULT) gcov_report* *.gc* report/ *.o $(MAIN)
