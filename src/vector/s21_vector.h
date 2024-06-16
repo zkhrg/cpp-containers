@@ -61,5 +61,5 @@ class vector {
 
 }  // namespace s21
 
-#include "vector.tpp"
+#include "s21_vector.tpp"
 #endif  // CPP2_S21_CONTAINERS_1_SRC_VECTOR_S21_VECTOR_H_
