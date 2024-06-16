@@ -1,7 +1,7 @@
-#ifndef CPP2_S21_CONTAINERS_1_SRC_
-#define CPP2_S21_CONTAINERS_1_SRC_
+#ifndef CPP2_S21_CONTAINERS_1_SRC_VECTOR_TPP_
+#define CPP2_S21_CONTAINERS_1_SRC_VECTOR_TPP_
 
-#include "s21_vector.h"
+#include <cmath>
 
 namespace s21 {
 
@@ -12,12 +12,7 @@ vector<T>::vector() noexcept : data_{nullptr}, size_{}, capacity_{} {};
 // Parameterized constructor
 template <typename T>
 vector<T>::vector(size_type n)
-    : data_{new value_type[n]}, size_{n}, capacity_{n} {
-  if (n < 0) {
-    throw std::range_error("Incorrect size of vector it must be >= 0");
-  }
-  printf("Parameterized constructor\n");
-}
+    : data_{new value_type[n]{}}, size_{n}, capacity_{n} {}
 
 // Initializer list constructor
 template <typename T>
@@ -29,7 +24,7 @@ vector<T>::vector(std::initializer_list<value_type> const &items)
 // Copy constructor
 template <typename T>
 vector<T>::vector(const vector<T> &v) : vector<T>(v.size_) {
-  std::copy(v.begin(), v.end(), data_);
+  std::copy(v.cbegin(), v.cend(), data_);
 }
 
 // Move constructor
@@ -48,7 +43,6 @@ vector<T>::~vector() {
   size_ = 0;
   capacity_ = 0;
   data_ = nullptr;
-  printf("Destructor\n");
 }
 
 // (operator =)
@@ -64,9 +58,16 @@ vector<T> &vector<T>::operator=(const vector<T> &v) noexcept {
 // (operator =) overload
 template <typename T>
 vector<T> &vector<T>::operator=(vector<T> &&v) noexcept {
-  std::swap(data_, v.data_);
-  std::swap(size_, v.size_);
-  std::swap(capacity_, v.capacity_);
+  if (this != &v) {
+    delete[] data_;
+    size_ = 0;
+    capacity_ = 0;
+    data_ = nullptr;
+    std::swap(data_, v.data_);
+    std::swap(size_, v.size_);
+    std::swap(capacity_, v.capacity_);
+  }
+
   return *this;
 }
 
@@ -154,7 +155,9 @@ inline typename vector<T>::size_type vector<T>::size() const {
 // чё за нах?
 template <typename T>
 inline typename vector<T>::size_type vector<T>::max_size() const {
-  return std::numeric_limits<size_t>::max() / sizeof(int) / 2;
+  return std::numeric_limits<size_type>::max() / sizeof(value_type) / 2;
+
+  // return (~(size_t)0 >> 1) / sizeof(value_type);
 }
 
 template <typename T>
@@ -199,14 +202,13 @@ void vector<T>::clear() noexcept {
 template <typename T>
 typename vector<T>::iterator vector<T>::insert(iterator pos,
                                                const_reference value) {
-  if (size_ == capacity_) reserve(capacity_ ? capacity_ * 2 : 1);
-
   size_type pos_num = pos - begin();
-  push_back(value);
-  std::rotate(begin() + pos, end() - 1, end());
-
+  if (size_ == capacity_) reserve(capacity_ ? capacity_ * 2 : 1);
   iterator new_pos = begin() + pos_num;
-  size_++;
+
+  push_back(value);
+
+  std::rotate(new_pos, end() - 1, end());
 
   return new_pos;
 }
@@ -214,10 +216,9 @@ typename vector<T>::iterator vector<T>::insert(iterator pos,
 template <typename T>
 void vector<T>::erase(iterator pos) {
   if (pos < begin() || pos > end()) return;
-  std::move(begin() + pos + 1, end(), begin() + pos);
-  pop_back();
 
-  size_--;
+  std::move(pos + 1, end(), pos);
+  pop_back();
 }
 
 template <typename T>
@@ -228,7 +229,8 @@ void vector<T>::push_back(const_reference value) {
 
 template <typename T>
 void vector<T>::pop_back() {
-  size_ > 0 ? size_-- : 0;
+  if (!size_) throw std::out_of_range("Vector is empty");
+  size_--;
 }
 
 template <typename T>
@@ -240,4 +242,4 @@ void vector<T>::swap(vector &other) {
 
 }  // namespace s21
 
-#endif  // CPP2_S21_CONTAINERS_1_SRC_
+#endif  // CPP2_S21_CONTAINERS_1_SRC_VECTOR_TPP_

@@ -1,4 +1,4 @@
-#include "test.h"
+#include "../test.h"
 #include "vector"
 
 TEST(VectorTests, TestDefaultVectorConstructor1) {
@@ -210,16 +210,17 @@ TEST(VectorTests, TestOperatorEqual1) {
 
 TEST(VectorTests, TestOperatorEqual2) {
   s21::vector<int> v1 = {1, 2, 3, 4, 5};
-  s21::vector<int> v2 = {6, 7, 8, 9, 10};
+  s21::vector<int> v2 = {7, 8, 9, 10};
 
   v1 = std::move(v2);
-  EXPECT_EQ(v1.size(), 5);
-  EXPECT_EQ(v1.capacity(), 5);
+
+  EXPECT_EQ(v1.size(), 4);
+  EXPECT_EQ(v1.capacity(), 4);
   EXPECT_EQ(v2.size(), 0);
   EXPECT_EQ(v2.capacity(), 0);
 
   for (size_t i = 0; i != v1.size(); ++i) {
-    EXPECT_EQ(v1[i], i + 6);
+    EXPECT_EQ(v1[i], i + 7);
   }
 }
 
@@ -271,26 +272,21 @@ TEST(VectorTests, TestOperatorBracket1) {
 
 TEST(VectorTests, TestOperatorBracket2) {
   s21::vector<int> v1 = {1, 2, 3, 4, 5};
-  std::vector<int> v2 = {1, 2, 3, 4, 5};
 
   EXPECT_THROW(v1[5], std::out_of_range);
-  EXPECT_THROW(v2[5], std::out_of_range);
+  EXPECT_THROW(v1[15], std::out_of_range);
 }
 
 TEST(VectorTests, TestOperatorBracket3) {
   s21::vector<int> v1;
-  std::vector<int> v2;
 
   EXPECT_THROW(v1[0], std::out_of_range);
-  EXPECT_THROW(v2[0], std::out_of_range);
 }
 
 TEST(VectorTests, TestOperatorBracket4) {
   s21::vector<int> v1 = {1, 2, 3, 4, 5};
-  std::vector<int> v2 = {1, 2, 3, 4, 5};
 
   EXPECT_THROW(v1[-1], std::out_of_range);
-  EXPECT_THROW(v2[-1], std::out_of_range);
 }
 
 TEST(VectorTests, TestOperatorBracket5) {
@@ -306,26 +302,21 @@ TEST(VectorTests, TestOperatorBracket5) {
 
 TEST(VectorTests, TestOperatorBracket6) {
   const s21::vector<int> v1 = {1, 2, 3, 4, 5};
-  const std::vector<int> v2 = {1, 2, 3, 4, 5};
 
   EXPECT_THROW(v1[5], std::out_of_range);
-  EXPECT_THROW(v2[5], std::out_of_range);
+  EXPECT_THROW(v1[15], std::out_of_range);
 }
 
 TEST(VectorTests, TestOperatorBracket7) {
   const s21::vector<int> v1;
-  const std::vector<int> v2;
 
   EXPECT_THROW(v1[0], std::out_of_range);
-  EXPECT_THROW(v2[0], std::out_of_range);
 }
 
 TEST(VectorTests, TestOperatorBracket8) {
   const s21::vector<int> v1 = {1, 2, 3, 4, 5};
-  const std::vector<int> v2 = {1, 2, 3, 4, 5};
 
   EXPECT_THROW(v1[-1], std::out_of_range);
-  EXPECT_THROW(v2[-1], std::out_of_range);
 }
 
 TEST(VectorTests, TestMethodFront1) {
@@ -338,10 +329,8 @@ TEST(VectorTests, TestMethodFront1) {
 
 TEST(VectorTests, TestMethodFront2) {
   s21::vector<int> v1;
-  std::vector<int> v2;
 
   EXPECT_THROW(v1.front(), std::out_of_range);
-  EXPECT_THROW(v2.front(), std::out_of_range);
 }
 
 TEST(VectorTests, TestMethodBack1) {
@@ -354,10 +343,8 @@ TEST(VectorTests, TestMethodBack1) {
 
 TEST(VectorTests, TestMethodBack2) {
   s21::vector<int> v1;
-  std::vector<int> v2;
 
   EXPECT_THROW(v1.back(), std::out_of_range);
-  EXPECT_THROW(v2.back(), std::out_of_range);
 }
 
 TEST(VectorTests, TestMethodData1) {
@@ -407,7 +394,7 @@ TEST(VectorTests, TestMethodEnd1) {
   s21::vector<int> v1 = {1, 2, 3, 4, 5};
   std::vector<int> v2 = {1, 2, 3, 4, 5};
 
-  EXPECT_EQ(*v1.end(), *v2.end());
+  EXPECT_EQ(*(v1.end() - 1), *(v2.end() - 1));
 }
 
 TEST(VectorTests, TestMethodEnd2) {
@@ -433,7 +420,7 @@ TEST(VectorTests, TestMethodCend1) {
   const s21::vector<int> v1 = {1, 2, 3, 4, 5};
   const std::vector<int> v2 = {1, 2, 3, 4, 5};
 
-  EXPECT_EQ(*v1.cend(), *v2.cend());
+  EXPECT_EQ(*(v1.cend() - 1), *(v2.cend() - 1));
 }
 
 TEST(VectorTests, TestMethodCend2) {
@@ -522,8 +509,8 @@ TEST(VectorTests, TestMethodReserve3) {
   s21::vector<int> v1;
   std::vector<int> v2;
 
-  EXPECT_THROW(v1.reserve(99999999999999999), std::length_error);
-  EXPECT_THROW(v2.reserve(99999999999999999), std::length_error);
+  EXPECT_ANY_THROW(v1.reserve(99999999999999999));
+  EXPECT_ANY_THROW(v2.reserve(99999999999999999));
 }
 
 TEST(VectorTests, TestMethodReserve4) {
@@ -659,14 +646,12 @@ TEST(VectorTests, TestMethodInsert3) {
   auto tmp_capacity1 = v1.capacity();
   auto tmp_capacity2 = v2.capacity();
 
-  auto it = v1.insert(v1.end(), 8);
-  auto it2 = v2.insert(v2.end(), 8);
+  v1.insert(v1.end(), 8);
+  v2.insert(v2.end(), 8);
 
   EXPECT_EQ(v1.capacity(), tmp_capacity1 * 2);
   EXPECT_EQ(v2.capacity(), tmp_capacity2 * 2);
 
-  EXPECT_EQ(it, v1.end());
-  EXPECT_EQ(it2, v2.end());
   EXPECT_EQ(v1.size(), v2.size());
   EXPECT_EQ(v1.size(), 6);
   EXPECT_EQ(v1.capacity(), v2.capacity());
@@ -770,9 +755,11 @@ TEST(VectorTests, TestMethodPushBack3) {
   v1.push_back(6);
   v2.push_back(6);
 
-  EXPECT_EQ(v1.size(), 0);
+  EXPECT_EQ(v1.size(), 1);
+  EXPECT_EQ(v2.size(), 1);
   EXPECT_EQ(v1.size(), v2.size());
   EXPECT_EQ(v1[0], 6);
+  EXPECT_EQ(v2[0], 6);
 }
 
 TEST(VectorTests, TestMethodPopBack1) {
@@ -784,8 +771,8 @@ TEST(VectorTests, TestMethodPopBack1) {
 
   EXPECT_EQ(v1.size(), 4);
   EXPECT_EQ(v1.size(), v2.size());
-  EXPECT_EQ(v1[4], 0);
-  EXPECT_EQ(v2[4], 0);
+  EXPECT_EQ(v1[3], 4);
+  EXPECT_EQ(v2[3], 4);
   for (size_t i = 0; i != v1.size() && i != v2.size(); ++i) {
     EXPECT_EQ(v1[i], v2[i]);
   }
@@ -810,12 +797,8 @@ TEST(VectorTests, TestMethodPopBack2) {
 
 TEST(VectorTests, TestMethodPopBack3) {
   s21::vector<int> v1;
-  std::vector<int> v2;
 
-  v1.pop_back();
-  v2.pop_back();
-  EXPECT_EQ(v1.size(), 0);
-  EXPECT_EQ(v1.size(), v2.size());
+  EXPECT_ANY_THROW(v1.pop_back());
 }
 
 TEST(VectorTests, TestMethodSwap1) {

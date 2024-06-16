@@ -4,6 +4,6 @@
 
 #include <gtest/gtest.h>
 
-#include "vector/s21_vector.h"
+#include "../vector/s21_vector.h"
 
 #endif  // CPP1_S21_MATRIXPLUS_MATRIX_TESTS_H_

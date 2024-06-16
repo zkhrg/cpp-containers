@@ -1,8 +1,12 @@
+#ifndef CPP2_S21_CONTAINERS_1_SRC_VECTOR_H_
+#define CPP2_S21_CONTAINERS_1_SRC_VECTOR_H_
+
 #include <algorithm>
 #include <iostream>
 #include <limits>
 
 namespace s21 {
+
 template <typename T>
 class vector {
  public:
@@ -55,5 +59,7 @@ class vector {
   size_type capacity_;
 };
 
-#include "vector.tpp"
 }  // namespace s21
+
+#include "vector.tpp"
+#endif  // CPP2_S21_CONTAINERS_1_SRC_VECTOR_H_
