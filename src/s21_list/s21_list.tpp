@@ -1,10 +1,9 @@
 namespace s21 {
 
 template <typename tmp>
-list<tmp>::list() {
-  Node* fake = new Node{};
-  fake->next = fake->back = fake;
-  start = finish = fake;
+list<tmp>::list() : __fake{}, start{&__fake}, finish{&__fake} {
+  __fake.next = &__fake;
+  __fake.back = &__fake;
 }
 
 template <typename tmp>
@@ -24,41 +23,44 @@ list<tmp>::list(std::initializer_list<value_type> const& items)
 }
 
 template <typename tmp>
-list<tmp>::list(const list<tmp>& list) : list<tmp>::list() {
-  for (const_iterator it = list.begin(); it != list.end(); it++) {
+list<tmp>::list(const list<tmp>& l) : list<tmp>::list() {
+  for (const_iterator it = l.begin(); it != l.end(); it++) {
     push_back(*it);
   }
 }
 
 template <typename tmp>
-list<tmp>::list(list<tmp>&& list) : start(list.start), finish(list.finish) {
-  list.start = nullptr;
-  list.finish = nullptr;
+list<tmp>::list(list<tmp>&& l) :
+__fake(l.__fake), start(l.start), finish(&__fake) {
+  __fake.back->next = &__fake;
+  __fake.next->back = &__fake;
+  l.start = l.finish;
+  l.__fake.next = &(l.__fake);
+  l.__fake.back = &(l.__fake);
 }
 
 template <typename tmp>
-list<tmp>::~list() {
-  clear();
-  if (finish) delete finish;
-}
+list<tmp>::~list() { clear(); }
 
 template <typename tmp>
-typename s21::list<tmp>& list<tmp>::operator=(list<tmp>&& list) {
-  if (this != &list) {
+typename s21::list<tmp>& list<tmp>::operator=(list<tmp>&& l) {
+  if (this != &l) {
     clear();
-    if (finish) delete finish;
-    start = list.start;
-    finish = list.finish;
-    list.start = nullptr;
-    list.finish = nullptr;
+    __fake = l.__fake;
+    __fake.back->next = &__fake;
+    __fake.next->back = &__fake;
+    start = l.start;
+    l.start = l.finish;
+    l.__fake.next = &l.__fake;
+    l.__fake.back = &l.__fake;
   }
   return *this;
 }
 // funcs
 
 template <typename T>
-typename s21::list<T>::ListIterator list<T>::insert(iterator pos,
-                                                    const_reference value) {
+typename s21::list<T>::ListIterator
+list<T>::insert(iterator pos, const_reference value) {
   Node* tmp = new Node{pos.node, pos.node->back, value};
   tmp->back->next = tmp;
   pos.node->back = tmp;
@@ -68,13 +70,15 @@ typename s21::list<T>::ListIterator list<T>::insert(iterator pos,
 }
 
 template <typename T>
-void list<T>::erase(iterator pos) {
-  if (pos != end()) {
-    pos.node->next->back = pos.node->back;
-    pos.node->back->next = pos.node->next;
-    if (pos.node == start) start = pos.node->next;
-    delete pos.node;
-  }
+typename s21::list<T>::iterator 
+list<T>::erase(iterator pos) {
+  Node* tmp{pos.node->next};
+  pos.node->next->back = pos.node->back;
+  pos.node->back->next = pos.node->next;
+  if (pos.node == start) start = pos.node->next;
+  delete pos.node;
+  pos.node = tmp;
+  return pos;
 }
 
 template <typename tmp>
@@ -89,7 +93,7 @@ void list<T>::push_front(const_reference value) {
 
 template <typename T>
 void list<T>::pop_back() {
-  if (start != finish) erase(--end());
+  erase(--end());
 }
 
 template <typename T>
@@ -142,7 +146,8 @@ void list<T>::splice(const_iterator pos, list<T>& other) {
   other.finish->back->next = pos.node;
   pos.node->back = other.finish->back;
   other.start = other.finish;
-  other.finish->back = nullptr;
+  other.finish->back = other.finish;
+  other.finish->next = other.finish;
 }
 
 template <typename T>
@@ -154,11 +159,10 @@ void list<T>::reverse() {
       it.node->next = it.node->back;
       it.node->back = tmp;
     }
-    tmp = start;
-    start = finish->back;
-    start->back = nullptr;
+    tmp = finish->next;
+    finish->next = finish->back;
     finish->back = tmp;
-    tmp->next = finish;
+    start = finish->next;
   }
 }
 

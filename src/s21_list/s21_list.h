@@ -33,10 +33,10 @@ class list {
     ListIterator& operator--();
     ListIterator operator++(int);
     ListIterator operator--(int);
-    bool operator!=(ListIterator it) { return node != it.node; };
-    bool operator!=(ListConstIterator it) { return node != it.node; };
-    bool operator==(ListIterator it) { return node == it.node; };
-    bool operator==(ListConstIterator it) { return node == it.node; };
+    bool operator!=(ListIterator it) const { return node != it.node; };
+    bool operator!=(ListConstIterator it) const { return node != it.node; };
+    bool operator==(ListIterator it) const { return node == it.node; };
+    bool operator==(ListConstIterator it) const { return node == it.node; };
   };
 
   class ListConstIterator {
@@ -54,10 +54,10 @@ class list {
     ~ListConstIterator(){};
 
     const T& operator*() { return node->arg; }
-    bool operator!=(ListConstIterator it) { return node != it.node; };
-    bool operator!=(ListIterator it) { return node != it.node; };
-    bool operator==(ListIterator it) { return node == it.node; };
-    bool operator==(ListConstIterator it) { return node == it.node; };
+    bool operator!=(ListConstIterator it) const { return node != it.node; };
+    bool operator!=(ListIterator it) const { return node != it.node; };
+    bool operator==(ListIterator it) const { return node == it.node; };
+    bool operator==(ListConstIterator it) const { return node == it.node; };
     ListConstIterator& operator++();
     ListConstIterator& operator--();
     ListConstIterator operator++(int);
@@ -66,6 +66,7 @@ class list {
   };
 
  private:
+  Node __fake;
   Node* start;
   Node* finish;
 
@@ -107,7 +108,7 @@ class list {
 
   // List Modifiers
   iterator insert(iterator pos, const_reference value);
-  void erase(iterator pos);
+  iterator erase(iterator pos);
   void push_back(const_reference val);
   void push_front(const_reference value);
   void pop_back();
