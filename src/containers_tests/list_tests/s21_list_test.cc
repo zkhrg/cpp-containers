@@ -143,7 +143,7 @@ TEST(ListTests, STD_TestListErase){
 TEST(ListTests, S21_TestListErase){
   s21::list<int> l{1, 2, 3, 4, 5, 6};
   for(auto it = l.begin(); it != l.end(); it++) {
-    if(*it % 2) it = l.erase(it);
+    while(*it % 2) it = l.erase(it);
   }
   EXPECT_EQ(l.size(), 3);
   EXPECT_EQ(l.front(), 2);
@@ -192,3 +192,37 @@ TEST(ListTests, TestListSwap){
     sl2.pop_front();
   }
 }
+
+TEST(ListTests, TestListSplice1) {
+  s21::list<int> sl1{1, 2, 3, 7, 8, 90};
+  s21::list<int> sl2{4, 5, 6};
+  std::list<int> chl1{1, 2, 3, 7, 8, 90};
+  std::list<int> chl2{4, 5, 6};
+  s21::list<int>::iterator it = sl1.begin();
+  auto chit = chl1.begin();
+  for (int i{}; i < 3; i++) it++, chit++;
+  sl1.splice(it, sl2);
+  chl1.splice(chit, chl2);
+  EXPECT_EQ(sl2.empty(), true);
+  it = sl1.begin();
+  chit = chl1.begin();
+  for(; chit != chl1.end(); chit++, it++)
+    EXPECT_EQ(*chit, *it); 
+
+}
+/*
+в оригинале псоледний узел хранит размер листа
+Нужно ли реализовывать?
+*/
+// TEST(ListTests, TestListSplice2) {
+//   s21::list<int> sl1{};
+//   s21::list<int> sl2{4, 5, 6};
+//   std::list<int> chl{4, 5, 6};
+//   s21::list<int>::iterator it = sl1.begin();
+//   for (int i{}; i < 3; i++) it++;
+//   sl1.splice(it, sl2);
+//   EXPECT_EQ(sl2.empty(), true);
+//   it = sl1.begin();
+//   for(auto chit = chl.begin(); chit != chl.end(); chit++, it++)
+//     EXPECT_EQ(*chit, *it);
+// }

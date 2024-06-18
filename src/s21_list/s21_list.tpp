@@ -1,3 +1,4 @@
+#include <iostream>
 namespace s21 {
 
 template <typename tmp>
@@ -117,12 +118,19 @@ void list<T>::clear() {
 
 template <typename T>
 void list<T>::swap(list<T>& other) {
-  Node* buf = start;
-  start = other.start;
-  other.start = buf;
-  buf = finish;
-  finish = other.finish;
-  other.finish = buf;
+  if (this != &other) {
+      std::swap(__fake, other.__fake);
+    if (!empty())
+      finish->next = finish->back = finish;
+    if (!other.empty())
+      other.finish->next = other.finish->back = other.finish;
+    finish->next->back = finish;
+    finish->back->next = finish;
+    start = finish->next;
+    other.finish->next->back = other.finish;
+    other.finish->back->next = other.finish;
+    other.start = other.finish->next;
+  }
 }
 
 template <typename T>
@@ -141,6 +149,8 @@ void list<T>::merge(list<T>& other) {
 
 template <typename T>
 void list<T>::splice(const_iterator pos, list<T>& other) {
+  if (other.empty()) return;
+  if (this == &other) return; //throw?
   pos.node->back->next = other.start;
   other.start->back = pos.node->back;
   other.finish->back->next = pos.node;
@@ -170,7 +180,7 @@ template <typename T>
 void list<T>::unique() {
   for (iterator iter = begin(); iter != end(); iter++)
     for (iterator it(iter.node->next); it != end(); it++)
-      if (*iter == *it) erase(it);
+      while (*iter == *it) it = erase(it);
 }
 
 template <typename T>

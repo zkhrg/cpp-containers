@@ -41,9 +41,10 @@ class list {
 
   class ListConstIterator {
     friend class ListIterator;
+    friend class list;
 
    private:
-    const Node* node;
+    Node* node;
 
    public:
     ListConstIterator(Node* const other) : node(other){};
