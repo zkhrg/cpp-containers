@@ -158,6 +158,7 @@ void list<T>::splice(const_iterator pos, list<T>& other) {
   other.start = other.finish;
   other.finish->back = other.finish;
   other.finish->next = other.finish;
+  if (pos == begin()) start = finish->next;
 }
 
 template <typename T>
