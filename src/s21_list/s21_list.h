@@ -4,6 +4,8 @@
 #include <initializer_list>
 #include <iostream>
 
+#define MAX_MEMORY ((~(size_t)0) >> 1)
+
 namespace s21 {
 
 template <class T>
@@ -103,9 +105,8 @@ class list {
   // List Capacity
   bool empty() { return start == finish; };
   size_type size();
-  /* (need more info)
   size_type max_size();
-  */
+
 
   // List Modifiers
   iterator insert(iterator pos, const_reference value);

@@ -3,8 +3,8 @@ namespace s21 {
 
 template <typename tmp>
 list<tmp>::list() : __fake{}, start{&__fake}, finish{&__fake} {
-  __fake.next = &__fake;
-  __fake.back = &__fake;
+  finish->next = finish;
+  finish->back = finish;
 }
 
 template <typename tmp>
@@ -33,11 +33,11 @@ list<tmp>::list(const list<tmp>& l) : list<tmp>::list() {
 template <typename tmp>
 list<tmp>::list(list<tmp>&& l) :
 __fake(l.__fake), start(l.start), finish(&__fake) {
-  __fake.back->next = &__fake;
-  __fake.next->back = &__fake;
+  finish->back->next = finish;
+  finish->next->back = finish;
   l.start = l.finish;
-  l.__fake.next = &(l.__fake);
-  l.__fake.back = &(l.__fake);
+  l.finish->next = l.finish;
+  l.finish->back = l.finish;
 }
 
 template <typename tmp>
@@ -48,12 +48,12 @@ typename s21::list<tmp>& list<tmp>::operator=(list<tmp>&& l) {
   if (this != &l) {
     clear();
     __fake = l.__fake;
-    __fake.back->next = &__fake;
-    __fake.next->back = &__fake;
+    finish->back->next = finish;
+    finish->next->back = finish;
     start = l.start;
     l.start = l.finish;
-    l.__fake.next = &l.__fake;
-    l.__fake.back = &l.__fake;
+    l.finish->next = l.finish;
+    l.finish->back = l.finish;
   }
   return *this;
 }
@@ -136,9 +136,9 @@ void list<T>::swap(list<T>& other) {
 template <typename T>
 void list<T>::merge(list<T>& other) {
   if (this != &other) {
-    for (iterator it = begin(); it != end() && other.start != other.finish;
+    for (iterator it = begin(); it != end() && !other.empty();
          it++) {
-      if (other.front() < *it) {
+      while (other.front() < *it) {
         insert(it, other.front());
         other.pop_front();
       }
@@ -163,7 +163,7 @@ void list<T>::splice(const_iterator pos, list<T>& other) {
 
 template <typename T>
 void list<T>::reverse() {
-  if (start != finish) {
+  if (!empty()) {
     Node* tmp = nullptr;
     for (iterator it = begin(); it != end(); it--) {
       tmp = it.node->next;
@@ -179,9 +179,10 @@ void list<T>::reverse() {
 
 template <typename T>
 void list<T>::unique() {
-  for (iterator iter = begin(); iter != end(); iter++)
-    for (iterator it(iter.node->next); it != end(); it++)
-      while (*iter == *it) it = erase(it);
+  for (iterator iter = begin(); iter != end(); iter++) {
+    iterator it(iter.node->next);
+    while (*iter == *it && it != end()) it = erase(it);
+  }
 }
 
 template <typename T>
@@ -197,5 +198,11 @@ void list<T>::sort() {
       *iter = tmp;
     }
   }
+}
+
+template <typename T>
+typename s21::list<T>::size_type
+list<T>::max_size() {
+  return MAX_MEMORY / sizeof(Node);
 }
 };  // namespace s21
