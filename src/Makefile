@@ -35,11 +35,11 @@ $(RESULT): $(OBJECTS)
 .cc.o:
 	$(CC) -c $(CFLAGS) $< -o $@
 
-gcov_report: $(TEST_SOURCES) $(SOURCES)
+gcov_report: $(TEST_SOURCES)
 	$(CC) $(CFLAGS) --coverage $^ $(CHECK_LIB) -o $@
 	chmod +x *
 	./$@ 
-	lcov -t  "$@" --ignore-errors mismatch -o $@.info --no-external -c -d .
+	lcov -t  "$@" --ignore-errors mismatch --ignore-errors inconsistent -o $@.info --no-external -c -d .
 	genhtml -o report/ $@.info
 	$(OPEN)
 

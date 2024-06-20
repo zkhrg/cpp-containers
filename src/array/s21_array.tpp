@@ -104,22 +104,22 @@ typename array<T, N>::const_iterator array<T, N>::data() const noexcept {
 }
 
 template <typename T, std::size_t N>
-typename array<T, N>::iterator array<T, N>::begin() noexcept {
+typename array<T, N>::iterator array<T, N>::begin() {
   return data_;
 }
 
 template <typename T, std::size_t N>
-typename array<T, N>::const_iterator array<T, N>::cbegin() const noexcept {
+typename array<T, N>::const_iterator array<T, N>::cbegin() const {
   return data_;
 }
 
 template <typename T, std::size_t N>
-typename array<T, N>::iterator array<T, N>::end() noexcept {
+typename array<T, N>::iterator array<T, N>::end() {
   return data_ + N;
 }
 
 template <typename T, std::size_t N>
-typename array<T, N>::const_iterator array<T, N>::cend() const noexcept {
+typename array<T, N>::const_iterator array<T, N>::cend() const {
   return data_ + N;
 }
 
@@ -130,12 +130,12 @@ inline bool array<T, N>::empty() const {
 }
 
 template <typename T, std::size_t N>
-array<T, N>::size_type array<T, N>::size() const {
+typename array<T, N>::size_type array<T, N>::size() const {
   return size_;
 }
 
 template <typename T, std::size_t N>
-array<T, N>::size_type array<T, N>::max_size() const {
+typename array<T, N>::size_type array<T, N>::max_size() const {
   return size_;
 }
 

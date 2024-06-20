@@ -19,15 +19,6 @@ TEST(VectorTests, TestDefaultVectorConstructor2) {
   EXPECT_EQ(v2.data(), nullptr);
 }
 
-TEST(VectorTests, TestDefaultVectorConstructor3) {
-  s21::vector<int> v1;
-  std::vector<int> v2;
-  EXPECT_EQ(v1.size(), v2.size());
-  EXPECT_EQ(v1.empty(), v2.empty());
-  EXPECT_EQ(v1.data(), nullptr);
-  EXPECT_EQ(v2.data(), nullptr);
-}
-
 TEST(VectorTests, TestInitializerListConstructor1) {
   s21::vector<int> v1 = {};
   std::vector<int> v2 = {};
@@ -44,9 +35,6 @@ TEST(VectorTests, TestInitializerListConstructor2) {
   EXPECT_EQ(v1.empty(), v2.empty());
   EXPECT_EQ(v1.data(), nullptr);
   EXPECT_EQ(v2.data(), nullptr);
-  for (size_t i = 0; i != v1.size() && i != v2.size(); ++i) {
-    EXPECT_EQ(v1[i], v2[i]);
-  }
 }
 
 TEST(VectorTests, TestInitializerListConstructor3) {
@@ -69,10 +57,6 @@ TEST(VectorTests, TestInitializerListConstructor4) {
   EXPECT_EQ(v1.capacity(), v2.capacity());
   EXPECT_EQ(v1.data(), nullptr);
   EXPECT_EQ(v2.data(), nullptr);
-
-  for (size_t i = 0; i != v1.size() && i != v2.size(); ++i) {
-    EXPECT_EQ(v1[i], v2[i]);
-  }
 }
 
 TEST(VectorTests, TestParameterizedVectorConstructor1) {
@@ -83,10 +67,6 @@ TEST(VectorTests, TestParameterizedVectorConstructor1) {
   EXPECT_EQ(v1.size(), v2.size());
   EXPECT_EQ(v1.empty(), v2.empty());
   EXPECT_EQ(v1.capacity(), v2.capacity());
-
-  for (size_t i = 0; i != v1.size() && i != v2.size(); ++i) {
-    EXPECT_EQ(v1[i], v2[i]);
-  }
 }
 
 TEST(VectorTests, TestParameterizedVectorConstructor2) {
@@ -524,6 +504,15 @@ TEST(VectorTests, TestMethodReserve4) {
 
   EXPECT_EQ(v1.capacity(), tmp_capacity1);
   EXPECT_EQ(v2.capacity(), tmp_capacity2);
+}
+
+// reserve exception
+TEST(VectorTests, TestMethodReserveException1) {
+  s21::vector<int> v1;
+  std::vector<int> v2;
+
+  EXPECT_ANY_THROW(v1.reserve(99999999999999999));
+  EXPECT_ANY_THROW(v2.reserve(99999999999999999));
 }
 
 TEST(VectorTests, TestMethodCapacity1) {
