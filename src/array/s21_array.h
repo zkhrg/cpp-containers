@@ -1,5 +1,5 @@
-#ifndef CPP2_S21_CONTAINERS_1_SRC_VECTOR_S21_ARRAY_H_
-#define CPP2_S21_CONTAINERS_1_SRC_VECTOR_S21_ARRAY_H_
+#ifndef CPP2_S21_CONTAINERS_1_SRC_ARRAY_S21_ARRAY_H_
+#define CPP2_S21_CONTAINERS_1_SRC_ARRAY_S21_ARRAY_H_
 
 #include <iostream>
 
@@ -18,16 +18,19 @@ class array {
   array(std::initializer_list<value_type> const &items);
   array(const array<T, N> &a);
   array(array<T, N> &&a) noexcept;
-  ~array();  // ???????
+  ~array() = default;  // ???????
   array &operator=(const array &a) noexcept;
   array &operator=(array &&a) noexcept;
 
   reference at(size_type pos);
   reference operator[](size_type pos);
   const_reference operator[](size_type pos) const;
+  reference front();
   const_reference front() const;
+  reference back();
   const_reference back() const;
   iterator data() noexcept;
+  const_iterator data() const noexcept;
 
   iterator begin();
   iterator end();
@@ -42,10 +45,10 @@ class array {
   void fill(const_reference value);
 
  private:
-  value_type data[N] = {};
+  value_type data_[N] = {};
   size_type size_ = N;
 };
 }  // namespace s21
 
 #include "s21_array.tpp"
-#endif  // CPP2_S21_CONTAINERS_1_SRC_VECTOR_S21_ARRAY_H_
+#endif  // CPP2_S21_CONTAINERS_1_SRC_ARRAY_S21_ARRAY_H_
