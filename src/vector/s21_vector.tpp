@@ -238,6 +238,33 @@ void vector<T>::swap(vector &other) {
   std::swap(capacity_, other.capacity_);
 }
 
+template <typename T>
+template <typename... Args>
+typename vector<T>::iterator vector<T>::insert_many(const_iterator pos,
+                                                    Args &&...args) {
+  vector<value_type> tmp{args...};
+
+  size_type pos_num = pos - begin();
+  iterator new_pos = begin() + pos_num;
+
+  for (size_type i = 0; i < tmp.size(); i++) {
+    new_pos = insert(new_pos, tmp[i]);
+    new_pos++;
+  }
+
+  return new_pos;
+}
+
+template <typename T>
+template <typename... Args>
+void vector<T>::insert_many_back(Args &&...args) {
+  vector<value_type> tmp{args...};
+
+  for (size_type i = 0; i < tmp.size(); i++) {
+    push_back(tmp[i]);
+  }
+}
+
 }  // namespace s21
 
 #endif  // CPP2_S21_CONTAINERS_1_SRC_VECTOR_S21_VECTOR_TPP_

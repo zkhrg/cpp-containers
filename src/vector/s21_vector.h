@@ -53,6 +53,11 @@ class vector {
   void pop_back();
   void swap(vector &other);
 
+  template <typename... Args>
+  iterator insert_many(const_iterator pos, Args &&...args);
+  template <typename... Args>
+  void insert_many_back(Args &&...args);
+
  private:
   iterator data_;
   size_type size_;

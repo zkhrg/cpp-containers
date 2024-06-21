@@ -489,8 +489,10 @@ TEST(VectorTests, TestMethodReserve3) {
   s21::vector<int> v1;
   std::vector<int> v2;
 
-  EXPECT_ANY_THROW(v1.reserve(99999999999999999));
-  EXPECT_ANY_THROW(v2.reserve(99999999999999999));
+  double n = v1.max_size();
+
+  EXPECT_ANY_THROW(v1.reserve(n));
+  EXPECT_ANY_THROW(v2.reserve(n));
 }
 
 TEST(VectorTests, TestMethodReserve4) {
@@ -504,15 +506,6 @@ TEST(VectorTests, TestMethodReserve4) {
 
   EXPECT_EQ(v1.capacity(), tmp_capacity1);
   EXPECT_EQ(v2.capacity(), tmp_capacity2);
-}
-
-// reserve exception
-TEST(VectorTests, TestMethodReserveException1) {
-  s21::vector<int> v1;
-  std::vector<int> v2;
-
-  EXPECT_ANY_THROW(v1.reserve(99999999999999999));
-  EXPECT_ANY_THROW(v2.reserve(99999999999999999));
 }
 
 TEST(VectorTests, TestMethodCapacity1) {
@@ -868,4 +861,82 @@ TEST(VectorTests, TestMethodSwap5) {
 
   EXPECT_EQ(v1.capacity(), v2.capacity());
   EXPECT_EQ(v1_copy.capacity(), v2_copy.capacity());
+}
+
+// iterator insert_many(const_iterator pos, Args &&...args)
+TEST(VectorTests, TestMethodInsertMany1) {
+  s21::vector<int> v1 = {1, 2, 3, 4, 5};
+
+  auto tmp_capacity1 = v1.capacity();
+
+  v1.insert_many(v1.begin(), 6, 7);
+  EXPECT_EQ(v1.capacity(), tmp_capacity1 * 2);
+  EXPECT_EQ(v1[0], 6);
+  EXPECT_EQ(v1[1], 7);
+  EXPECT_EQ(v1[2], 1);
+  EXPECT_EQ(v1[3], 2);
+  EXPECT_EQ(v1[4], 3);
+  EXPECT_EQ(v1[5], 4);
+  EXPECT_EQ(v1[6], 5);
+}
+
+TEST(VectorTests, TestMethodInsertMany2) {
+  s21::vector<int> v1 = {1, 2, 3, 4, 5};
+
+  auto tmp_capacity1 = v1.capacity();
+
+  v1.insert_many(v1.begin() + 1, 6, 7);
+  EXPECT_EQ(v1.capacity(), tmp_capacity1 * 2);
+  EXPECT_EQ(v1[0], 1);
+  EXPECT_EQ(v1[1], 6);
+  EXPECT_EQ(v1[2], 7);
+  EXPECT_EQ(v1[3], 2);
+  EXPECT_EQ(v1[4], 3);
+  EXPECT_EQ(v1[5], 4);
+  EXPECT_EQ(v1[6], 5);
+}
+
+TEST(VectorTests, TestMethodInsertMany3) {
+  s21::vector<int> v1 = {1, 2, 3, 4, 5};
+
+  auto tmp_capacity1 = v1.capacity();
+
+  v1.insert_many(v1.end(), 6, 7);
+  EXPECT_EQ(v1.capacity(), tmp_capacity1 * 2);
+  EXPECT_EQ(v1[0], 1);
+  EXPECT_EQ(v1[1], 2);
+  EXPECT_EQ(v1[2], 3);
+  EXPECT_EQ(v1[3], 4);
+  EXPECT_EQ(v1[4], 5);
+  EXPECT_EQ(v1[5], 6);
+  EXPECT_EQ(v1[6], 7);
+}
+
+TEST(VectorTests, TestMethodInsertMany5) {
+  s21::vector<int> v1 = {1, 2, 3, 4, 5};
+
+  auto tmp_capacity1 = v1.capacity();
+
+  v1.insert_many(v1.begin() + 4, 6, 7);
+  EXPECT_EQ(v1.capacity(), tmp_capacity1 * 2);
+  EXPECT_EQ(v1[0], 1);
+  EXPECT_EQ(v1[1], 2);
+  EXPECT_EQ(v1[2], 3);
+  EXPECT_EQ(v1[3], 4);
+  EXPECT_EQ(v1[4], 6);
+  EXPECT_EQ(v1[5], 7);
+  EXPECT_EQ(v1[6], 5);
+}
+
+TEST(VectorTests, TestMethodInsertManyBack1) {
+  s21::vector<int> v1 = {1, 2, 3, 4, 5};
+
+  auto tmp_capacity1 = v1.capacity();
+
+  v1.insert_many_back(6, 7);
+  EXPECT_EQ(v1.capacity(), tmp_capacity1 * 2);
+
+  for (size_t i = 0; i != v1.size(); ++i) {
+    EXPECT_EQ(v1[i], i + 1);
+  }
 }
