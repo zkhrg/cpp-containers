@@ -2,7 +2,7 @@
 #define S21_LIST
 
 #include <initializer_list>
-#include <iostream>
+
 
 #define MAX_MEMORY ((~(size_t)0) >> 1)
 
