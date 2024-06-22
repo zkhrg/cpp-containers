@@ -4,7 +4,12 @@ namespace s21 {
 
 // Map Member functions
 template <typename Key, typename T>
-map<Key, T>::map(): size_{}, fake_{}, max_{&fake_}, min_(&fake_) {}
+map<Key, T>::map(): size_{}, fake_{}, min_{&fake_}, max_(&fake_) {}
+
+template <typename Key, typename T>
+map<Key, T>::~map() {
+  clear();
+}
 
 
 // Map Capacity
@@ -20,14 +25,15 @@ void map<Key, T>::clear(){
     min_ = it.node;
     if(loss.node->parent == min_) {
       min_->left = nullptr;
-      *loss.node = {};
+      loss.node->parent = nullptr;
       delete loss.node;
     } else {
       loss.node->parent->left = loss.node->right;
       loss.node->right->parent = loss.node->parent;
       loss.node->right->less = true;
-      *loss.node = {};
-      delete loss.node
+      loss.node->parent = nullptr;
+      loss.node->right = nullptr;
+      delete loss.node;
     }
   }
 }
@@ -38,8 +44,24 @@ map<Key, T>::insert(const Key& key, const T& obj){
   std::pair<iterator, bool> res{end(), true};
   if(empty()) {
     max_->left = new Node{true, max_, nullptr, nullptr, value_type{key, obj}};
+    min_ = max_->right = max_->left;
     res.first.goLeft();
+  } else {
+    res.first.goLeft();
+    for (bool flag = true; res.first.node->val.first != key && flag;) {
+      while(res.first.node->val.first < key && flag) flag = res.first.goRight();
+      while(res.first.node->val.first > key && flag) flag = res.first.goLeft();
+    }
+    if (res.first.node->val.first < key) {
+      res.first.node->left = new Node{true, res.first.node, nullptr, nullptr, value_type{key, obj}};
+      if(min_->left) min_ = max_->right = min_->left;
+    } else if (res.first.node->val.first > key) {
+      res.first.node->right = new Node{false, res.first.node, nullptr, nullptr, value_type{key, obj}};
+    } else {
+      res.second = false;
+    }
   }
+  return res;
 }
 
 };

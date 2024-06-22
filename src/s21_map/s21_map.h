@@ -79,12 +79,12 @@ class map {
  public:
   // Map Member functions
   map();
+  ~map();
   /*
   map(std::initializer_list<value_type> const &items);
   map(const map &m);
   map(const map &m);
   map(map &&m);
-  ~map();
   */
 
   // Map Element access

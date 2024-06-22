@@ -78,19 +78,19 @@ bool map<Key, T>::iterator::operator!=(const_iterator it) {
 template <typename Key, typename T>
 typename s21::map<Key, T>::const_iterator&
 map<Key, T>::const_iterator::operator=(const iterator& it) {
-  node = it.node;
+  this->node = it.node;
   return *this;
 }
 
 template <typename Key, typename T>
 typename s21::map<Key, T>::const_reference&
 map<Key, T>::const_iterator::operator*() const {
-  return node->val;
+  return this->node->val;
 }
 template <typename Key, typename T>
 const typename s21::map<Key, T>::value_type*
 map<Key, T>::const_iterator::operator->() const {
-  return &node->val;
+  return &this->node->val;
 }
 
 // Map BinarTree Move=====================================================
