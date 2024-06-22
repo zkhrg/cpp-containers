@@ -7,16 +7,20 @@ typename s21::map<Key, T>::reference
 map<Key, T>::iterator::operator*() {
   return node->val;
 }
+template <typename Key, typename T>
+typename s21::map<Key, T>::value_type*
+map<Key, T>::iterator::operator->() {
+  return &node->val;
+}
 
 template <typename Key, typename T>
 typename s21::map<Key, T>::iterator& 
 map<Key, T>::iterator::operator++() {
-  if(node->right){
-    node = node->right;
-    while (node->left) node = nade->left;
+  if(goRight()){
+    while (goLeft());
   } else {
-    while (!node->less) node = node->parent;
-    node = node->parent;
+    while (!node->less && goParent());
+    goParent();
   }
   return *this;
 }
@@ -32,12 +36,11 @@ map<Key, T>::iterator::operator++(int) {
 template <typename Key, typename T>
 typename s21::map<Key, T>::iterator& 
 map<Key, T>::iterator::operator--() {
-  if(node->left){
-    node = node->left;
-    while (node->right) node = nade->right;
+  if(goLeft()){
+    while (goRight());
   } else {
-    while (node->less) node = node->parent;
-    node = node->parent;
+    while (node->less && goParent());
+    goParent();
   }
   return *this;
 }
@@ -84,5 +87,52 @@ typename s21::map<Key, T>::const_reference&
 map<Key, T>::const_iterator::operator*() const {
   return node->val;
 }
+template <typename Key, typename T>
+const typename s21::map<Key, T>::value_type*
+map<Key, T>::const_iterator::operator->() const {
+  return &node->val;
+}
+
+// Map BinarTree Move=====================================================
+
+template <typename Key, typename T>
+bool s21::map<Key, T>::iterator::goLeft() {
+  bool res = node->left != nullptr;
+  if (res) node = node->left;
+  return res; 
+}
+
+template <typename Key, typename T>
+bool s21::map<Key, T>::iterator::goRight() {
+  bool res = node->right != nullptr;
+  if (res) node = node->right;
+  return res; 
+}
+
+template <typename Key, typename T>
+bool s21::map<Key, T>::iterator::goParent() {
+  bool res = node->parent != nullptr;
+  if (res) node = node->parent;
+  return res; 
+}
+
+// Map Iterators==========================================================
+
+template <typename Key, typename T>
+typename s21::map<Key, T>::iterator 
+map<Key, T>::begin() { return iterator(min_); }
+
+template <typename Key, typename T>
+typename s21::map<Key, T>::iterator 
+map<Key, T>::end() { return iterator(max_); }
+
+template <typename Key, typename T>
+typename s21::map<Key, T>::const_iterator 
+map<Key, T>::begin() const { return const_iterator(min_); }
+
+template <typename Key, typename T>
+typename s21::map<Key, T>::const_iterator 
+map<Key, T>::end() const { return const_iterator(max_); }
+
 
 };

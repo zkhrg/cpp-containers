@@ -40,6 +40,7 @@ class map {
     ~MapIterator(){};
 
     reference operator*();
+    value_type* operator->();
     iterator& operator++();
     iterator& operator--();
     iterator operator++(int);
@@ -48,6 +49,12 @@ class map {
     bool operator==(const_iterator it);
     bool operator!=(iterator it);
     bool operator!=(const_iterator it);
+   protected:
+    // BinarTree Move
+
+    bool goLeft();
+    bool goRight();
+    bool goParent();
   };
 
   class MapConstIterator: public MapIterator {
@@ -60,9 +67,11 @@ class map {
     ~MapConstIterator(){};
     const_iterator& operator=(const iterator& it);
     const_reference operator*() const;
+    const value_type* operator->() const;
   };
  
  private:
+  size_type size_;
   Node fake_;
   Node* min_;
   Node* max_;
@@ -85,25 +94,24 @@ class map {
   */
 
   // Map Iterators
-  /*
   iterator begin();
   iterator end();
-  const_iterator begin(): const;
-  const_iterator end(): const;
-  */
+  const_iterator begin() const;
+  const_iterator end() const;
+ 
 
   // Map Capacity
-  /*
   bool empty();
+  /*
   size_type size();
   size_type max_size();
   */
 
   // Map Modifiers
-  /*
   void clear();
-  std::pair<iterator, bool> insert(const value_type& value);
   std::pair<iterator, bool> insert(const Key& key, const T& obj);
+  /*
+  std::pair<iterator, bool> insert(const value_type& value);
   std::pair<iterator, bool> insert_or_assign(const Key& key, const T& obj);
   void erase(iterator pos);
   void swap(map& other);
