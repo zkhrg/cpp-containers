@@ -31,8 +31,8 @@ list<tmp>::list(const list<tmp>& l) : list<tmp>::list() {
 }
 
 template <typename tmp>
-list<tmp>::list(list<tmp>&& l) :
-__fake(l.__fake), start(l.start), finish(&__fake) {
+list<tmp>::list(list<tmp>&& l)
+    : __fake(l.__fake), start(l.start), finish(&__fake) {
   finish->back->next = finish;
   finish->next->back = finish;
   l.start = l.finish;
@@ -41,7 +41,9 @@ __fake(l.__fake), start(l.start), finish(&__fake) {
 }
 
 template <typename tmp>
-list<tmp>::~list() { clear(); }
+list<tmp>::~list() {
+  clear();
+}
 
 template <typename tmp>
 typename s21::list<tmp>& list<tmp>::operator=(list<tmp>&& l) {
@@ -60,8 +62,8 @@ typename s21::list<tmp>& list<tmp>::operator=(list<tmp>&& l) {
 // funcs
 
 template <typename T>
-typename s21::list<T>::ListIterator
-list<T>::insert(iterator pos, const_reference value) {
+typename s21::list<T>::ListIterator list<T>::insert(iterator pos,
+                                                    const_reference value) {
   Node* tmp = new Node{pos.node, pos.node->back, value};
   tmp->back->next = tmp;
   pos.node->back = tmp;
@@ -71,8 +73,7 @@ list<T>::insert(iterator pos, const_reference value) {
 }
 
 template <typename T>
-typename s21::list<T>::iterator 
-list<T>::erase(iterator pos) {
+typename s21::list<T>::iterator list<T>::erase(iterator pos) {
   Node* tmp{pos.node->next};
   pos.node->next->back = pos.node->back;
   pos.node->back->next = pos.node->next;
@@ -119,11 +120,9 @@ void list<T>::clear() {
 template <typename T>
 void list<T>::swap(list<T>& other) {
   if (this != &other) {
-      std::swap(__fake, other.__fake);
-    if (!empty())
-      finish->next = finish->back = finish;
-    if (!other.empty())
-      other.finish->next = other.finish->back = other.finish;
+    std::swap(__fake, other.__fake);
+    if (!empty()) finish->next = finish->back = finish;
+    if (!other.empty()) other.finish->next = other.finish->back = other.finish;
     finish->next->back = finish;
     finish->back->next = finish;
     start = finish->next;
@@ -136,8 +135,7 @@ void list<T>::swap(list<T>& other) {
 template <typename T>
 void list<T>::merge(list<T>& other) {
   if (this != &other) {
-    for (iterator it = begin(); it != end() && !other.empty();
-         it++) {
+    for (iterator it = begin(); it != end() && !other.empty(); it++) {
       while (other.front() < *it) {
         insert(it, other.front());
         other.pop_front();
@@ -150,7 +148,7 @@ void list<T>::merge(list<T>& other) {
 template <typename T>
 void list<T>::splice(const_iterator pos, list<T>& other) {
   if (other.empty()) return;
-  if (this == &other) return; //throw?
+  if (this == &other) return;  // throw?
   pos.node->back->next = other.start;
   other.start->back = pos.node->back;
   other.finish->back->next = pos.node;
@@ -201,8 +199,7 @@ void list<T>::sort() {
 }
 
 template <typename T>
-typename s21::list<T>::size_type
-list<T>::max_size() {
+typename s21::list<T>::size_type list<T>::max_size() {
   return MAX_MEMORY / sizeof(Node);
 }
 };  // namespace s21

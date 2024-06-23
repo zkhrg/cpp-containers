@@ -1,6 +1,7 @@
-#include "../test.h"
-#include <list>
 #include <iostream>
+#include <list>
+
+#include "../test.h"
 
 // List Functions
 
@@ -18,7 +19,7 @@ TEST(ListTests, TestSizeListConstructor) {
   EXPECT_EQ(l1.size(), l2.size());
   auto it1 = l1.begin();
   auto it2 = l2.begin();
-  for(; it1 != l1.end() && it2 != l2.end(); it1++, it2++)
+  for (; it1 != l1.end() && it2 != l2.end(); it1++, it2++)
     EXPECT_EQ(*it1, *it2);
 }
 
@@ -29,7 +30,7 @@ TEST(ListTests, Test_IntitList_ListConstructor) {
   EXPECT_EQ(l1.empty(), false);
   auto it1 = l1.begin();
   auto it2 = l2.begin();
-  for(; it1 != l1.end() && it2 != l2.end(); ++it1, ++it2)
+  for (; it1 != l1.end() && it2 != l2.end(); ++it1, ++it2)
     EXPECT_EQ(*it1, *it2);
 }
 
@@ -39,7 +40,7 @@ TEST(ListTests, TestCopyListConstructor) {
   EXPECT_EQ(l1.size(), l2.size());
   auto it1 = l1.begin();
   auto it2 = l2.begin();
-  for(; it1 != l1.end() && it2 != l2.end(); ++it1, ++it2)
+  for (; it1 != l1.end() && it2 != l2.end(); ++it1, ++it2)
     EXPECT_EQ(*it1, *it2);
 }
 
@@ -51,7 +52,7 @@ TEST(ListTests, TestMoveListConstructor) {
   EXPECT_EQ(l1.empty(), true);
   auto it1 = l3.begin();
   auto it2 = l2.begin();
-  for(; it1 != l3.end() && it2 != l2.end(); ++it1, ++it2)
+  for (; it1 != l3.end() && it2 != l2.end(); ++it1, ++it2)
     EXPECT_EQ(*it1, *it2);
 }
 
@@ -64,13 +65,13 @@ TEST(ListTests, TestOPMoveListConstructor) {
   EXPECT_EQ(l1.empty(), true);
   auto it1 = l3.begin();
   auto it2 = l2.begin();
-  for(; it1 != l3.end() && it2 != l2.end(); ++it1, ++it2)
+  for (; it1 != l3.end() && it2 != l2.end(); ++it1, ++it2)
     EXPECT_EQ(*it1, *it2);
 }
 
 // List Element access
 
-TEST(ListTests, TestFrontListAccess1){
+TEST(ListTests, TestFrontListAccess1) {
   s21::list<int> l1;
   std::list<int> l2;
   EXPECT_EQ(l1.front(), l2.front());
@@ -80,7 +81,7 @@ TEST(ListTests, TestFrontListAccess1){
   EXPECT_EQ(l1.front(), *l1.begin());
 }
 
-TEST(ListTests, TestBackListAccess2){
+TEST(ListTests, TestBackListAccess2) {
   s21::list<int> l1;
   std::list<int> l2;
   EXPECT_EQ(l1.back(), l2.back());
@@ -96,7 +97,7 @@ TEST(ListTests, S21_TestConstListIterator) {
   s21::list<int> l{1, 5, 3, 7};
   s21::list<int>::iterator it = l.begin();
   s21::list<int>::const_iterator cit = l.begin();
-  for(; it != l.end() && cit != l.end(); it++, cit++) {
+  for (; it != l.end() && cit != l.end(); it++, cit++) {
     EXPECT_EQ(it, cit);
     EXPECT_EQ(*it, *cit);
   }
@@ -114,7 +115,7 @@ TEST(ListTests, STD_TestConstListIterator) {
 */
 // List Modifiers
 
-TEST(ListTests, TestListInsert){
+TEST(ListTests, TestListInsert) {
   s21::list<int> l1;
   std::list<int> l2;
   l1.insert(l1.begin(), 1);
@@ -140,10 +141,10 @@ TEST(ListTests, STD_TestListErase){
 }
 */
 
-TEST(ListTests, S21_TestListErase){
+TEST(ListTests, S21_TestListErase) {
   s21::list<int> l{1, 2, 3, 4, 5, 6};
-  for(auto it = l.begin(); it != l.end(); it++) {
-    while(*it % 2) it = l.erase(it);
+  for (auto it = l.begin(); it != l.end(); it++) {
+    while (*it % 2) it = l.erase(it);
   }
   EXPECT_EQ(l.size(), 3);
   EXPECT_EQ(l.front(), 2);
@@ -177,7 +178,7 @@ TEST(ListTests, TestListPush_Pop_Erase) {
   EXPECT_EQ(l.front(), 4);
 }
 
-TEST(ListTests, TestListSwap){
+TEST(ListTests, TestListSwap) {
   s21::list<int> sl1;
   s21::list<int> sl2{1, 5, 9};
   std::list<int> l1;
@@ -186,7 +187,7 @@ TEST(ListTests, TestListSwap){
   l1.swap(l2);
   EXPECT_EQ(l1.empty(), sl1.empty());
   EXPECT_EQ(l2.empty(), sl2.empty());
-  while(!l2.empty() && sl2.empty()){
+  while (!l2.empty() && sl2.empty()) {
     EXPECT_EQ(l2.front(), sl2.front());
     l2.pop_front();
     sl2.pop_front();
@@ -207,8 +208,7 @@ TEST(ListTests, TestListSplice1) {
   EXPECT_EQ(chl2.empty(), true);
   it = sl1.begin();
   chit = chl1.begin();
-  for(; chit != chl1.end(); chit++, it++)
-    EXPECT_EQ(*chit, *it); 
+  for (; chit != chl1.end(); chit++, it++) EXPECT_EQ(*chit, *it);
 }
 
 TEST(ListTests, STD_TestListSplice2) {
@@ -219,7 +219,8 @@ TEST(ListTests, STD_TestListSplice2) {
   sl1.splice(it, sl2);
   EXPECT_EQ(sl2.empty(), true);
   it = sl1.begin();
-  for(auto chit = chl.begin(); chit != chl.end() && it != sl1.end(); chit++, it++)
+  for (auto chit = chl.begin(); chit != chl.end() && it != sl1.end();
+       chit++, it++)
     EXPECT_EQ(*chit, *it);
 }
 
@@ -231,7 +232,8 @@ TEST(ListTests, TestListSplice2) {
   sl1.splice(it, sl2);
   EXPECT_EQ(sl2.empty(), true);
   it = sl1.begin();
-  for(auto chit = chl.begin(); chit != chl.end() && it != sl1.end(); chit++, it++)
+  for (auto chit = chl.begin(); chit != chl.end() && it != sl1.end();
+       chit++, it++)
     EXPECT_EQ(*chit, *it);
 }
 
@@ -243,7 +245,8 @@ TEST(ListTests, STD_TestListSplice3) {
   sl1.splice(it, sl2);
   EXPECT_EQ(sl2.empty(), true);
   it = sl1.begin();
-  for(auto chit = chl.begin(); chit != chl.end() && it != sl1.end(); chit++, it++)
+  for (auto chit = chl.begin(); chit != chl.end() && it != sl1.end();
+       chit++, it++)
     EXPECT_EQ(*chit, *it);
 }
 
@@ -255,7 +258,8 @@ TEST(ListTests, TestListSplice3) {
   sl1.splice(it, sl2);
   EXPECT_EQ(sl2.empty(), true);
   it = sl1.begin();
-  for(auto chit = chl.begin(); chit != chl.end() && it != sl1.end(); chit++, it++)
+  for (auto chit = chl.begin(); chit != chl.end() && it != sl1.end();
+       chit++, it++)
     EXPECT_EQ(*chit, *it);
 }
 
@@ -264,7 +268,7 @@ TEST(ListTests, TestListReverse1) {
   int arr[]{1, 2, 3, 5, 4};
   l.reverse();
   auto it = l.begin();
-  for(int i{}; i < 5; i++, it++) {
+  for (int i{}; i < 5; i++, it++) {
     EXPECT_EQ(*it, arr[i]);
   }
 }
@@ -280,8 +284,7 @@ TEST(ListTests, TestListSort) {
   std::string arr[]{"aaa", "abc", "cba", "ccc"};
   l.sort();
   auto it = l.begin();
-  for(int i{}; i < 4 && it != l.end(); i++, it++)
-    EXPECT_EQ(*it, arr[i]);
+  for (int i{}; i < 4 && it != l.end(); i++, it++) EXPECT_EQ(*it, arr[i]);
 }
 
 /* //std check
@@ -301,13 +304,13 @@ TEST(ListTests, TestListUnique) {
   int arr1[]{1, 5, 1, 6, 5, 8, 1, 4};
   int arr2[]{1, 4, 5, 6, 8};
   auto it = l.begin();
-  for(int i{}; i < 8; i++, it++) {
+  for (int i{}; i < 8; i++, it++) {
     EXPECT_EQ(*it, arr1[i]);
   }
   l.sort();
   l.unique();
   it = l.begin();
-  for(int i{}; i < 5; i++, it++) {
+  for (int i{}; i < 5; i++, it++) {
     EXPECT_EQ(*it, arr2[i]);
   }
 }
@@ -333,8 +336,7 @@ TEST(ListTests, TestListMerge) {
   l1.merge(l2);
   EXPECT_EQ(l2.empty(), true);
   auto it = l1.begin();
-  for(int i{}; it != l1.end(); it++, i++)
-    EXPECT_EQ(*it, arr[i]);
+  for (int i{}; it != l1.end(); it++, i++) EXPECT_EQ(*it, arr[i]);
 }
 
 TEST(ListTests, TestListMaxSize) {
