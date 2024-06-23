@@ -73,19 +73,18 @@ class map {
  private:
   size_type size_;
   Node fake_;
-  Node* min_;
+  Node*& top_;
+  Node*& min_;
   Node* max_;
 
  public:
   // Map Member functions
   map();
   ~map();
-  /*
   map(std::initializer_list<value_type> const &items);
   map(const map &m);
-  map(const map &m);
   map(map &&m);
-  */
+  map& operator=(map &&m);
 
   // Map Element access
   /*
@@ -110,9 +109,9 @@ class map {
   // Map Modifiers
   void clear();
   std::pair<iterator, bool> insert(const Key& key, const T& obj);
-  /*
   std::pair<iterator, bool> insert(const value_type& value);
   std::pair<iterator, bool> insert_or_assign(const Key& key, const T& obj);
+  /*
   void erase(iterator pos);
   void swap(map& other);
   void merge(map& other);
