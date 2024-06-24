@@ -263,7 +263,7 @@ void vector<T>::insert_many_back(Args &&...args) {
   for (size_type i = 0; i < tmp.size(); i++) {
     push_back(tmp[i]);
   }
-}
+};
 
 }  // namespace s21
 
