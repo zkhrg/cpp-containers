@@ -46,3 +46,31 @@ TEST(MapTests, TestMapSecond) {
     EXPECT_EQ(it->second, iter->second);
   }
 }
+
+TEST(MapTests, TestMapConstIterator1) {
+  s21::map<int, int> m1{{2, 2}, {3, 3}, {1, 1}, {5, 5}};
+  s21::map m2{m1};
+  s21::map m3(std::move(m1));
+  int check[]{1, 2, 3, 5};
+  auto it2 = m2.begin();
+  auto it3 = m3.begin();
+  EXPECT_EQ(m1.empty(), true);
+  for (int i{}; i < 4; i++, it2++, it3++) {
+    EXPECT_EQ(it2->first, check[i]);
+    EXPECT_EQ(it2->second, check[i]);
+    EXPECT_EQ(it3->first, check[i]);
+    EXPECT_EQ(it3->second, check[i]);
+  }
+}
+
+TEST(MapTests, TestMapConstIterator2) {
+  s21::map<int, int> m1{{2, 2}, {3, 3}, {1, 1}, {5, 5}};
+  int arr[]{1, 2, 3, 5};
+  s21::map<int, int>::iterator it = m1.begin();
+  s21::map<int, int>::const_iterator cit = m1.begin();
+  for(int i{}; cit != m1.end(); cit++, i++, it++) {
+    EXPECT_EQ(arr[i], cit->first);
+    EXPECT_EQ(arr[i], it->first);
+    EXPECT_EQ(cit->second, it->second);
+  }
+}

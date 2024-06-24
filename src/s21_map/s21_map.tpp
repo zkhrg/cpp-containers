@@ -6,7 +6,7 @@ namespace s21 {
 template <typename Key, typename T>
 map<Key, T>::map()
     : size_{},
-      fake_{false, nullptr, &fake_, &fake_, {}},
+      fake_{false, &fake_, &fake_, &fake_, {}},
       top_{fake_.left},
       min_{fake_.right},
       max_(&fake_) {}
@@ -18,16 +18,20 @@ map<Key, T>::map(std::initializer_list<value_type> const& items) : map() {
 
 template <typename Key, typename T>
 map<Key, T>::map(const map<Key, T>& m) : map() {
-  for (auto it = m.begin(); it != m.end(); it++) insert(*it);
+  for (const_iterator it = m.begin(); it != m.end(); it++) insert(*it);
 }
 
 template <typename Key, typename T>
 map<Key, T>::map(map<Key, T>&& m) : map() {
-  fake_ = m.fake_;
-  max_ = m.max_;
-  m.top_ = m.min_ = m.max_ = &m.fake_;
-  size_ = m.size_;
-  m.size_ = 0;
+  if (!m.empty()){
+    top_ = m.top_;
+    top_->parent = fake_.parent;
+    min_ = m.min_;
+    max_ = m.max_;
+    m.top_ = m.min_ = m.max_ = m.fake_.parent;
+    size_ = m.size_;
+    m.size_ = 0;
+  }
 }
 
 template <typename Key, typename T>

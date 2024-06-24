@@ -32,7 +32,7 @@ class map {
     friend class map;
     friend class MapConstIterator;
 
-   protected:
+   private:
     Node* node;
 
    public:
@@ -57,17 +57,37 @@ class map {
     bool goParent();
   };
 
-  class MapConstIterator: public MapIterator {
+  class MapConstIterator {
     friend class map;
     friend class MapIterator;
 
+   private:
+    Node* node;
+
    public:
-    MapConstIterator(Node* nd): MapIterator(nd) {};
-    MapConstIterator(iterator& it): MapIterator(it.node) {};
+    MapConstIterator(Node* const nd) : node(nd) {};
+    MapConstIterator(const iterator& it): node(it.node) {};
+    MapConstIterator(iterator&& it): node(it.node) {it.node = nullptr;};
     ~MapConstIterator(){};
-    const_iterator& operator=(const iterator& it);
+
+    const_iterator& operator++();
+    const_iterator& operator--();
+    const_iterator operator++(int);
+    const_iterator operator--(int);
+    bool operator==(iterator it);
+    bool operator==(const_iterator it);
+    bool operator!=(iterator it);
+    bool operator!=(const_iterator it);
+    const_iterator& operator=(const iterator& it) const;
     const_reference operator*() const;
     const value_type* operator->() const;
+
+    protected:
+    // BinarTree Move
+
+    bool goLeft();
+    bool goRight();
+    bool goParent();
   };
  
  private:
@@ -93,10 +113,10 @@ class map {
   */
 
   // Map Iterators
-  iterator begin();
-  iterator end();
-  const_iterator begin() const;
-  const_iterator end() const;
+  iterator begin() { return iterator(min_); };
+  iterator end() { return iterator(fake_.parent); };
+  const_iterator begin() const { return const_iterator(min_); };
+  const_iterator end() const { return const_iterator(fake_.parent); };
  
 
   // Map Capacity
