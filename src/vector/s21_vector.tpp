@@ -5,7 +5,7 @@ namespace s21 {
 
 // default constructor
 template <typename T>
-vector<T>::vector() noexcept : data_{nullptr}, size_{}, capacity_{} {};
+vector<T>::vector() noexcept : data_{nullptr}, size_{}, capacity_{} {}
 
 // Parameterized constructor
 template <typename T>
