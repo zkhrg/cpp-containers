@@ -3,9 +3,20 @@
 
 namespace s21 {
 template <typename T>
-typename s21::queue<T>& queue<T>::operator=(queue<T>&& q) {
-  if (this != &q) base = std::move(q.base);
+queue<T>& queue<T>::operator=(queue<T>&& q) {
+  if (this != &q) {
+    base = std::move(q.base);
+  }
+  return *this;
 }
+
+// template <typename T>
+// queue<T>& queue<T>::operator=(const queue<T>& q) {
+//   if (this != &q) {
+//     base = q.base;
+//   }
+//   return *this;
+// }
 
 template <typename T>
 void queue<T>::push(const_reference val) {
@@ -20,7 +31,7 @@ void queue<T>::pop() {
 template <typename T>
 void queue<T>::swap(queue<T>& q) {
   if (this != &q) base.swap(q.base);
-}
-};  // namespace s21
+};
+}  // namespace s21
 
 #endif  // CPP2_S21_CONTAINERS_1_SRC_S21_QUEUE_S21_QUEUE_TPP_

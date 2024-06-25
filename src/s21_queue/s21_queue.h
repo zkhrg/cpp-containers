@@ -22,6 +22,7 @@ class queue {
   queue(queue &&q) : base(std::move(q.base)){};
   ~queue(){};
   queue &operator=(queue &&q);
+  // queue &operator=(const queue &q);
   // Queue Element access:
   const_reference front() { return base.front(); };
   const_reference back() { return base.back(); };
