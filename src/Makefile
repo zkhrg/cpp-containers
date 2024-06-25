@@ -1,8 +1,8 @@
 CC=gcc
 CFLAGS=-Wall -Werror -Wextra -std=c++17 
-MAIN_PROJECT=$(wildcard **/*.cc **/**/*.cc) # list of all the C source files in the project
-SOURCES=$(filter-out , $(MAIN_PROJECT))
-TEST_SOURCES=$(filter-out , $(MAIN_PROJECT))
+MAIN_PROJECT=$(wildcard **/*.cc **/**/*.cc **/*.tpp) # list of all the C source files in the project
+SOURCES=$(filter-out %.tpp, $(MAIN_PROJECT))
+TEST_SOURCES=$(filter-out %.tpp, $(MAIN_PROJECT))
 MAIN=check
 TEST_RESULT=test
 OBJECTS=$(SOURCES:.cc=.o)
