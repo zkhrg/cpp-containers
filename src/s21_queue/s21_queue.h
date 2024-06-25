@@ -1,5 +1,5 @@
-#ifndef S21_QUEUE
-#define S21_QUEUE
+#ifndef CPP2_S21_CONTAINERS_1_SRC_S21_QUEUE_S21_QUEUE_H_
+#define CPP2_S21_CONTAINERS_1_SRC_S21_QUEUE_S21_QUEUE_H_
 
 #include "../s21_list/s21_list.h"
 
@@ -18,7 +18,7 @@ class queue {
   // member func:
   queue() : base(){};
   queue(std::initializer_list<value_type> const &items) : base(items){};
-  queue(const queue &q): base(q.base){};
+  queue(const queue &q) : base(q.base){};
   queue(queue &&q) : base(std::move(q.base)){};
   ~queue(){};
   queue &operator=(queue &&q);
@@ -37,4 +37,4 @@ class queue {
 
 #include "s21_queue.tpp"
 
-#endif
+#endif  // CPP2_S21_CONTAINERS_1_SRC_S21_QUEUE_S21_QUEUE_H_

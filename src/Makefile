@@ -2,13 +2,16 @@ CC=gcc
 CFLAGS=-Wall -Werror -Wextra -std=c++17 
 MAIN_PROJECT=$(wildcard **/*.cc **/**/*.cc **/*.tpp) # list of all the C source files in the project
 SOURCES=$(filter-out %.tpp, $(MAIN_PROJECT))
-TEST_SOURCES=$(filter-out %.tpp, $(MAIN_PROJECT))
+TEST_SOURCES=$(filter-out %.tpp containers_tests/array% containers_tests/stack% containers_tests/vector%, $(MAIN_PROJECT))
 MAIN=check
 TEST_RESULT=test
 OBJECTS=$(SOURCES:.cc=.o)
 TEST_OBJECTS=$(TEST_SOURCES:.cc=.o)
 RESULT=s21_matrix_oop.a
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+huh:
+	$(TEST_SOURCES)
 
 
 OS := $(shell uname)

@@ -1,5 +1,6 @@
+#include <vector>
+
 #include "../test.h"
-#include "vector"
 
 TEST(VectorTests, TestDefaultVectorConstructor1) {
   s21::vector<int> v1;

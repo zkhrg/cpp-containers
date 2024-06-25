@@ -34,7 +34,7 @@ class array {
 
   iterator begin();
   iterator end();
-  const_iterator cbegin() const;  // ??????????? делаем?
+  const_iterator cbegin() const;
   const_iterator cend() const;
 
   bool empty() const;
