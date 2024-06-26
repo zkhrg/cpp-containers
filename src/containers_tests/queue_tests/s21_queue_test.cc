@@ -466,25 +466,31 @@ TEST(QueueTests, TestSwapMethod2) {
   std::queue<int> q4({3, 2, 1});
 
   q1.swap(q2);
-  std::cout << q1.front() << std::endl;
-  std::cout << q1.back() << std::endl;
-  std::cout << q2.front() << std::endl;
-  std::cout << q2.back() << std::endl;
   q3.swap(q4);
 
   EXPECT_EQ(q1.size(), 3);
   EXPECT_EQ(q2.size(), 3);
   EXPECT_EQ(q3.size(), 3);
   EXPECT_EQ(q4.size(), 3);
+
+  EXPECT_EQ(q1.front(), 3);
+  EXPECT_EQ(q2.front(), 1);
+  EXPECT_EQ(q3.front(), 3);
+  EXPECT_EQ(q4.front(), 1);
+  EXPECT_EQ(q1.back(), 1);
+  EXPECT_EQ(q2.back(), 3);
+  EXPECT_EQ(q3.back(), 1);
+  EXPECT_EQ(q4.back(), 3);
+
   EXPECT_EQ(q1.front(), q2.back());
   EXPECT_EQ(q3.front(), q4.back());
 }
 
-// TEST(QueueTests, TestInsertManyBackMethod1) {
-//   s21::queue<int> q1;
-//   q1.insert_many_back(1, 2, 3);
+TEST(QueueTests, TestInsertManyBackMethod1) {
+  s21::queue<int> q1;
+  q1.insert_many_back(1, 2, 3);
 
-//   EXPECT_EQ(q1.size(), 3);
-//   EXPECT_EQ(q1.front(), 1);
-//   EXPECT_EQ(q1.back(), 3);
-// }
+  EXPECT_EQ(q1.size(), 3);
+  EXPECT_EQ(q1.front(), 1);
+  EXPECT_EQ(q1.back(), 3);
+}

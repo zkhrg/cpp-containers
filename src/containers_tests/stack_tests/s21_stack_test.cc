@@ -280,30 +280,30 @@ TEST(StackTests, TestPopMethod3) {
   EXPECT_EQ(q1.empty(), q2.empty());
 }
 
-// TEST(StackTests, TestSwapMethod1) {
-//   s21::stack<int> q1 = {1, 2, 3};
-//   s21::stack<int> q2 = {3, 2, 1};
+TEST(StackTests, TestSwapMethod1) {
+  s21::stack<int> q1 = {1, 2, 3};
+  s21::stack<int> q2 = {3, 2, 1};
 
-//   q1.swap(q2);
+  q1.swap(q2);
 
-//   EXPECT_EQ(q1.top(), 3);
-//   EXPECT_EQ(q2.top(), 1);
-//   EXPECT_EQ(q1.size(), q2.size());
-//   EXPECT_EQ(q1.empty(), q2.empty());
-// }
+  EXPECT_EQ(q1.top(), 1);
+  EXPECT_EQ(q2.top(), 3);
+  EXPECT_EQ(q1.size(), q2.size());
+  EXPECT_EQ(q1.empty(), q2.empty());
+}
 
-// TEST(StackTests, TestSwapMethod2) {
-//   s21::stack<int> q1 = {1, 2, 3};
-//   s21::stack<int> q2 = {3, 2, 1};
+TEST(StackTests, TestSwapMethod2) {
+  s21::stack<int> q1 = {1, 2, 3};
+  s21::stack<int> q2 = {3, 2, 1};
 
-//   q1.swap(q2);
-//   q1.swap(q2);
+  q1.swap(q2);
+  q2.swap(q1);
 
-//   EXPECT_EQ(q1.top(), 1);
-//   EXPECT_EQ(q2.top(), 3);
-//   EXPECT_EQ(q1.size(), q2.size());
-//   EXPECT_EQ(q1.empty(), q2.empty());
-// }
+  EXPECT_EQ(q1.top(), 3);
+  EXPECT_EQ(q2.top(), 1);
+  EXPECT_EQ(q1.size(), q2.size());
+  EXPECT_EQ(q1.empty(), q2.empty());
+}
 
 TEST(StackTests, TestSwapMethod3) {
   s21::stack<int> q1 = {1, 2, 3};
@@ -320,13 +320,13 @@ TEST(StackTests, TestSwapMethod3) {
   EXPECT_EQ(q1.empty(), q3.empty());
 }
 
-// TEST(QueueTests, TestInsertManyFrontMethod1) {
-//   s21::stack<int> q1;
-//   EXPECT_TRUE(q1.empty());
+TEST(QueueTests, TestInsertManyFrontMethod1) {
+  s21::stack<int> q1;
+  EXPECT_TRUE(q1.empty());
 
-//   q1.insert_many_front(1, 2, 3);
+  q1.insert_many_front(1, 2, 3);
 
-//   EXPECT_EQ(q1.top(), 3);
-//   EXPECT_EQ(q1.size(), 3);
-//   EXPECT_FALSE(q1.empty());
-// }
+  EXPECT_EQ(q1.top(), 3);
+  EXPECT_EQ(q1.size(), 3);
+  EXPECT_FALSE(q1.empty());
+}
