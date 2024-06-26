@@ -1,7 +1,11 @@
+#ifndef CPP2_S21_CONTAINERS_1_SRC_S21_STACK_S21_STACK_TPP_
+#define CPP2_S21_CONTAINERS_1_SRC_S21_STACK_S21_STACK_TPP_
+
 namespace s21 {
 template <typename T>
 typename s21::stack<T>& stack<T>::operator=(stack<T>&& s) {
   if (this != &s) base = std::move(s.base);
+  return *this;
 }
 
 template <typename T>
@@ -19,3 +23,5 @@ void stack<T>::swap(stack<T>& s) {
   if (this != &s) base.swap(s.base);
 }
 };  // namespace s21
+
+#endif  // CPP2_S21_CONTAINERS_1_SRC_S21_STACK_S21_STACK_TPP_

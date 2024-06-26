@@ -121,8 +121,13 @@ template <typename T>
 void list<T>::swap(list<T>& other) {
   if (this != &other) {
     std::swap(__fake, other.__fake);
+<<<<<<< HEAD
     if (other.empty()) finish->next = finish->back = finish;
     if (empty()) other.finish->next = other.finish->back = other.finish;
+=======
+    if (!empty()) finish->next = finish->back = finish;
+    if (!other.empty()) other.finish->next = other.finish->back = other.finish;
+>>>>>>> origin/kalynkei
     finish->next->back = finish;
     finish->back->next = finish;
     start = finish->next;

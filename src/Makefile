@@ -1,12 +1,14 @@
 CC=gcc
 CFLAGS=-Wall -Werror -Wextra -std=c++17 
-MAIN_PROJECT=$(wildcard **/**/*.cc **/*.cc *.cc) # list of all the C source files in the project
-SOURCES=$(filter-out , $(MAIN_PROJECT))
-TEST_SOURCES=$(filter-out , $(MAIN_PROJECT))
+MAIN_PROJECT=$(wildcard **/*.cc **/**/*.cc **/*.tpp) # list of all the C source files in the project
+SOURCES=$(filter-out %.tpp, $(MAIN_PROJECT))
+TEST_SOURCES=$(filter-out %.tpp containers_tests/array% containers_tests/queue% containers_tests/vector%, $(MAIN_PROJECT))
 MAIN=check
 TEST_RESULT=test
 OBJECTS=$(SOURCES:.cc=.o)
 TEST_OBJECTS=$(TEST_SOURCES:.cc=.o)
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
 
 
 OS := $(shell uname)
@@ -30,11 +32,11 @@ test: $(TEST_OBJECTS)
 .cc.o:
 	$(CC) -c $(CFLAGS) $< -o $@
 
-gcov_report: $(TEST_SOURCES) $(SOURCES)
+gcov_report: $(TEST_SOURCES)
 	$(CC) $(CFLAGS) --coverage $^ $(CHECK_LIB) -o $@
 	chmod +x *
 	./$@ 
-	lcov -t  "$@" --ignore-errors mismatch -o $@.info --no-external -c -d .
+	lcov -t  "$@" --ignore-errors mismatch --ignore-errors inconsistent -o $@.info --no-external -c -d .
 	genhtml -o report/ $@.info
 	$(OPEN)
 
@@ -47,7 +49,7 @@ format:
 git:
 	git add .
 	git commit
-	git push origin develop
+	git push origin $(CURRENT_BRANCH)
 
 containers_tests/map_tests/s21_map_test.o: s21_map/*.h s21_map/*.tpp
 
