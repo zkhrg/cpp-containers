@@ -22,6 +22,7 @@ class stack {
   stack(stack &&s) : base(std::move(s.base)){};
   ~stack(){};
   stack &operator=(stack &&s);
+  stack &operator=(const stack &s);
   // Queue Element access:
   const_reference top() { return base.back(); };
   // Queue Capacity:
@@ -31,6 +32,9 @@ class stack {
   void push(const_reference value);
   void pop();
   void swap(stack &other);
+
+  template <typename... Args>
+  void insert_many_front(Args &&...args);
 };
 };  // namespace s21
 

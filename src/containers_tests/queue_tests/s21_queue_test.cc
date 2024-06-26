@@ -56,23 +56,22 @@ TEST(QueueTests, TestCopyConstructor1) {
   EXPECT_EQ(q1.empty(), q4.empty());
 }
 
-// TEST(QueueTests, TestCopyConstructor2) {
-//   s21::queue<int> q1{1, 2, 3};
-//   std::queue<int> q2({1, 2, 3});
+TEST(QueueTests, TestCopyConstructor2) {
+  s21::queue<int> q1{1, 2, 3};
+  std::queue<int> q2({1, 2, 3});
 
-//   s21::queue<int> q3;
-//   std::queue<int> q4;
+  s21::queue<int> q3 = q1;
+  std::queue<int> q4 = q2;
 
-//   q3 = std::move(q1);
-//   q4 = q2;
-
-//   EXPECT_EQ(q1.size(), q2.size());
-//   EXPECT_EQ(q1.size(), q3.size());
-//   EXPECT_EQ(q1.size(), q4.size());
-//   EXPECT_EQ(q1.empty(), q2.empty());
-//   EXPECT_EQ(q1.empty(), q3.empty());
-//   EXPECT_EQ(q1.empty(), q4.empty());
-// }
+  EXPECT_EQ(q1.size(), q3.size());
+  EXPECT_EQ(q2.size(), q4.size());
+  EXPECT_FALSE(q1.empty());
+  EXPECT_FALSE(q2.empty());
+  EXPECT_EQ(q1.front(), q3.front());
+  EXPECT_EQ(q1.back(), q3.back());
+  EXPECT_EQ(q2.front(), q4.front());
+  EXPECT_EQ(q2.back(), q4.back());
+}
 
 TEST(QueueTests, TestMoveConstructor1) {
   s21::queue<int> q1 = {1, 2, 3};
@@ -83,9 +82,12 @@ TEST(QueueTests, TestMoveConstructor1) {
   q3 = std::move(q1);
   q4 = std::move(q2);
 
-  EXPECT_EQ(q3.front(), q4.front());
-  EXPECT_EQ(q3.back(), q4.back());
-  EXPECT_EQ(q1.empty(), q2.empty());
+  EXPECT_EQ(q3.front(), 1);
+  EXPECT_EQ(q3.back(), 3);
+  EXPECT_EQ(q4.front(), 1);
+  EXPECT_EQ(q4.back(), 3);
+  EXPECT_TRUE(q1.empty());
+  EXPECT_TRUE(q2.empty());
 }
 
 TEST(QueueTests, TestMoveConstructor2) {
@@ -102,19 +104,19 @@ TEST(QueueTests, TestMoveConstructor2) {
   EXPECT_EQ(q1.empty(), q2.empty());
 }
 
-// TEST(QueueTests, TestAssignmentOperator1) {
-//   s21::queue<int> q1 = {1, 2, 3};
-//   std::queue<int> q2({1, 2, 3});
-//   s21::queue<int> q3;
-//   std::queue<int> q4;
+TEST(QueueTests, TestAssignmentOperator1) {
+  s21::queue<int> q1 = {1, 2, 3};
+  std::queue<int> q2({1, 2, 3});
+  s21::queue<int> q3;
+  std::queue<int> q4;
 
-//   q3 = q1;
-//   q4 = q2;
+  q3 = q1;
+  q4 = q2;
 
-//   EXPECT_EQ(q3.front(), q4.front());
-//   EXPECT_EQ(q3.back(), q4.back());
-//   EXPECT_EQ(q1.empty(), q2.empty());
-// }
+  EXPECT_EQ(q3.front(), q4.front());
+  EXPECT_EQ(q3.back(), q4.back());
+  EXPECT_EQ(q1.empty(), q2.empty());
+}
 
 TEST(QueueTests, TestFrontMethod1) {
   s21::queue<int> q1 = {1, 2, 3};
@@ -466,25 +468,31 @@ TEST(QueueTests, TestSwapMethod2) {
   std::queue<int> q4({3, 2, 1});
 
   q1.swap(q2);
-  std::cout << q1.front() << std::endl;
-  std::cout << q1.back() << std::endl;
-  std::cout << q2.front() << std::endl;
-  std::cout << q2.back() << std::endl;
   q3.swap(q4);
 
   EXPECT_EQ(q1.size(), 3);
   EXPECT_EQ(q2.size(), 3);
   EXPECT_EQ(q3.size(), 3);
   EXPECT_EQ(q4.size(), 3);
+
+  EXPECT_EQ(q1.front(), 3);
+  EXPECT_EQ(q2.front(), 1);
+  EXPECT_EQ(q3.front(), 3);
+  EXPECT_EQ(q4.front(), 1);
+  EXPECT_EQ(q1.back(), 1);
+  EXPECT_EQ(q2.back(), 3);
+  EXPECT_EQ(q3.back(), 1);
+  EXPECT_EQ(q4.back(), 3);
+
   EXPECT_EQ(q1.front(), q2.back());
   EXPECT_EQ(q3.front(), q4.back());
 }
 
-// TEST(QueueTests, TestInsertManyBackMethod1) {
-//   s21::queue<int> q1;
-//   q1.insert_many_back(1, 2, 3);
+TEST(QueueTests, TestInsertManyBackMethod1) {
+  s21::queue<int> q1;
+  q1.insert_many_back(1, 2, 3);
 
-//   EXPECT_EQ(q1.size(), 3);
-//   EXPECT_EQ(q1.front(), 1);
-//   EXPECT_EQ(q1.back(), 3);
-// }
+  EXPECT_EQ(q1.size(), 3);
+  EXPECT_EQ(q1.front(), 1);
+  EXPECT_EQ(q1.back(), 3);
+}

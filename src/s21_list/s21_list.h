@@ -1,8 +1,7 @@
-#ifndef S21_LIST
-#define S21_LIST
+#ifndef CPP2_S21_CONTAINERS_1_SRC_S21_LIST_S21_LIST_H_
+#define CPP2_S21_CONTAINERS_1_SRC_S21_LIST_S21_LIST_H_
 
 #include <initializer_list>
-
 
 #define MAX_MEMORY ((~(size_t)0) >> 1)
 
@@ -107,7 +106,6 @@ class list {
   size_type size();
   size_type max_size();
 
-
   // List Modifiers
   iterator insert(iterator pos, const_reference value);
   iterator erase(iterator pos);
@@ -122,10 +120,17 @@ class list {
   void reverse();
   void unique();
   void sort();
+
+  template <typename... Args>
+  iterator insert_many(const_iterator pos, Args&&... args);
+  template <typename... Args>
+  void insert_many_back(Args&&... args);
+  template <typename... Args>
+  void insert_many_front(Args&&... args);
 };
 
 };  // namespace s21
 #include "internal_class.tpp"
 #include "s21_list.tpp"
 
-#endif
+#endif  // CPP2_S21_CONTAINERS_1_SRC_S21_LIST_S21_LIST_H_

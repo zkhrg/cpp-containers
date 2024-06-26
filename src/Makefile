@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-Wall -Werror -Wextra -std=c++17 
 MAIN_PROJECT=$(wildcard **/*.cc **/**/*.cc **/*.tpp) # list of all the C source files in the project
 SOURCES=$(filter-out %.tpp, $(MAIN_PROJECT))
-TEST_SOURCES=$(filter-out %.tpp containers_tests/array% containers_tests/queue% containers_tests/vector%, $(MAIN_PROJECT))
+TEST_SOURCES=$(filter-out %.tpp, $(MAIN_PROJECT))
 MAIN=check
 TEST_RESULT=test
 OBJECTS=$(SOURCES:.cc=.o)
@@ -43,10 +43,7 @@ gcov_report: $(TEST_SOURCES)
 clang:
 	clang-format -style=Google -n $(MAIN_PROJECT)
 
-format:
-	clang-format -style=Google -i $(MAIN_PROJECT) **/*.tpp
-
-git:
+git: clean
 	git add .
 	git commit
 	git push origin $(CURRENT_BRANCH)
