@@ -1,5 +1,5 @@
-#ifndef S21_STACK
-#define S21_STACK
+#ifndef CPP2_S21_CONTAINERS_1_SRC_S21_STACK_S21_STACK_H_
+#define CPP2_S21_CONTAINERS_1_SRC_S21_STACK_S21_STACK_H_
 
 #include "../s21_list/s21_list.h"
 
@@ -18,8 +18,8 @@ class stack {
   // member func:
   stack() : base(){};
   stack(std::initializer_list<value_type> const &items) : base(items){};
-  stack(const stack &s): base(s.base){};
-  stack(stack &&s): base(std::move(s.base)){};
+  stack(const stack &s) : base(s.base){};
+  stack(stack &&s) : base(std::move(s.base)){};
   ~stack(){};
   stack &operator=(stack &&s);
   // Queue Element access:
@@ -36,4 +36,4 @@ class stack {
 
 #include "s21_stack.tpp"
 
-#endif
+#endif  // CPP2_S21_CONTAINERS_1_SRC_S21_STACK_S21_STACK_H_

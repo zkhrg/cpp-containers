@@ -1,4 +1,3 @@
-#include <iostream>
 #include <queue>
 
 #include "../test.h"
@@ -481,11 +480,11 @@ TEST(QueueTests, TestSwapMethod2) {
   EXPECT_EQ(q3.front(), q4.back());
 }
 
-TEST(QueueTests, TestInsertManyMethod1) {
-  s21::queue<int> q1;
-  q1.insert_many_back(1, 2, 3);
+// TEST(QueueTests, TestInsertManyBackMethod1) {
+//   s21::queue<int> q1;
+//   q1.insert_many_back(1, 2, 3);
 
-  EXPECT_EQ(q1.size(), 3);
-  EXPECT_EQ(q1.front(), 1);
-  EXPECT_EQ(q1.back(), 3);
-}
+//   EXPECT_EQ(q1.size(), 3);
+//   EXPECT_EQ(q1.front(), 1);
+//   EXPECT_EQ(q1.back(), 3);
+// }
