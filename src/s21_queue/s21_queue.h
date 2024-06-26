@@ -22,7 +22,7 @@ class queue {
   queue(queue &&q) : base(std::move(q.base)){};
   ~queue(){};
   queue &operator=(queue &&q);
-  // queue &operator=(const queue &q);
+  queue &operator=(const queue &q);
   // Queue Element access:
   const_reference front() { return base.front(); };
   const_reference back() { return base.back(); };
@@ -33,6 +33,9 @@ class queue {
   void push(const_reference value);
   void pop();
   void swap(queue &other);
+
+  template <typename... Args>
+  void insert_many_back(Args &&...args);
 };
 };  // namespace s21
 

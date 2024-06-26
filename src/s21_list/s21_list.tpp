@@ -1,3 +1,6 @@
+#ifndef CPP2_S21_CONTAINERS_1_SRC_S21_LIST_S21_LIST_TPP_
+#define CPP2_S21_CONTAINERS_1_SRC_S21_LIST_S21_LIST_TPP_
+
 #include <iostream>
 namespace s21 {
 
@@ -202,4 +205,32 @@ template <typename T>
 typename s21::list<T>::size_type list<T>::max_size() {
   return MAX_MEMORY / sizeof(Node);
 }
+
+template <typename T>
+template <typename... Args>
+typename list<T>::iterator list<T>::insert_many(const_iterator pos,
+                                                Args&&... args) {
+  for (auto arg : {args...}) {
+    insert(pos, arg);
+  }
+}
+
+template <typename T>
+template <typename... Args>
+void list<T>::insert_many_back(Args&&... args) {
+  for (auto arg : {args...}) {
+    push_back(arg);
+  }
+}
+
+template <typename T>
+template <typename... Args>
+void list<T>::insert_many_front(Args&&... args) {
+  for (auto arg : {args...}) {
+    push_front(arg);
+  }
+}
+
 };  // namespace s21
+
+#endif  // CPP2_S21_CONTAINERS_1_SRC_S21_LIST_S21_LIST_TPP_
