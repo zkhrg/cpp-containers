@@ -3,6 +3,7 @@ CFLAGS=-Wall -Werror -Wextra -std=c++17
 MAIN_PROJECT=$(wildcard **/*.cc **/**/*.cc **/*.tpp **/*.h) # list of all the C source files in the project
 SOURCES=$(filter-out %.tpp %.h, $(MAIN_PROJECT))
 TEST_SOURCES=$(filter-out %.tpp %.h, $(MAIN_PROJECT))
+CONTAINER=$(filter containers_tests/test.cc containers_tests/list%, $(MAIN_PROJECT))
 HEADERS_AND_TPP=$(filter %.tpp %.h, $(MAIN_PROJECT))
 MAIN=
 TEST_RESULT=test
@@ -24,7 +25,7 @@ endif
 
 all: test
 
-test: $(TEST_OBJECTS)
+test: $(CONTAINER)
 	$(CC) $(CFLAGS) $^ -o $(TEST_RESULT) $(CHECK_LIB)
 	./$(TEST_RESULT)
 
