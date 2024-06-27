@@ -1,7 +1,7 @@
 #ifndef S21_MAP_H
 #define S21_MAP_H
 
-#include <utility>
+#include <initializer_list>
 
 namespace s21{
 
@@ -101,10 +101,8 @@ class map {
   map& operator=(map &&m);
 
   // Map Element access
-  /*
-  T& at(const Key& key)
-  T& operator[](const Key& key)
-  */
+  T& at(const Key& key);
+  T& operator[](const Key& key);
 
   // Map Iterators
   iterator begin() { return iterator(min_); };
@@ -115,10 +113,8 @@ class map {
 
   // Map Capacity
   bool empty();
-  /*
-  size_type size();
-  size_type max_size();
-  */
+  size_type size() { return size_; };
+  size_type max_size() { return MAX_MEMORY / sizeof(Node); };
 
   // Map Modifiers
   void clear();

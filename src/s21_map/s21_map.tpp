@@ -52,6 +52,27 @@ map<Key, T>::~map() {
   clear();
 }
 
+// Map Element access
+template <typename Key, typename T>
+T& map<Key, T>::at(const Key& key) {
+  if(empty())
+    throw std::out_of_range("Map is empty\n");
+  iterator it = end();
+  it.goLeft();
+  for (bool flag = true; it->first != key && flag;) {
+    while (it->first < key && flag) flag = it.goRight();
+    while (it->first > key && flag) flag = it.goLeft();
+  }
+  if (it->first != key)
+    throw std::out_of_range("Value doesn't exist\n");
+  return it->second;
+}
+
+template <typename Key, typename T>
+T& map<Key, T>::operator[](const Key& key) {
+  return insert(key, {}).first->second;
+}
+
 // Map Capacity
 template <typename Key, typename T>
 bool map<Key, T>::empty() {
