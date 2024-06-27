@@ -4,16 +4,12 @@ MAIN_PROJECT=$(wildcard **/*.cc **/**/*.cc **/*.tpp **/*.h) # list of all the C 
 SOURCES=$(filter-out %.tpp %.h, $(MAIN_PROJECT))
 TEST_SOURCES=$(filter-out %.tpp %.h, $(MAIN_PROJECT))
 HEADERS_AND_TPP=$(filter %.tpp %.h, $(MAIN_PROJECT))
-MAIN=check
+MAIN=
 TEST_RESULT=test
 OBJECTS=$(SOURCES:.cc=.o)
 TEST_OBJECTS=$(TEST_SOURCES:.cc=.o)
-RESULT=s21_matrix_oop.a
+RESULT=
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-
-huh:
-	$(HEADERS_AND_TPP)
-
 
 OS := $(shell uname)
 ifeq ($(OS),Linux)
@@ -26,10 +22,9 @@ ifeq ($(OS),Darwin)
 	CHECK_LIB = -lgtest -lstdc++
 endif
 
-all: $(RESULT)
+all: test
 
 test: $(TEST_OBJECTS)
-	# clear
 	$(CC) $(CFLAGS) $^ -o $(TEST_RESULT) $(CHECK_LIB)
 	./$(TEST_RESULT)
 
@@ -46,6 +41,10 @@ gcov_report: $(TEST_SOURCES)
 	lcov -t  "$@" --ignore-errors mismatch --ignore-errors inconsistent -o $@.info --no-external -c -d .
 	genhtml -o report/ $@.info
 	$(OPEN)
+
+# you should use it on ubuntu
+valgrind: test
+	CK_FORK=no valgrind --vgdb=no --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --read-var-info=yes ./$(TEST_RESULT)
 
 clang:
 	clang-format -style=Google -n $(MAIN_PROJECT)
