@@ -9,62 +9,63 @@ namespace s21 {
 
 template <class T>
 class list {
+ public:
+  class ListConstIterator;
+  class ListIterator;
+
  private:
   struct Node {
     Node *next, *back;
     T arg;
   };
 
- public:
-  class ListConstIterator;
-
-  class ListIterator {
-    friend class ListConstIterator;
-    friend class list;
-
-   private:
+  template <class Iter>
+  class BaseIterator {
+   protected:
     Node* node;
 
    public:
-    ListIterator(Node*& other) : node(other){};
-    ~ListIterator(){};
+    BaseIterator(): node(nullptr) {};
+    ~BaseIterator(){};
 
-    T& operator*() { return node->arg; }
-    ListIterator& operator++();
-    ListIterator& operator--();
-    ListIterator operator++(int);
-    ListIterator operator--(int);
+    Iter operator++();
+    Iter operator--();
+    Iter operator++(int);
+    Iter operator--(int);
     bool operator!=(ListIterator it) const { return node != it.node; };
     bool operator!=(ListConstIterator it) const { return node != it.node; };
     bool operator==(ListIterator it) const { return node == it.node; };
     bool operator==(ListConstIterator it) const { return node == it.node; };
   };
 
-  class ListConstIterator {
-    friend class ListIterator;
+ public:
+  class ListIterator: public BaseIterator<ListIterator> {
+    friend class BaseIterator<ListIterator>;
+    friend class BaseIterator<ListConstIterator>;
     friend class list;
 
-   private:
-    Node* node;
+   public:
+    ListIterator(Node* other = nullptr){ this->node = other; };
+    ~ListIterator(){};
+
+    T& operator*() { return this->node->arg; }
+  };
+
+  class ListConstIterator: public BaseIterator<ListConstIterator>  {
+    friend class BaseIterator<ListIterator>;
+    friend class BaseIterator<ListConstIterator>;
+    friend class list;
 
    public:
-    ListConstIterator(Node* const other) : node(other){};
-    ListConstIterator(const ListIterator& other) : node(other.node){};
-    ListConstIterator(ListIterator&& other) : node(other.node) {
+    ListConstIterator(Node* const other = nullptr){this->node = other;};
+    ListConstIterator(const ListIterator& other){this->node = other.node;};
+    ListConstIterator(ListIterator&& other){
+      this->node = other.node;
       other.node = nullptr;
     };
     ~ListConstIterator(){};
 
-    const T& operator*() { return node->arg; }
-    bool operator!=(ListConstIterator it) const { return node != it.node; };
-    bool operator!=(ListIterator it) const { return node != it.node; };
-    bool operator==(ListIterator it) const { return node == it.node; };
-    bool operator==(ListConstIterator it) const { return node == it.node; };
-    ListConstIterator& operator++();
-    ListConstIterator& operator--();
-    ListConstIterator operator++(int);
-    ListConstIterator operator--(int);
-    ListConstIterator& operator=(const ListIterator& it);
+    const T& operator*() { return this->node->arg; }
   };
 
  private:

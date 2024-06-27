@@ -350,3 +350,11 @@ TEST(ListTests, TestListMaxSize) {
   EXPECT_EQ(lld.max_size(), l2.max_size());
   EXPECT_EQ(lsz.max_size(), l3.max_size());
 }
+
+TEST(ListTests, TestListConstIterator) {
+  s21::list<int> l1{1, 5, 6, 7, 98, 3};
+  s21::list<int>::const_iterator cit = l1.begin();
+  auto it = cit++;
+  cit--;
+  std::cout << *cit << std::endl;
+}
