@@ -27,67 +27,61 @@ class map {
     value_type val;
   };
 
- public:
-  class MapIterator {
-    friend class map;
-    friend class MapConstIterator;
-
-   private:
+  template <class Iter>
+  class BaseIterator {
+   protected:
     Node* node;
-
+    
    public:
-    MapIterator(Node* nd): node(nd) {};
-    ~MapIterator(){};
+    BaseIterator(): node(nullptr) {};
+    ~BaseIterator() {};
 
-    reference operator*();
-    value_type* operator->();
-    iterator& operator++();
-    iterator& operator--();
-    iterator operator++(int);
-    iterator operator--(int);
+    Iter operator++();
+    Iter operator--();
+    Iter operator++(int);
+    Iter operator--(int);
     bool operator==(iterator it);
     bool operator==(const_iterator it);
     bool operator!=(iterator it);
     bool operator!=(const_iterator it);
-   protected:
-    // BinarTree Move
 
+   protected:
     bool goLeft();
     bool goRight();
     bool goParent();
   };
 
-  class MapConstIterator {
+ public:
+  class MapIterator: public BaseIterator<MapIterator> {
     friend class map;
-    friend class MapIterator;
-
-   private:
-    Node* node;
+    friend class BaseIterator<MapIterator>;
+    friend class BaseIterator<MapConstIterator>;
 
    public:
-    MapConstIterator(Node* const nd) : node(nd) {};
-    MapConstIterator(const iterator& it): node(it.node) {};
-    MapConstIterator(iterator&& it): node(it.node) {it.node = nullptr;};
+    MapIterator(Node* nd) { this->node = nd; };
+    ~MapIterator(){};
+
+    reference operator*();
+    value_type* operator->();
+  };
+
+  class MapConstIterator: public BaseIterator<MapConstIterator> {
+    friend class map;
+    friend class BaseIterator<MapIterator>;
+    friend class BaseIterator<MapConstIterator>;
+
+   public:
+    MapConstIterator(Node* const nd) { this->node = nd; };
+    MapConstIterator(const iterator& it) { this->node = it.node; };
+    MapConstIterator(iterator&& it) {
+      this->node = it.node;
+      it.node = nullptr;
+    };
     ~MapConstIterator(){};
 
-    const_iterator& operator++();
-    const_iterator& operator--();
-    const_iterator operator++(int);
-    const_iterator operator--(int);
-    bool operator==(iterator it);
-    bool operator==(const_iterator it);
-    bool operator!=(iterator it);
-    bool operator!=(const_iterator it);
     const_iterator& operator=(const iterator& it) const;
     const_reference operator*() const;
     const value_type* operator->() const;
-
-    protected:
-    // BinarTree Move
-
-    bool goLeft();
-    bool goRight();
-    bool goParent();
   };
  
  private:

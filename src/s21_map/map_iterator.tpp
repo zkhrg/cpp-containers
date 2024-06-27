@@ -1,70 +1,107 @@
 namespace s21 {
 
-// MapIterator============================================================
+// BaseIterator===========================================================
 
 template <typename Key, typename T>
-typename s21::map<Key, T>::reference map<Key, T>::iterator::operator*() {
-  return node->val;
-}
-template <typename Key, typename T>
-typename s21::map<Key, T>::value_type* map<Key, T>::iterator::operator->() {
-  return &node->val;
-}
-
-template <typename Key, typename T>
-typename s21::map<Key, T>::iterator& map<Key, T>::iterator::operator++() {
+template <class Iter>
+Iter map<Key, T>::BaseIterator<Iter>::operator++() {
   if (goRight()) {
     while (goLeft());
   } else {
     while (!node->less && goParent());
     goParent();
   }
-  return *this;
+  Iter res(node);
+  return res;
 }
 
 template <typename Key, typename T>
-typename s21::map<Key, T>::iterator map<Key, T>::iterator::operator++(int) {
-  iterator res(node);
+template <class Iter>
+Iter map<Key, T>::BaseIterator<Iter>::operator++(int) {
+  Iter res(node);
   ++*this;
   return res;
 }
 
 template <typename Key, typename T>
-typename s21::map<Key, T>::iterator& map<Key, T>::iterator::operator--() {
+template <class Iter>
+Iter map<Key, T>::BaseIterator<Iter>::operator--() {
   if (goLeft()) {
     while (goRight());
   } else {
     while (node->less && goParent());
     goParent();
   }
-  return *this;
+  Iter res(node);
+  return res;
 }
 
 template <typename Key, typename T>
-typename s21::map<Key, T>::iterator map<Key, T>::iterator::operator--(int) {
-  iterator res(node);
+template <class Iter>
+Iter map<Key, T>::BaseIterator<Iter>::operator--(int) {
+  Iter res(node);
   --*this;
   return res;
 }
 
 template <typename Key, typename T>
-bool map<Key, T>::iterator::operator==(iterator it) {
+template <class Iter>
+bool map<Key, T>::BaseIterator<Iter>::operator==(iterator it) {
   return node == it.node;
 }
 
 template <typename Key, typename T>
-bool map<Key, T>::iterator::operator!=(iterator it) {
+template <class Iter>
+bool map<Key, T>::BaseIterator<Iter>::operator!=(iterator it) {
   return node != it.node;
 }
 
 template <typename Key, typename T>
-bool map<Key, T>::iterator::operator==(const_iterator it) {
+template <class Iter>
+bool map<Key, T>::BaseIterator<Iter>::operator==(const_iterator it) {
   return node == it.node;
 }
 
 template <typename Key, typename T>
-bool map<Key, T>::iterator::operator!=(const_iterator it) {
+template <class Iter>
+bool map<Key, T>::BaseIterator<Iter>::operator!=(const_iterator it) {
   return node != it.node;
+}
+
+template <typename Key, typename T>
+template <class Iter>
+bool s21::map<Key, T>::BaseIterator<Iter>::goLeft() {
+  bool res = node->left != nullptr;
+  if (res) node = node->left;
+  return res;
+}
+
+template <typename Key, typename T>
+template <class Iter>
+bool s21::map<Key, T>::BaseIterator<Iter>::goRight() {
+  bool res = node->right != nullptr;
+  if (res) node = node->right;
+  return res;
+}
+
+template <typename Key, typename T>
+template <class Iter>
+bool s21::map<Key, T>::BaseIterator<Iter>::goParent() {
+  bool res = node->parent != nullptr;
+  if (res) node = node->parent;
+  return res;
+}
+
+
+// MapIterator============================================================
+
+template <typename Key, typename T>
+typename s21::map<Key, T>::reference map<Key, T>::iterator::operator*() {
+  return this->node->val;
+}
+template <typename Key, typename T>
+typename s21::map<Key, T>::value_type* map<Key, T>::iterator::operator->() {
+  return &this->node->val;
 }
 
 // MapConstIterator=======================================================
@@ -87,105 +124,5 @@ map<Key, T>::const_iterator::operator->() const {
   return &this->node->val;
 }
 
-template <typename Key, typename T>
-typename s21::map<Key, T>::const_iterator& map<Key, T>::const_iterator::operator++() {
-  if (goRight()) {
-    while (goLeft());
-  } else {
-    while (!node->less && goParent());
-    goParent();
-  }
-  return *this;
-}
-
-template <typename Key, typename T>
-typename s21::map<Key, T>::const_iterator map<Key, T>::const_iterator::operator++(int) {
-  const_iterator res(node);
-  ++*this;
-  return res;
-}
-
-template <typename Key, typename T>
-typename s21::map<Key, T>::const_iterator& map<Key, T>::const_iterator::operator--() {
-  if (goLeft()) {
-    while (goRight());
-  } else {
-    while (node->less && goParent());
-    goParent();
-  }
-  return *this;
-}
-
-template <typename Key, typename T>
-typename s21::map<Key, T>::const_iterator map<Key, T>::const_iterator::operator--(int) {
-  const_iterator res(node);
-  --*this;
-  return res;
-}
-
-template <typename Key, typename T>
-bool map<Key, T>::const_iterator::operator==(iterator it) {
-  return node == it.node;
-}
-
-template <typename Key, typename T>
-bool map<Key, T>::const_iterator::operator!=(iterator it) {
-  return node != it.node;
-}
-
-template <typename Key, typename T>
-bool map<Key, T>::const_iterator::operator==(const_iterator it) {
-  return node == it.node;
-}
-
-template <typename Key, typename T>
-bool map<Key, T>::const_iterator::operator!=(const_iterator it) {
-  return node != it.node;
-}
-
-
-// Map BinarTree Move=====================================================
-
-template <typename Key, typename T>
-bool s21::map<Key, T>::iterator::goLeft() {
-  bool res = node->left != nullptr;
-  if (res) node = node->left;
-  return res;
-}
-
-template <typename Key, typename T>
-bool s21::map<Key, T>::iterator::goRight() {
-  bool res = node->right != nullptr;
-  if (res) node = node->right;
-  return res;
-}
-
-template <typename Key, typename T>
-bool s21::map<Key, T>::iterator::goParent() {
-  bool res = node->parent != nullptr;
-  if (res) node = node->parent;
-  return res;
-}
-
-template <typename Key, typename T>
-bool s21::map<Key, T>::const_iterator::goLeft() {
-  bool res = node->left != nullptr;
-  if (res) node = node->left;
-  return res;
-}
-
-template <typename Key, typename T>
-bool s21::map<Key, T>::const_iterator::goRight() {
-  bool res = node->right != nullptr;
-  if (res) node = node->right;
-  return res;
-}
-
-template <typename Key, typename T>
-bool s21::map<Key, T>::const_iterator::goParent() {
-  bool res = node->parent != nullptr;
-  if (res) node = node->parent;
-  return res;
-}
 
 };  // namespace s21
