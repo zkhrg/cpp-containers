@@ -25,7 +25,7 @@ class list {
     Node* node;
 
    public:
-    BaseIterator(): node(nullptr) {};
+    BaseIterator() : node(nullptr){};
     ~BaseIterator(){};
 
     Iter operator++();
@@ -39,27 +39,27 @@ class list {
   };
 
  public:
-  class ListIterator: public BaseIterator<ListIterator> {
+  class ListIterator : public BaseIterator<ListIterator> {
     friend class BaseIterator<ListIterator>;
     friend class BaseIterator<ListConstIterator>;
     friend class list;
 
    public:
-    ListIterator(Node* other = nullptr){ this->node = other; };
+    ListIterator(Node* other = nullptr) { this->node = other; };
     ~ListIterator(){};
 
     T& operator*() { return this->node->arg; }
   };
 
-  class ListConstIterator: public BaseIterator<ListConstIterator>  {
+  class ListConstIterator : public BaseIterator<ListConstIterator> {
     friend class BaseIterator<ListIterator>;
     friend class BaseIterator<ListConstIterator>;
     friend class list;
 
    public:
-    ListConstIterator(Node* const other = nullptr){this->node = other;};
-    ListConstIterator(const ListIterator& other){this->node = other.node;};
-    ListConstIterator(ListIterator&& other){
+    ListConstIterator(Node* const other = nullptr) { this->node = other; };
+    ListConstIterator(const ListIterator& other) { this->node = other.node; };
+    ListConstIterator(ListIterator&& other) {
       this->node = other.node;
       other.node = nullptr;
     };

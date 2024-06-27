@@ -76,7 +76,7 @@ TEST(StackTests, TestCopyConstructor1) {
   EXPECT_EQ(s1.empty(), s4.empty());
 }
 
-TEST(QueueTests, TestCopyConstructor2) {
+TEST(StackTests, TestCopyConstructor2) {
   s21::stack<int> s1{1, 2, 3};
   std::stack<int> s2({1, 2, 3});
 
@@ -122,7 +122,7 @@ TEST(StackTests, TestMoveConstructor2) {
   EXPECT_EQ(s3.top(), s4.top());
 }
 
-TEST(QueueTests, TestAssignmentOperator1) {
+TEST(StackTests, TestAssignmentOperator1) {
   s21::stack<int> s1 = {1, 2, 3};
   std::stack<int> s2({1, 2, 3});
   s21::stack<int> s3;
@@ -320,7 +320,7 @@ TEST(StackTests, TestSwapMethod3) {
   EXPECT_EQ(s1.empty(), s3.empty());
 }
 
-TEST(QueueTests, TestInsertManyFrontMethod1) {
+TEST(StackTests, TestInsertManyFrontMethod1) {
   s21::stack<int> s1;
   EXPECT_TRUE(s1.empty());
 
