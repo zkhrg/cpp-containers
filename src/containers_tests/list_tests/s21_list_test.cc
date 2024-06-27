@@ -359,7 +359,53 @@ TEST(ListTests, TestListConstIterator) {
   std::cout << *cit << std::endl;
 }
 
-TEST(ListTests, TestSwapMethod1) {
+TEST(ListTests, TestInsertManyMethod1) {
   s21::list<int> l1{1, 5, 6, 7, 98, 3};
-  s21::list<int> l2;
+  s21::list<int>::iterator it = l1.begin();
+  it++;
+  l1.insert_many(it, 4, 8, 9, 7);
+  it = l1.begin();
+  EXPECT_EQ(*it, 1);
+  it++;
+  EXPECT_EQ(*it, 4);
+  it++;
+  EXPECT_EQ(*it, 8);
+  it++;
+  EXPECT_EQ(*it, 9);
+  it++;
+  EXPECT_EQ(*it, 7);
+}
+
+TEST(ListTests, TestInsertManyBackMethod1) {
+  s21::list<int> l1{1, 5, 6, 7, 98, 3};
+  l1.insert_many_back(4, 8, 9, 7);
+  auto it = l1.begin();
+  EXPECT_EQ(*it, 1);
+  it++;
+  EXPECT_EQ(*it, 5);
+  it++;
+  EXPECT_EQ(*it, 6);
+  it++;
+  EXPECT_EQ(*it, 7);
+  it++;
+  EXPECT_EQ(*it, 98);
+  it++;
+  EXPECT_EQ(*it, 3);
+}
+
+TEST(ListTests, TestInsertManyFrontMethod1) {
+  s21::list<int> l1{1, 5, 6, 7, 98, 3};
+  l1.insert_many_front(4, 8, 9, 7);
+  auto it = l1.begin();
+  EXPECT_EQ(*it, 7);
+  it++;
+  EXPECT_EQ(*it, 9);
+  it++;
+  EXPECT_EQ(*it, 8);
+  it++;
+  EXPECT_EQ(*it, 4);
+  it++;
+  EXPECT_EQ(*it, 1);
+  it++;
+  EXPECT_EQ(*it, 5);
 }
