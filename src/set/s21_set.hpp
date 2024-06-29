@@ -4,38 +4,43 @@ namespace s21 {
 template <class T>
 class set {
  public:
-  class SetIterator;       // NEED
-  class SetConstIterator;  // NEED
+  // Set Member type
+  using value_type = T;
+  using reference = T&;
+  using const_reference = const T&;
+  using iterator = SetIterator;             // в avltree нужно
+  using const_iterator = SetConstIterator;  // в avltree нужно
+  using size_type = size_t;
 
-  using value_type = T;                     // NEED
-  using reference = T&;                     // NEED
-  using const_reference = const T&;         // NEED
-  using iterator = SetIterator;             // NEED
-  using const_iterator = SetConstIterator;  // NEED
-  using size_type = size_t;                 // NEED
+  // Set Member functions
+  set();
+  set(std::initializer_list<value_type> const& items);
+  set(const set& s);
+  set(set&& s);
+  ~set();
+  operator=(set && s);
 
-  set();                                                // NEED
-  set(std::initializer_list<value_type> const& items);  // NEED
-  set(const set& s);                                    // NEED
-  set(set&& s);                                         // NEED
-  ~set();                                               // NEED
-  operator=(set && s);                                  // NEED
+  // Set Iterators
+  iterator begin();
+  iterator end();
+  const_iterator begin();
+  const_iterator end();
 
-  iterator begin();  // NEED
-  iterator end();    // NEED
+  // Set Capacity
+  bool empty();
+  size_type size();
+  size_type max_size();
 
-  bool empty();          // NEED
-  size_type size();      // NEED
-  size_type max_size();  // NEED
+  // Set Modifiers
+  void clear();
+  std::pair<iterator, bool> insert(const value_type& value);
+  void erase(iterator pos);
+  void swap(set& other);
+  void merge(set& other);
 
-  void clear();                                               // NEED
-  std::pair<iterator, bool> insert(const value_type& value);  // NEED
-  void erase(iterator pos);                                   // NEED
-  void swap(set& other);                                      // NEED
-  void merge(set& other);                                     // NEED
-
-  iterator find(const Key& key);  // NEED
-  bool contains(const Key& key);  // NEED
+  // Set Lookup
+  iterator find(const Key& key);
+  bool contains(const Key& key);
 };
 
 }  // namespace s21
