@@ -1,5 +1,7 @@
 #include <initializer_list>
 
+#include "avl_tree/avl_tree.hpp"
+
 namespace s21 {
 template <class T>
 class set {
@@ -8,8 +10,8 @@ class set {
   using value_type = T;
   using reference = T&;
   using const_reference = const T&;
-  using iterator = SetIterator;             // в avltree нужно
-  using const_iterator = SetConstIterator;  // в avltree нужно
+  using iterator = typename AVLTree<T>::iterator;
+  using const_iterator = typename AVLTree<T>::const_iterator;
   using size_type = size_t;
 
   // Set Member functions
@@ -18,13 +20,13 @@ class set {
   set(const set& s);
   set(set&& s);
   ~set();
-  operator=(set && s);
+  set& operator=(set&& s);
 
   // Set Iterators
   iterator begin();
   iterator end();
-  const_iterator begin();
-  const_iterator end();
+  const_iterator begin() const;
+  const_iterator end() const;
 
   // Set Capacity
   bool empty();
@@ -39,8 +41,18 @@ class set {
   void merge(set& other);
 
   // Set Lookup
-  iterator find(const Key& key);
-  bool contains(const Key& key);
+  iterator find(const T& key);
+  bool contains(const T& key);
+
+ private:
+  size_type size_;
+  typename AVLTree<T>::Node fake_;
+  typename AVLTree<T>::Node*& top_;
+  typename AVLTree<T>::Node*& min_;
+  typename AVLTree<T>::Node* max_;
 };
 
-}  // namespace s21
+};  // namespace s21
+
+// #include "map_iterator.tpp"
+#include "s21_set.tpp"

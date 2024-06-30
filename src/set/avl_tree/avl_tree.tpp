@@ -9,24 +9,24 @@ AVLTree<T>::~AVLTree() {
 }
 
 template <typename T>
-int AVLTree<T>::height(AVLTreeNode<T>* node) const {
+int AVLTree<T>::height(AVLTree<T>::Node* node) const {
   return node ? node->height : 0;
 }
 
 template <typename T>
-int AVLTree<T>::balanceFactor(AVLTreeNode<T>* node) const {
+int AVLTree<T>::balanceFactor(AVLTree<T>::Node* node) const {
   return node ? height(node->left) - height(node->right) : 0;
 }
 
 template <typename T>
-void AVLTree<T>::updateHeight(AVLTreeNode<T>* node) {
+void AVLTree<T>::updateHeight(AVLTree<T>::Node* node) {
   node->height = 1 + std::max(height(node->left), height(node->right));
 }
 
 template <typename T>
-AVLTreeNode<T>* AVLTree<T>::rotateRight(AVLTreeNode<T>* y) {
-  AVLTreeNode<T>* x = y->left;
-  AVLTreeNode<T>* T2 = x->right;
+typename AVLTree<T>::Node* AVLTree<T>::rotateRight(AVLTree<T>::Node* y) {
+  AVLTree<T>::Node* x = y->left;
+  AVLTree<T>::Node* T2 = x->right;
 
   x->right = y;
   y->left = T2;
@@ -38,9 +38,9 @@ AVLTreeNode<T>* AVLTree<T>::rotateRight(AVLTreeNode<T>* y) {
 }
 
 template <typename T>
-AVLTreeNode<T>* AVLTree<T>::rotateLeft(AVLTreeNode<T>* x) {
-  AVLTreeNode<T>* y = x->right;
-  AVLTreeNode<T>* T2 = y->left;
+typename AVLTree<T>::Node* AVLTree<T>::rotateLeft(AVLTree<T>::Node* x) {
+  AVLTree<T>::Node* y = x->right;
+  AVLTree<T>::Node* T2 = y->left;
 
   y->left = x;
   x->right = T2;
@@ -57,9 +57,9 @@ void AVLTree<T>::insert(T value) {
 }
 
 template <typename T>
-AVLTreeNode<T>* AVLTree<T>::insert(AVLTreeNode<T>* node, T value) {
+typename AVLTree<T>::Node* AVLTree<T>::insert(AVLTree<T>::Node* node, T value) {
   if (node == nullptr) {
-    return new AVLTreeNode<T>(value);
+    return new AVLTree<T>::Node(value);
   }
 
   if (value < node->data) {
@@ -96,23 +96,26 @@ AVLTreeNode<T>* AVLTree<T>::insert(AVLTreeNode<T>* node, T value) {
 }
 
 template <typename T>
-AVLTreeNode<T>* AVLTree<T>::search(T value) const {
+typename AVLTree<T>::Node* AVLTree<T>::search(T value) const {
   return search(root, value);
 }
 
 template <typename T>
-AVLTreeNode<T>* AVLTree<T>::search(AVLTreeNode<T>* node, T value) const {
+typename AVLTree<T>::Node* AVLTree<T>::search(AVLTree<T>::Node* node,
+                                              T value) const {
   if (node == nullptr || node->data == value) {
     return node;
   } else if (value < node->data) {
+    std::cout << node->data << std::endl;
     return search(node->left, value);
   } else {
+    std::cout << node->data << std::endl;
     return search(node->right, value);
   }
 }
 
 template <typename T>
-void AVLTree<T>::clear(AVLTreeNode<T>* node) {
+void AVLTree<T>::clear(AVLTree<T>::Node* node) {
   if (node != nullptr) {
     clear(node->left);
     clear(node->right);
