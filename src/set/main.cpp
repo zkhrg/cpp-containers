@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "avl_tree/avl_tree.hpp"
-#include "s21_set.hpp"
+// #include "s21_set.hpp"
 
 int main() {
   s21::AVLTree<int> bst;
@@ -30,6 +30,7 @@ int main() {
   } else {
     std::cout << "nf(((" << std::endl;
   }
+  // s21::set<int> s;
 
   return 0;
 }
