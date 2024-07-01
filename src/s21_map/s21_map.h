@@ -60,7 +60,7 @@ class map {
     friend class BaseIterator<MapConstIterator>;
 
    public:
-    MapIterator(Node* nd) { this->node = nd; };
+    MapIterator(Node* nd = nullptr) { this->node = nd; };
     ~MapIterator(){};
 
     reference operator*();
@@ -130,12 +130,17 @@ class map {
   std::vector<std::pair<iterator,bool>> insert_many(Args&&... args);
   // Map Lookup
   bool contains(const Key& key);
-
+ private:
+  // Map Support
+  iterator search(const Key& key);
+  iterator cut_node(iterator pos);
+  void set_node(iterator pos, iterator it);
 };
 
 };
 
 #include "map_iterator.tpp"
+#include "map_support.tpp"
 #include "s21_map.tpp"
 
 #endif

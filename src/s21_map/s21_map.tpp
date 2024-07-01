@@ -53,12 +53,7 @@ template <typename Key, typename T>
 T& map<Key, T>::at(const Key& key) {
   if(empty())
     throw std::out_of_range("Map is empty\n");
-  iterator it = end();
-  it.goLeft();
-  for (bool flag = true; it->first != key && flag;) {
-    while (it->first < key && flag) flag = it.goRight();
-    while (it->first > key && flag) flag = it.goLeft();
-  }
+  iterator it = search(key);
   if (it->first != key)
     throw std::out_of_range("Value doesn't exist\n");
   return it->second;
@@ -100,29 +95,20 @@ map<Key, T>::insert_or_assign(const Key& key, const T& obj) {
 template <typename Key, typename T>
 std::pair<typename s21::map<Key, T>::iterator, bool> map<Key, T>::insert(
     const value_type& value) {
-  std::pair<iterator, bool> res{end(), true};
-  iterator& it = res.first;
   const Key& key = value.first;
+  std::pair<iterator, bool> res{search(key), true};
+  iterator& it = res.first;
+  iterator elem;
   if (empty()) {
     top_ = new Node{true, min_, nullptr, nullptr, value};
     min_ = top_;
     it.goLeft();
+  } else if(it->first != key) {
+    elem.node = new Node{0, 0, 0, 0, value};
+    set_node(it, elem);
+    it = elem;
   } else {
-    it.goLeft();
-    for (bool flag = true; it->first != key && flag;) {
-      while (it->first < key && flag) flag = it.goRight();
-      while (it->first > key && flag) flag = it.goLeft();
-    }
-    if (it->first > key) {
-      it.node->left = new Node{true, it.node, 0, 0, value};
-      if (min_->left) min_ = min_->left;
-      it.goLeft();
-    } else if (it->first < key) {
-      it.node->right = new Node{false, it.node, 0, 0, value};
-      it.goRight();
-    } else {
-      res.second = false;
-    }
+    res.second = false;
   }
   if (res.second) size_++;
   return res;
@@ -130,31 +116,8 @@ std::pair<typename s21::map<Key, T>::iterator, bool> map<Key, T>::insert(
 
 template <typename Key, typename T>
 typename s21::map<Key, T>::iterator map<Key, T>::erase(iterator pos) {
-  iterator top = pos, left = pos, right = pos, res = pos;
-  res++;
-  top.goParent();
-  left.goLeft();
-  right.goRight();
-  if(pos == left && pos == right) {
-    (pos.node->less ? top.node->left : top.node->right) = nullptr;
-  } else if (pos != right) {
-    (pos.node->less ? top.node->left : top.node->right) = right.node;
-    right.node->parent = top.node;
-    right.node->less = pos.node->less;
-  } else {
-    (pos.node->less ? top.node->left : top.node->right) = left.node;
-    left.node->parent = top.node;
-    left.node->less = pos.node->less;
-  }
-  if (pos != left && pos != right) {
-    while (right.goLeft());
-    right.node->left = left.node;
-    left.node->parent = right.node;
-  } 
-  if (pos == begin()) min_ = res.node;
-  pos.node->left = pos.node->right = pos.node->parent = nullptr;
+  iterator res = cut_node(pos);
   delete pos.node;
-  size_--;
   return res;
 }
 
@@ -167,6 +130,7 @@ void map<Key, T>::swap(map<Key, T>& other) {
     *this = std::move(buff);
   }
 }
+
 template <typename Key, typename T>
 void map<Key, T>::merge(map& other) {
   if(this == &other || other.empty()) return;
@@ -174,8 +138,13 @@ void map<Key, T>::merge(map& other) {
     *this = std::move(other);
   } else {
     for(auto it = other.begin(); it != other.end(); it++) {
-      while(it != other.end() && insert(*it)->second)
-        it = other.erase(it);
+      auto pos = search(it->first);
+      while(pos->first != it->first && it != other.end()) {
+        auto buff = other.cut_node(it);
+        set_node(pos, it);
+        it = buff;
+        pos = search(it->first);
+      }
     }
   }
 }
