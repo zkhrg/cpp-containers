@@ -6,10 +6,10 @@ namespace s21 {
 template <typename Key, typename T>
 map<Key, T>::map()
     : size_{},
-      fake_{false, &fake_, &fake_, &fake_, {}},
+      fake_{false, nullptr, nullptr, &fake_, {}},
       top_{fake_.left},
-      min_{fake_.right},
-      max_(&fake_) {}
+      min_{fake_.right}, 
+      end_{&fake_} {}
 
 template <typename Key, typename T>
 map<Key, T>::map(std::initializer_list<value_type> const& items) : map() {
@@ -23,26 +23,22 @@ map<Key, T>::map(const map<Key, T>& m) : map() {
 
 template <typename Key, typename T>
 map<Key, T>::map(map<Key, T>&& m) : map() {
-  if (!m.empty()){
-    top_ = m.top_;
-    top_->parent = fake_.parent;
-    min_ = m.min_;
-    max_ = m.max_;
-    m.top_ = m.min_ = m.max_ = m.fake_.parent;
-    size_ = m.size_;
-    m.size_ = 0;
-  }
+  *this = std::move(m);
 }
 
 template <typename Key, typename T>
 typename s21::map<Key, T>& map<Key, T>::operator=(map<Key, T>&& m) {
   if (this != &m) {
     clear();
-    fake_ = m.fake_;
-    max_ = m.max_;
-    m.top_ = m.min_ = m.max_ = &m.fake_;
-    size_ = m.size_;
-    m.size_ = 0;
+    if(!m.empty()) {
+      top_ = m.top_;
+      top_->parent = &fake_;
+      min_ = m.min_;
+      m.top_ = nullptr;
+      m.min_ = m.end_;
+      size_ = m.size_;
+      m.size_ = 0;
+    }
   }
   return *this;
 }
@@ -76,31 +72,15 @@ T& map<Key, T>::operator[](const Key& key) {
 // Map Capacity
 template <typename Key, typename T>
 bool map<Key, T>::empty() {
-  return min_ == &fake_;
+  return min_ == end_;
 }
 
 // Map Modifiers
 template <typename Key, typename T>
 void map<Key, T>::clear() {
   while (!empty()) {
-    iterator it = begin();
-    iterator loss(it++);
-    min_ = it.node;
-    if (loss.node->parent == min_) {
-      min_->left = nullptr;
-      loss.node->parent = nullptr;
-      delete loss.node;
-    } else {
-      loss.node->parent->left = loss.node->right;
-      loss.node->right->parent = loss.node->parent;
-      loss.node->right->less = true;
-      loss.node->parent = nullptr;
-      loss.node->right = nullptr;
-      delete loss.node;
-    }
+    erase(begin());
   }
-  max_ = top_ = min_;
-  size_ = 0;
 }
 
 template <typename Key, typename T>
@@ -124,8 +104,8 @@ std::pair<typename s21::map<Key, T>::iterator, bool> map<Key, T>::insert(
   iterator& it = res.first;
   const Key& key = value.first;
   if (empty()) {
-    top_ = new Node{true, max_, nullptr, nullptr, value};
-    min_ = max_ = top_;
+    top_ = new Node{true, min_, nullptr, nullptr, value};
+    min_ = top_;
     it.goLeft();
   } else {
     it.goLeft();
@@ -136,15 +116,90 @@ std::pair<typename s21::map<Key, T>::iterator, bool> map<Key, T>::insert(
     if (it->first > key) {
       it.node->left = new Node{true, it.node, 0, 0, value};
       if (min_->left) min_ = min_->left;
+      it.goLeft();
     } else if (it->first < key) {
       it.node->right = new Node{false, it.node, 0, 0, value};
-      if (max_->right) max_ = max_->right;
+      it.goRight();
     } else {
       res.second = false;
     }
   }
   if (res.second) size_++;
   return res;
+}
+
+template <typename Key, typename T>
+typename s21::map<Key, T>::iterator map<Key, T>::erase(iterator pos) {
+  iterator top = pos, left = pos, right = pos, res = pos;
+  res++;
+  top.goParent();
+  left.goLeft();
+  right.goRight();
+  if(pos == left && pos == right) {
+    (pos.node->less ? top.node->left : top.node->right) = nullptr;
+  } else if (pos != right) {
+    (pos.node->less ? top.node->left : top.node->right) = right.node;
+    right.node->parent = top.node;
+    right.node->less = pos.node->less;
+  } else {
+    (pos.node->less ? top.node->left : top.node->right) = left.node;
+    left.node->parent = top.node;
+    left.node->less = pos.node->less;
+  }
+  if (pos != left && pos != right) {
+    while (right.goLeft());
+    right.node->left = left.node;
+    left.node->parent = right.node;
+  } 
+  if (pos == begin()) min_ = res.node;
+  pos.node->left = pos.node->right = pos.node->parent = nullptr;
+  delete pos.node;
+  size_--;
+  return res;
+}
+
+template <typename Key, typename T>
+void map<Key, T>::swap(map<Key, T>& other) {
+  map buff;
+  if(this != &other) {
+    buff = std::move(other);
+    other = std::move(*this);
+    *this = std::move(buff);
+  }
+}
+template <typename Key, typename T>
+void map<Key, T>::merge(map& other) {
+  if(this == &other || other.empty()) return;
+  if(empty()) {
+    *this = std::move(other);
+  } else {
+    for(auto it = other.begin(); it != other.end(); it++) {
+      while(it != other.end() && insert(*it)->second)
+        it = other.erase(it);
+    }
+  }
+}
+
+template <typename Key, typename T>
+template <typename... Args>
+std::vector<std::pair<typename s21::map<Key,T>::iterator,bool>> map<Key,T>::insert_many(Args&&... args) {
+  std::vector<std::pair<iterator,bool>> res;
+  for(const auto& elem : {args...}) {
+    res.push_back(insert(elem));
+  }
+  return res;
+}
+
+// Map Lookup
+template <typename Key, typename T>
+bool map<Key, T>::contains(const Key& key) {
+  if(empty()) return false;
+  iterator it(top_);
+  for (bool flag = true; it->first != key && flag;) {
+    while (it->first < key && flag) flag = it.goRight();
+    while (it->first > key && flag) flag = it.goLeft();
+  }
+  return it->first == key;
 }
 
 };  // namespace s21

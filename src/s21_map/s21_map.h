@@ -2,6 +2,8 @@
 #define S21_MAP_H
 
 #include <initializer_list>
+#include <vector>
+#include <iterator>
 
 namespace s21{
 
@@ -13,7 +15,7 @@ class map {
 
   using value_type = std::pair<const Key, T>;
   using reference = value_type&;
-  using const_reference =  const reference;
+  using const_reference =  const value_type&;
   using iterator = MapIterator;
   using const_iterator = MapConstIterator;
   using size_type = size_t;
@@ -89,7 +91,7 @@ class map {
   Node fake_;
   Node*& top_;
   Node*& min_;
-  Node* max_;
+  Node* end_;
 
  public:
   // Map Member functions
@@ -106,9 +108,9 @@ class map {
 
   // Map Iterators
   iterator begin() { return iterator(min_); };
-  iterator end() { return iterator(fake_.parent); };
+  iterator end() { return iterator(end_); };
   const_iterator begin() const { return const_iterator(min_); };
-  const_iterator end() const { return const_iterator(fake_.parent); };
+  const_iterator end() const { return const_iterator(end_); };
  
 
   // Map Capacity
@@ -121,16 +123,14 @@ class map {
   std::pair<iterator, bool> insert(const Key& key, const T& obj);
   std::pair<iterator, bool> insert(const value_type& value);
   std::pair<iterator, bool> insert_or_assign(const Key& key, const T& obj);
-  /*
-  void erase(iterator pos);
+  iterator erase(iterator pos);
   void swap(map& other);
   void merge(map& other);
-  */
-
+  template <typename... Args>
+  std::vector<std::pair<iterator,bool>> insert_many(Args&&... args);
   // Map Lookup
-  /*
   bool contains(const Key& key);
-  */
+
 };
 
 };

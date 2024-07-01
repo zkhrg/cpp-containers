@@ -74,3 +74,41 @@ TEST(MapTests, TestMapConstIterator2) {
     EXPECT_EQ(cit->second, it->second);
   }
 }
+
+TEST(MapTests, TestMapErase) {
+  s21::map<int, int> m{{1, 2}, {5, 5}};
+  int key[]{1, 5, 6, 8};
+  int val[]{2, 5, -5, 9};
+  int i{};
+  auto it = m.end();
+  EXPECT_EQ(m.erase(m.begin())->first, 5);
+  EXPECT_EQ(m.begin()->first, 5);
+  m.insert({1, 2});
+  m.insert({8, 9});
+  it = m.insert({3, 3}).first;
+  m.insert({6, -5});
+  it = m.erase(it);
+  EXPECT_EQ(it->first, 5);
+  for(auto pr : m) {
+    EXPECT_EQ(pr.first, key[i]);
+    EXPECT_EQ(pr.second, val[i]);
+    i++;
+  }
+  while (!m.empty()) {
+    EXPECT_EQ(m.size(), i);
+    m.erase(m.begin());
+    i--;
+  }
+  EXPECT_EQ(m.empty(), true);
+}
+
+TEST(MapTests, TestMapInsertMany) {
+  s21::map<int, int> m{{1, 2}, {5, 5}};
+  int i{};
+  bool check[]{false, true, false};
+  auto v = m.insert_many(std::pair{1, 1}, std::pair{-3, 2}, std::pair{5, 6});
+  for(auto& pr : v) {
+    EXPECT_EQ(pr.second, check[i]);
+    i++;
+  }
+}
