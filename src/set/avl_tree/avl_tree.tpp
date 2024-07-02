@@ -1,32 +1,60 @@
+#include <initializer_list>
+#include <iostream>
+
 namespace s21 {
+// set member functions
+template <typename T>
+set<T>::set() : root(nullptr) {}
 
 template <typename T>
-AVLTree<T>::AVLTree() : root(nullptr) {}
+set<T>::set(std::initializer_list<T> const& items) {
+  for (auto it = items.begin(); it != items.end(); it++) insert(*it);
+}
+
+// template <typename T>
+// set<T>::set(const set& s) {
+//   for (auto it = s.begin(); it != s.end(); it++) insert(*it);
+// }
 
 template <typename T>
-AVLTree<T>::~AVLTree() {
+set<T>::set(set&& s) : root(s.root) {
+  s.root = nullptr;
+}
+
+template <typename T>
+set<T>& set<T>::operator=(set&& s) {
+  if (this != &s) {
+    clear(root);
+    root = s.root;
+    s.root = nullptr;
+  }
+  return *this;
+}
+
+template <typename T>
+set<T>::~set() {
   clear(root);
 }
 
 template <typename T>
-int AVLTree<T>::height(AVLTree<T>::Node* node) const {
+int set<T>::height(set<T>::Node* node) const {
   return node ? node->height : 0;
 }
 
 template <typename T>
-int AVLTree<T>::balanceFactor(AVLTree<T>::Node* node) const {
+int set<T>::balanceFactor(set<T>::Node* node) const {
   return node ? height(node->left) - height(node->right) : 0;
 }
 
 template <typename T>
-void AVLTree<T>::updateHeight(AVLTree<T>::Node* node) {
+void set<T>::updateHeight(set<T>::Node* node) {
   node->height = 1 + std::max(height(node->left), height(node->right));
 }
 
 template <typename T>
-typename AVLTree<T>::Node* AVLTree<T>::rotateRight(AVLTree<T>::Node* y) {
-  AVLTree<T>::Node* x = y->left;
-  AVLTree<T>::Node* T2 = x->right;
+typename set<T>::Node* set<T>::rotateRight(set<T>::Node* y) {
+  set<T>::Node* x = y->left;
+  set<T>::Node* T2 = x->right;
 
   x->right = y;
   y->left = T2;
@@ -38,9 +66,9 @@ typename AVLTree<T>::Node* AVLTree<T>::rotateRight(AVLTree<T>::Node* y) {
 }
 
 template <typename T>
-typename AVLTree<T>::Node* AVLTree<T>::rotateLeft(AVLTree<T>::Node* x) {
-  AVLTree<T>::Node* y = x->right;
-  AVLTree<T>::Node* T2 = y->left;
+typename set<T>::Node* set<T>::rotateLeft(set<T>::Node* x) {
+  set<T>::Node* y = x->right;
+  set<T>::Node* T2 = y->left;
 
   y->left = x;
   x->right = T2;
@@ -52,14 +80,14 @@ typename AVLTree<T>::Node* AVLTree<T>::rotateLeft(AVLTree<T>::Node* x) {
 }
 
 template <typename T>
-void AVLTree<T>::insert(T value) {
+void set<T>::insert(T value) {
   root = insert(root, value);
 }
 
 template <typename T>
-typename AVLTree<T>::Node* AVLTree<T>::insert(AVLTree<T>::Node* node, T value) {
+typename set<T>::Node* set<T>::insert(set<T>::Node* node, T value) {
   if (node == nullptr) {
-    return new AVLTree<T>::Node(value);
+    return new set<T>::Node(value);
   }
 
   if (value < node->data) {
@@ -96,30 +124,32 @@ typename AVLTree<T>::Node* AVLTree<T>::insert(AVLTree<T>::Node* node, T value) {
 }
 
 template <typename T>
-typename AVLTree<T>::Node* AVLTree<T>::search(T value) const {
+typename set<T>::Node* set<T>::search(T value) const {
   return search(root, value);
 }
 
 template <typename T>
-typename AVLTree<T>::Node* AVLTree<T>::search(AVLTree<T>::Node* node,
-                                              T value) const {
+typename set<T>::Node* set<T>::search(set<T>::Node* node, T value) const {
   if (node == nullptr || node->data == value) {
     return node;
   } else if (value < node->data) {
-    std::cout << node->data << std::endl;
     return search(node->left, value);
   } else {
-    std::cout << node->data << std::endl;
     return search(node->right, value);
   }
 }
 
 template <typename T>
-void AVLTree<T>::clear(AVLTree<T>::Node* node) {
+bool set<T>::isEmpty() const {
+  return root == nullptr;
+}
+
+template <typename T>
+void set<T>::clear(set<T>::Node* node) {
   if (node != nullptr) {
     clear(node->left);
     clear(node->right);
     delete node;
   }
 }
-}  // namespace s21
+};  // namespace s21

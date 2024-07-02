@@ -4,33 +4,26 @@
 // #include "s21_set.hpp"
 
 int main() {
-  s21::AVLTree<int> bst;
+  // s21::set<int> s1;
+  // s1.insert(3);
+  // s1.insert(4);
+  // s1.insert(5);
+  // s1.insert(6);
+  // std::cout << s1.root->data << std::endl;
+  s21::set<int> s{3, 4, 5, 6, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,  4,
+                  4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,  4,
+                  4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 192};
+  s21::set<int> s1(std::move(s));
 
-  bst.insert(2);
-  bst.insert(3);
-  bst.insert(4);
-  bst.insert(5);
-  bst.insert(6);
-  bst.insert(7);
-  bst.insert(8);
-  bst.insert(123);
-  bst.insert(124);
-  bst.insert(125);
-  bst.insert(126);
-  bst.insert(127);
-  bst.insert(128);
-  bst.insert(129);
-  bst.insert(130);
-  bst.insert(131);
-
-  int searchValue = 8;
-  s21::AVLTree<int>::Node* result = bst.search(searchValue);
+  int searchValue = 192;
+  // std::cout << s.root->left->data << std::endl;
+  s21::set<int>::Node* result = s1.search(searchValue);
   if (result != nullptr) {
     std::cout << "found v: " << result->data << std::endl;
   } else {
     std::cout << "nf(((" << std::endl;
   }
-  // s21::set<int> s;
+  std::cout << (s.root == nullptr) << std::endl;
 
   return 0;
 }
