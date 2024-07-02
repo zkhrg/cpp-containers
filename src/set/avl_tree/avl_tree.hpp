@@ -7,8 +7,8 @@ namespace s21 {
 template <typename T>
 class set {
  public:
-  class SetIterator;
   class SetConstIterator;
+  class SetIterator;
 
   using key_type = T;
   using value_type = T;
@@ -41,10 +41,15 @@ class set {
     Iter operator--();
     Iter operator++(int);
     Iter operator--(int);
-    bool operator!=(SetIterator it) const { return node != it.node; };
-    bool operator!=(SetConstIterator it) const { return node != it.node; };
-    bool operator==(SetIterator it) const { return node == it.node; };
-    bool operator==(SetConstIterator it) const { return node == it.node; };
+    bool operator==(iterator it) const { return node == it.node; };
+    bool operator==(const_iterator it) const { return node == it.node; };
+    bool operator!=(iterator it) const { return node != it.node; };
+    bool operator!=(const_iterator it) const { return node != it.node; };
+
+   protected:
+    bool goLeft();
+    bool goRight();
+    bool goParent();
   };
 
  public:
@@ -57,7 +62,8 @@ class set {
     SetIterator(Node* other = nullptr) { this->node = other; };
     ~SetIterator(){};
 
-    T& operator*() { return this->node->arg; }
+    reference operator*();
+    value_type* operator->();
   };
 
   class SetConstIterator : public BaseIterator<SetConstIterator> {
@@ -74,7 +80,9 @@ class set {
     };
     ~SetConstIterator(){};
 
-    const T& operator*() { return this->node->arg; }
+    const_iterator& operator=(const iterator& it) const;
+    const_reference operator*() const;
+    const value_type* operator->() const;
   };
 
  public:
@@ -96,7 +104,7 @@ class set {
  public:
   set();
   set(std::initializer_list<value_type> const& items);
-  // set(const set& s);
+  set(const set& s);
   set(set&& s);
   ~set();
   set& operator=(set&& s);
@@ -104,7 +112,13 @@ class set {
   void insert(T value);
   bool isEmpty() const;
   Node* search(T value) const;
+
+  // iterator begin() { return iterator(root); };
+  // iterator end() { return iterator(); };
+  // const_iterator begin() const { return const_iterator(root); }
+  // const_iterator end() const { return const_iterator(); }
 };
 }  // namespace s21
 
 #include "avl_tree.tpp"
+#include "iter.tpp"

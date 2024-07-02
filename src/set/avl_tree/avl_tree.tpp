@@ -13,7 +13,7 @@ set<T>::set(std::initializer_list<T> const& items) {
 
 // template <typename T>
 // set<T>::set(const set& s) {
-//   for (auto it = s.begin(); it != s.end(); it++) insert(*it);
+//   for (const_iterator it = s.begin(); it != s.end(); it++) insert(*it);
 // }
 
 template <typename T>

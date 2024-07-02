@@ -14,6 +14,7 @@ int main() {
                   4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,  4,
                   4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 192};
   s21::set<int> s1(std::move(s));
+  // s21::set<int> s1(s);
 
   int searchValue = 192;
   // std::cout << s.root->left->data << std::endl;
