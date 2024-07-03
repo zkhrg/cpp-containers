@@ -81,19 +81,20 @@ typename set<T>::Node* set<T>::rotateLeft(set<T>::Node* x) {
 
 template <typename T>
 void set<T>::insert(T value) {
-  root = insert(root, value);
+  root = insert(root, value, nullptr);
 }
 
 template <typename T>
-typename set<T>::Node* set<T>::insert(set<T>::Node* node, T value) {
+typename set<T>::Node* set<T>::insert(set<T>::Node* node, T value,
+                                      set<T>::Node* parent) {
   if (node == nullptr) {
-    return new set<T>::Node(value);
+    return new set<T>::Node(value, parent);
   }
 
   if (value < node->data) {
-    node->left = insert(node->left, value);
+    node->left = insert(node->left, value, node);
   } else if (value > node->data) {
-    node->right = insert(node->right, value);
+    node->right = insert(node->right, value, node);
   } else {
     return node;
   }

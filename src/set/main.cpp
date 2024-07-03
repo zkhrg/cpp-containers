@@ -20,11 +20,24 @@ int main() {
   // std::cout << s.root->left->data << std::endl;
   s21::set<int>::Node* result = s1.search(searchValue);
   if (result != nullptr) {
-    std::cout << "found v: " << result->data << std::endl;
+    std::cout << "found v: " << result->parent->data << std::endl;
   } else {
     std::cout << "nf(((" << std::endl;
   }
   std::cout << (s.root == nullptr) << std::endl;
+
+  s21::set<int> mySet;
+  mySet.insert(5);
+  mySet.insert(20);
+  mySet.insert(10);
+
+  auto it = mySet.begin();
+  ++it;
+  // it != mySet.end();
+  // std::cout << it.node->data << std::endl;
+  // for ( it != mySet.end(); it++) {
+  // std::cout << *it << " ";
+  // }
 
   return 0;
 }

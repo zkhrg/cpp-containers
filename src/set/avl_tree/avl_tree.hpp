@@ -23,21 +23,23 @@ class set {
     T data;
     Node* left;
     Node* right;
+    Node* parent;
     int height;
 
-    Node(T value) : data(value), left(nullptr), right(nullptr), height(1) {}
+    Node(T value, Node* n)
+        : data(value), left(nullptr), right(nullptr), height(1), parent(n) {}
   } Node;
 
   template <class Iter>
   class BaseIterator {
-   protected:
+   public:
     Node* node;
 
    public:
     BaseIterator() : node(nullptr){};
     ~BaseIterator(){};
 
-    Iter operator++();
+    void operator++();
     Iter operator--();
     Iter operator++(int);
     Iter operator--(int);
@@ -46,10 +48,9 @@ class set {
     bool operator!=(iterator it) const { return node != it.node; };
     bool operator!=(const_iterator it) const { return node != it.node; };
 
-   protected:
-    bool goLeft();
-    bool goRight();
-    bool goParent();
+   public:
+    Node* findNext(Node* z);
+    Node* findPrev(Node* z);
   };
 
  public:
@@ -97,7 +98,7 @@ class set {
   Node* rotateRight(Node* y);
   Node* rotateLeft(Node* x);
 
-  Node* insert(Node* n, T value);
+  Node* insert(Node* n, T value, Node* p);
   Node* search(Node* n, T value) const;
   void clear(Node* n);
 
@@ -113,8 +114,8 @@ class set {
   bool isEmpty() const;
   Node* search(T value) const;
 
-  // iterator begin() { return iterator(root); };
-  // iterator end() { return iterator(); };
+  iterator begin() { return iterator(root); };
+  iterator end() { return iterator(nullptr); };
   // const_iterator begin() const { return const_iterator(root); }
   // const_iterator end() const { return const_iterator(); }
 };
