@@ -20,8 +20,10 @@ namespace s21 {
 
 template <typename T>
 template <class Iter>
-typename set<T>::Node* s21::set<T>::BaseIterator<Iter>::findNext(
+typename set<T>::Node* set<T>::BaseIterator<Iter>::findNext(
     typename set<T>::Node* z) {
+  if (z == nullptr) return nullptr;
+
   if (z->right) {
     z = z->right;
     while (z->left) {
@@ -39,10 +41,10 @@ typename set<T>::Node* s21::set<T>::BaseIterator<Iter>::findNext(
 
 template <typename T>
 template <class Iter>
-void s21::set<T>::BaseIterator<Iter>::operator++() {
-  std::cout << findNext(findNext(node))->data << std::endl;
-  // Iter res(nullptr);
-  // return res;
+Iter s21::set<T>::BaseIterator<Iter>::operator++() {
+  node = findNext(node);
+  Iter res(node);
+  return res;
 }
 
 // template <typename T>

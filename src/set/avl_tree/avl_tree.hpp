@@ -39,7 +39,7 @@ class set {
     BaseIterator() : node(nullptr){};
     ~BaseIterator(){};
 
-    void operator++();
+    Iter operator++();
     Iter operator--();
     Iter operator++(int);
     Iter operator--(int);
@@ -114,7 +114,7 @@ class set {
   bool isEmpty() const;
   Node* search(T value) const;
 
-  iterator begin() { return iterator(root); };
+  iterator begin();
   iterator end() { return iterator(nullptr); };
   // const_iterator begin() const { return const_iterator(root); }
   // const_iterator end() const { return const_iterator(); }
