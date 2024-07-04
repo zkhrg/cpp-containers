@@ -163,12 +163,7 @@ std::vector<std::pair<typename s21::map<Key,T>::iterator,bool>> map<Key,T>::inse
 template <typename Key, typename T>
 bool map<Key, T>::contains(const Key& key) {
   if(empty()) return false;
-  iterator it(top_);
-  for (bool flag = true; it->first != key && flag;) {
-    while (it->first < key && flag) flag = it.goRight();
-    while (it->first > key && flag) flag = it.goLeft();
-  }
-  return it->first == key;
+  return search(key)->first == key;
 }
 
 };  // namespace s21
