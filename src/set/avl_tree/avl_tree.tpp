@@ -4,11 +4,11 @@
 namespace s21 {
 // set member functions
 template <typename T>
-set<T>::set() : root(nullptr) {}
+set<T>::set() : root(nullptr), len(0) {}
 
 template <typename T>
 set<T>::set(std::initializer_list<T> const& items) : root(nullptr) {
-  for (auto it = items.begin(); it != items.end(); it++) insert(*it);
+  for (auto it = items.begin(); it != items.end(); it++) innerInsert(*it);
 }
 
 template <typename T>
@@ -83,22 +83,23 @@ typename set<T>::Node* set<T>::rotateLeft(Node* x) {
 }
 
 template <typename T>
-void set<T>::insert(T value) {
-  root = insert(root, value, nullptr);
+void set<T>::innerInsert(T value) {
+  root = innerInsert(root, value, nullptr);
 }
 
 template <typename T>
-typename set<T>::Node* set<T>::insert(Node* node, T value, Node* parent) {
+typename set<T>::Node* set<T>::innerInsert(Node* node, T value, Node* parent) {
   if (node == nullptr) {
+    ++len;
     return new Node(value, parent);
   }
 
   if (value < node->data) {
-    node->left = insert(node->left, value, node);
+    node->left = innerInsert(node->left, value, node);
   } else if (value > node->data) {
-    node->right = insert(node->right, value, node);
+    node->right = innerInsert(node->right, value, node);
   } else {
-    return node;  // Duplicate values are not inserted
+    return node;  // Duplicate values are not innerInserted
   }
 
   updateHeight(node);
@@ -147,8 +148,23 @@ typename set<T>::Node* set<T>::search(Node* node, T value) const {
 }
 
 template <typename T>
-bool set<T>::isEmpty() const {
+bool set<T>::empty() const {
   return root == nullptr;
+}
+
+template <typename T>
+void set<T>::clear() {
+  clear(root);
+}
+
+template <typename T>
+typename set<T>::size_type set<T>::size() {
+  return len;
+}
+
+template <typename T>
+typename set<T>::size_type set<T>::max_size() {
+  return MAX_MEMORY / sizeof(set<T>::Node);
 }
 
 template <typename T>
@@ -161,6 +177,18 @@ void set<T>::clear(Node* node) {
 }
 
 template <typename T>
+std::pair<typename set<T>::iterator, bool> set<T>::insert(
+    const_reference value) {
+  typename set<T>::size_type lc = this->size();
+  root = innerInsert(root, value, nullptr);
+  bool r = true;
+  if (lc - this->size() == 0) r = false;
+  Node* current = search(root, value);
+
+  return {iterator(current), r};
+}
+
+template <typename T>
 typename set<T>::iterator set<T>::begin() {
   typename set<T>::Node* current = root;
   while (current && current->left) {
@@ -168,13 +196,4 @@ typename set<T>::iterator set<T>::begin() {
   }
   return set<T>::iterator(current);
 }
-
-// template <typename T>
-// typename set<T>::iterator set<T>::end() {
-//   typename set<T>::Node* current = root;
-//   while (current && current->right) {
-//     current = current->right;
-//   }
-//   return set<T>::iterator(current);
-// }
 };  // namespace s21

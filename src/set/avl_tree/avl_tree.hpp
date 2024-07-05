@@ -3,6 +3,8 @@
 #include <initializer_list>
 #include <iostream>
 
+#define MAX_MEMORY ((~(size_t)0) >> 1)
+
 namespace s21 {
 template <typename T>
 class set {
@@ -39,8 +41,8 @@ class set {
     BaseIterator() : node(nullptr){};
     ~BaseIterator(){};
 
-    Iter operator++();
-    Iter operator--();
+    Iter* operator++();
+    Iter* operator--();
     Iter operator++(int);
     Iter operator--(int);
     bool operator==(iterator it) const { return node == it.node; };
@@ -94,15 +96,20 @@ class set {
   int height(Node* n) const;
   int balanceFactor(Node* n) const;
   void updateHeight(Node* n);
-
+  size_type len;
   Node* rotateRight(Node* y);
   Node* rotateLeft(Node* x);
 
-  Node* insert(Node* n, T value, Node* p);
+  Node* innerInsert(Node* n, T value, Node* p);
   Node* search(Node* n, T value) const;
+  void innerInsert(T value);
   void clear(Node* n);
 
  public:
+  size_type size();
+  size_type max_size();
+  std::pair<typename set<T>::iterator, bool> insert(const value_type& value);
+  void clear();
   set();
   set(std::initializer_list<value_type> const& items);
   set(const set& s);
@@ -110,8 +117,7 @@ class set {
   ~set();
   set& operator=(set&& s);
 
-  void insert(T value);
-  bool isEmpty() const;
+  bool empty() const;
   Node* search(T value) const;
 
   iterator begin();
