@@ -2,7 +2,9 @@ namespace s21 {
 
 // BaseIterator===========================================================
 template <typename T>
-typename set<T>::Node* findPrev(typename set<T>::Node* node) {
+template <class Iter>
+typename set<T>::Node* set<T>::BaseIterator<Iter>::findPrev(
+    typename set<T>::Node* node) {
   if (node->left) {
     node = node->left;
     while (node->right) {

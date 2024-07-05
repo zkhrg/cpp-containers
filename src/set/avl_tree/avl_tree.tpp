@@ -196,4 +196,72 @@ typename set<T>::iterator set<T>::begin() {
   }
   return set<T>::iterator(current);
 }
+
+template <typename T>
+typename set<T>::Node* set<T>::innerRemove(Node* node, T value) {
+  if (node == nullptr) return node;
+  if (value < node->data) {
+    node->left = innerRemove(node->left, value);
+    if (node->left) node->left->parent = node;
+  } else if (value > node->data) {
+    node->right = innerRemove(node->right, value);
+    if (node->right) node->right->parent = node;
+  } else {
+    if ((node->left == nullptr) || (node->right == nullptr)) {
+      Node* temp = node->left ? node->left : node->right;
+      if (temp == nullptr) {
+        temp = node;
+        node = nullptr;
+      } else {
+        *node = *temp;
+        node->parent = temp->parent;
+      }
+      delete temp;
+      --len;
+    } else {
+      Node* temp = minValueNode(node->right);
+      node->data = temp->data;
+      node->right = innerRemove(node->right, temp->data);
+      if (node->right) node->right->parent = node;
+    }
+  }
+  if (node == nullptr) return node;
+  updateHeight(node);
+  int balance = balanceFactor(node);
+  if (balance > 1 && balanceFactor(node->left) >= 0) {
+    return rotateRight(node);
+  }
+  if (balance > 1 && balanceFactor(node->left) < 0) {
+    node->left = rotateLeft(node->left);
+    return rotateRight(node);
+  }
+  if (balance < -1 && balanceFactor(node->right) <= 0) {
+    return rotateLeft(node);
+  }
+  if (balance < -1 && balanceFactor(node->right) > 0) {
+    node->right = rotateRight(node->right);
+    return rotateLeft(node);
+  }
+  return node;
+}
+
+template <typename T>
+typename set<T>::Node* set<T>::minValueNode(Node* node) {
+  Node* current = node;
+  while (current->left != nullptr) {
+    current = current->left;
+  }
+  return current;
+}
+
+template <typename T>
+void set<T>::erase(iterator pos) {
+  root = innerRemove(root, *pos);
+}
+
+template <typename T>
+void set<T>::swap(set& other) {
+  std::swap(root, other.root);
+  std::swap(len, other.len);
+}
 };  // namespace s21

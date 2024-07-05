@@ -101,6 +101,8 @@ class set {
   Node* rotateLeft(Node* x);
 
   Node* innerInsert(Node* n, T value, Node* p);
+  Node* innerRemove(Node* m, T value);
+  Node* minValueNode(Node* node);
   Node* search(Node* n, T value) const;
   void innerInsert(T value);
   void clear(Node* n);
@@ -109,7 +111,11 @@ class set {
   size_type size();
   size_type max_size();
   std::pair<typename set<T>::iterator, bool> insert(const value_type& value);
+
   void clear();
+  void erase(iterator pos);
+  void swap(set& other);
+
   set();
   set(std::initializer_list<value_type> const& items);
   set(const set& s);
