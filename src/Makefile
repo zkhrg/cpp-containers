@@ -1,21 +1,20 @@
 CC=gcc
 CFLAGS=-Wall -Werror -Wextra -std=c++17 
-MAIN_PROJECT=$(wildcard **/*.cc **/**/*.cc **/*.tpp **/*.h) # list of all the C source files in the project
-SOURCES=$(filter-out %.tpp %.h, $(MAIN_PROJECT))
-TEST_SOURCES=$(filter-out %.tpp %.h, $(MAIN_PROJECT))
-CONTAINER=$(filter containers_tests/test.cc containers_tests/list%, $(MAIN_PROJECT))
-HEADERS_AND_TPP=$(filter %.tpp %.h, $(MAIN_PROJECT))
-MAIN=
+MAIN_PROJECT=$(wildcard **/*.cc **/**/*.cc **/*.tpp) # list of all the C source files in the project
+SOURCES=$(filter-out %.tpp, $(MAIN_PROJECT))
+TEST_SOURCES=$(filter-out %.tpp, $(MAIN_PROJECT))
+MAIN=check
 TEST_RESULT=test
 OBJECTS=$(SOURCES:.cc=.o)
 TEST_OBJECTS=$(TEST_SOURCES:.cc=.o)
-RESULT=
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+
 
 OS := $(shell uname)
 ifeq ($(OS),Linux)
 	OPEN= xdg-open report/index.html
-	CHECK_LIB = -lgtest -lsubunit -lm -lrt -lpthread -lstdc++
+	CHECK_LIB = -lgtest -lm -lrt -lpthread -lstdc++
 endif
 
 ifeq ($(OS),Darwin)
@@ -23,16 +22,14 @@ ifeq ($(OS),Darwin)
 	CHECK_LIB = -lgtest -lstdc++
 endif
 
-all: test
 
-test: $(CONTAINER)
+test: $(TEST_OBJECTS)
+	# clear
 	$(CC) $(CFLAGS) $^ -o $(TEST_RESULT) $(CHECK_LIB)
 	./$(TEST_RESULT)
 
-$(RESULT): $(OBJECTS)
-	ar rc $(RESULT) $(OBJECTS)
 
-%.o: %.cc $(HEADERS_AND_TPP)
+.cc.o:
 	$(CC) -c $(CFLAGS) $< -o $@
 
 gcov_report: $(TEST_SOURCES)
@@ -43,10 +40,6 @@ gcov_report: $(TEST_SOURCES)
 	genhtml -o report/ $@.info
 	$(OPEN)
 
-# you should use it on ubuntu
-valgrind: test
-	CK_FORK=no valgrind --vgdb=no --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --read-var-info=yes ./$(TEST_RESULT)
-
 clang:
 	clang-format -style=Google -n $(MAIN_PROJECT)
 
@@ -54,6 +47,8 @@ git: clean
 	git add .
 	git commit
 	git push origin $(CURRENT_BRANCH)
+
+containers_tests/map_tests/s21_map_test.o: s21_map/*.h s21_map/*.tpp
 
 clean:
 	rm -rf $(RESULT) $(OBJECTS) $(TEST_OBJECTS) $(TEST_RESULT) gcov_report* *.gc* report/ *.o $(MAIN)
