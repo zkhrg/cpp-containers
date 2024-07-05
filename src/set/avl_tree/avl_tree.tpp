@@ -132,18 +132,23 @@ typename set<T>::Node* set<T>::innerInsert(Node* node, T value, Node* parent) {
 }
 
 template <typename T>
-typename set<T>::Node* set<T>::search(T value) const {
-  return search(root, value);
+bool set<T>::contains(const_reference value) const {
+  return nullptr != innerSearch(root, value);
 }
 
 template <typename T>
-typename set<T>::Node* set<T>::search(Node* node, T value) const {
+typename set<T>::iterator set<T>::find(const_reference value) const {
+  return iterator(innerSearch(root, value));
+}
+
+template <typename T>
+typename set<T>::Node* set<T>::innerSearch(Node* node, T value) const {
   if (node == nullptr || node->data == value) {
     return node;
   } else if (value < node->data) {
-    return search(node->left, value);
+    return innerSearch(node->left, value);
   } else {
-    return search(node->right, value);
+    return innerSearch(node->right, value);
   }
 }
 
@@ -183,7 +188,7 @@ std::pair<typename set<T>::iterator, bool> set<T>::insert(
   root = innerInsert(root, value, nullptr);
   bool r = true;
   if (lc - this->size() == 0) r = false;
-  Node* current = search(root, value);
+  Node* current = innerSearch(root, value);
 
   return {iterator(current), r};
 }
@@ -264,4 +269,12 @@ void set<T>::swap(set& other) {
   std::swap(root, other.root);
   std::swap(len, other.len);
 }
+
+template <typename T>
+void set<T>::merge(set& other) {
+  for (const auto& elem : other) {
+    insert(elem);
+  }
+}
+
 };  // namespace s21

@@ -103,7 +103,7 @@ class set {
   Node* innerInsert(Node* n, T value, Node* p);
   Node* innerRemove(Node* m, T value);
   Node* minValueNode(Node* node);
-  Node* search(Node* n, T value) const;
+  Node* innerSearch(Node* n, T value) const;
   void innerInsert(T value);
   void clear(Node* n);
 
@@ -115,6 +115,10 @@ class set {
   void clear();
   void erase(iterator pos);
   void swap(set& other);
+  void merge(set& other);
+
+  iterator find(const_reference key) const;
+  bool contains(const_reference value) const;
 
   set();
   set(std::initializer_list<value_type> const& items);
@@ -124,7 +128,6 @@ class set {
   set& operator=(set&& s);
 
   bool empty() const;
-  Node* search(T value) const;
 
   iterator begin();
   iterator end() { return iterator(nullptr); };

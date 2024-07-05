@@ -44,13 +44,20 @@ int main() {
 
   std::cout << "size is: " << mySet.size() << std::endl;
   std::cout << "max_size my is:   " << mySet.max_size() << std::endl;
-  s21::set<int> setik{5, 5};
+  s21::set<int> setik{5, 5, 5, 5, 6, 4, 36, 37, -1202};
   std::cout << "max_size orig is: " << setik.max_size() << std::endl;
   auto it = mySet.insert(7).first;
   it--;
   std::cout << "is added 876?" << *it << std::endl;
   // std::cout << "value after insert 876: " << (*(--(it))) << std::endl;
-  s1.swap(setik);
-  std::cout << s1.root->data << std::endl;
+  // s1.swap(setik);
+  // s1.merge(setik);
+  for (auto it = s1.begin(); it != s1.end(); ++it) {
+    std::cout << *it << " ";
+  }
+  std::cout << std::endl;
+
+  std::cout << setik.contains(4) << std::endl;
+  std::cout << *(setik.find(4)) << std::endl;
   return 0;
 }
