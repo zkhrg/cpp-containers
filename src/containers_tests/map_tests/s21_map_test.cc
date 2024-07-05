@@ -54,6 +54,7 @@ TEST(MapTests, TestMapCapacity) {
   EXPECT_EQ(m1.empty(), false);
   EXPECT_EQ(m2.empty(), true);
 }
+
 TEST(MapTests, TestMapMaxSize) {
   s21::map<int,int> m1{{1, 1}, {2, 2}};
   std::map<int,int> m2{{1, 1}, {2, 2}};
@@ -232,6 +233,40 @@ TEST(MapTests, TestMapSwap00) {
   EXPECT_EQ(m2.empty(), true);
 }
 
+TEST(MapTests, TestMapMerge1) {
+  s21::map<int, int> m1{{5, 5}, {8, 8}, {3, 3}};
+  s21::map<int, int> m2{{3, -3}, {1, 1}, {6, 6}};
+  std::map<int, int> std_m1{{5, 5}, {8, 8}, {3, 3}};
+  std::map<int, int> std_m2{{3, -3}, {1, 1}, {6, 6}};
+  m1.merge(m2);
+  std_m1.merge(std_m2);
+  EXPECT_EQ(m1.size(), std_m1.size());
+  EXPECT_EQ(m2.size(), std_m2.size());
+  auto it = m1.begin();
+  auto std_it = std_m1.begin();
+  for(; it != m1.end() && std_it != std_m1.end(); it++, std_it++) {
+    EXPECT_EQ(it->first, std_it->first);
+    EXPECT_EQ(it->second, std_it->second);
+  }
+}
+
+TEST(MapTests, TestMapMerge2) {
+  s21::map<int, int> m1;
+  s21::map<int, int> m2{{3, -3}, {1, 1}, {6, 6}};
+  std::map<int, int> std_m1;
+  std::map<int, int> std_m2{{3, -3}, {1, 1}, {6, 6}};
+  m1.merge(m2);
+  std_m1.merge(std_m2);
+  EXPECT_EQ(m1.size(), std_m1.size());
+  EXPECT_EQ(m2.empty(), true);
+  auto it = m1.begin();
+  auto std_it = std_m1.begin();
+  for(; it != m1.end() && std_it != std_m1.end(); it++, std_it++) {
+    EXPECT_EQ(it->first, std_it->first);
+    EXPECT_EQ(it->second, std_it->second);
+  }
+}
+
 TEST(MapTests, TestMapInsertMany) {
   s21::map<int, int> m{{1, 2}, {5, 5}};
   int i{};
@@ -241,4 +276,27 @@ TEST(MapTests, TestMapInsertMany) {
     EXPECT_EQ(pr.second, check[i]);
     i++;
   }
+}
+
+TEST(MapTests, TestMapContains1) {
+  s21::map<std::string, int> m;
+  m["abc"] = 5;
+  m["aaa"] = 3;
+  m["ccc"] = 7;
+  EXPECT_EQ(m.contains("abc"), true);
+  EXPECT_EQ(m.contains("aaa"), true);
+  EXPECT_EQ(m.contains("ccc"), true);
+  EXPECT_EQ(m.contains("bbb"), false);
+  m["bbb"] = 0;
+  EXPECT_EQ(m.contains("bbb"), true);
+}
+
+TEST(MapTests, TestMapContainsEmpty) {
+  s21::map<std::string, int> m;
+  EXPECT_EQ(m.contains("abc"), false);
+  EXPECT_EQ(m.contains("aaa"), false);
+  EXPECT_EQ(m.contains("ccc"), false);
+  EXPECT_EQ(m.contains("bbb"), false);
+  m["bbb"] = 0;
+  EXPECT_EQ(m.contains("bbb"), true);
 }

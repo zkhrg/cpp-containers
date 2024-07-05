@@ -103,6 +103,7 @@ std::pair<typename s21::map<Key, T>::iterator, bool> map<Key, T>::insert(
     top_ = new Node{true, min_, nullptr, nullptr, value};
     min_ = top_;
     it.goLeft();
+    size_++;
   } else if(it->first != key) {
     elem.node = new Node{0, 0, 0, 0, value};
     set_node(it, elem);
@@ -110,7 +111,6 @@ std::pair<typename s21::map<Key, T>::iterator, bool> map<Key, T>::insert(
   } else {
     res.second = false;
   }
-  if (res.second) size_++;
   return res;
 }
 

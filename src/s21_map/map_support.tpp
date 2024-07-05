@@ -45,6 +45,7 @@ void map<Key,T>::set_node(iterator pos, iterator it) {
   it.node->less = pos->first > it->first;
   (it.node->less ? pos.node->left : pos.node->right) = it.node;
   if (min_->left) min_ = min_->left;
+  size_++;
 }
 
 }
