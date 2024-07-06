@@ -25,7 +25,7 @@ endif
 
 all: test
 
-test: $(CONTAINER)
+test: $(TEST_SOURCES)
 	$(CC) $(CFLAGS) $^ -o $(TEST_RESULT) $(CHECK_LIB)
 	./$(TEST_RESULT)
 
