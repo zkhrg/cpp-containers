@@ -1,3 +1,6 @@
+#ifndef CPP2_S21_CONTAINERS_1_SRC_SET_AVL_TREE_ITER_TPP_
+#define CPP2_S21_CONTAINERS_1_SRC_SET_AVL_TREE_ITER_TPP_
+
 namespace s21 {
 
 // BaseIterator===========================================================
@@ -96,11 +99,13 @@ typename s21::set<T>::const_iterator& set<T>::const_iterator::operator=(
 template <typename T>
 typename s21::set<T>::const_reference& set<T>::const_iterator::operator*()
     const {
-  return this->node->val;
+  return this->node->data;
 }
 template <typename T>
 const typename s21::set<T>::value_type* set<T>::const_iterator::operator->()
     const {
-  return &this->node->val;
+  return &this->node->data;
 }
 };  // namespace s21
+
+#endif  // CPP2_S21_CONTAINERS_1_SRC_SET_AVL_TREE_ITER_TPP_

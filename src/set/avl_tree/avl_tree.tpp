@@ -1,19 +1,37 @@
+#ifndef CPP2_S21_CONTAINERS_1_SRC_SET_AVL_TREE_AVL_TREE_TPP_
+#define CPP2_S21_CONTAINERS_1_SRC_SET_AVL_TREE_AVL_TREE_TPP_
+
 #include <initializer_list>
 #include <iostream>
 
 namespace s21 {
 // set member functions
 template <typename T>
-set<T>::set() : root(nullptr), len(0) {}
+set<T>::set() : root{nullptr}, len{} {}
 
 template <typename T>
-set<T>::set(std::initializer_list<T> const& items) : root(nullptr) {
+set<T>::set(std::initializer_list<T> const& items) : set() {
   for (auto it = items.begin(); it != items.end(); it++) innerInsert(*it);
 }
 
 template <typename T>
-set<T>::set(set&& s) : root(s.root) {
+set<T>::set(const set& s) : set() {
+  for (auto it = s.begin(); it != s.end(); it++) innerInsert(*it);
+}
+
+template <typename T>
+set<T>::set(set&& s) : root{s.root}, len{s.len} {
   s.root = nullptr;
+  s.len = 0;
+}
+
+template <typename T>
+set<T>& set<T>::operator=(const set& s) {
+  if (this != &s) {
+    set copy(s);
+    *this = std::move(copy);
+  }
+  return *this;
 }
 
 template <typename T>
@@ -21,7 +39,9 @@ set<T>& set<T>::operator=(set&& s) {
   if (this != &s) {
     clear(root);
     root = s.root;
+    len = s.len;
     s.root = nullptr;
+    s.len = 0;
   }
   return *this;
 }
@@ -160,6 +180,7 @@ bool set<T>::empty() const {
 template <typename T>
 void set<T>::clear() {
   clear(root);
+  len = 0;
 }
 
 template <typename T>
@@ -173,11 +194,12 @@ typename set<T>::size_type set<T>::max_size() {
 }
 
 template <typename T>
-void set<T>::clear(Node* node) {
+void set<T>::clear(Node*& node) {
   if (node != nullptr) {
     clear(node->left);
     clear(node->right);
     delete node;
+    node = nullptr;
   }
 }
 
@@ -199,7 +221,16 @@ typename set<T>::iterator set<T>::begin() {
   while (current && current->left) {
     current = current->left;
   }
-  return set<T>::iterator(current);
+  return iterator(current);
+}
+
+template <typename T>
+typename set<T>::const_iterator set<T>::begin() const {
+  typename set<T>::Node* current = root;
+  while (current && current->left) {
+    current = current->left;
+  }
+  return const_iterator(current);
 }
 
 template <typename T>
@@ -278,3 +309,5 @@ void set<T>::merge(set& other) {
 }
 
 };  // namespace s21
+
+#endif  // CPP2_S21_CONTAINERS_1_SRC_SET_AVL_TREE_AVL_TREE_TPP_

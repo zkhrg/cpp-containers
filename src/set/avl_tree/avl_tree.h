@@ -1,4 +1,5 @@
-#pragma once  // rewrite
+#ifndef CPP2_S21_CONTAINERS_1_SRC_SET_AVL_TREE_AVL_TREE_H_
+#define CPP2_S21_CONTAINERS_1_SRC_SET_AVL_TREE_AVL_TREE_H_
 
 #include <initializer_list>
 #include <iostream>
@@ -29,7 +30,7 @@ class set {
     int height;
 
     Node(T value, Node* n)
-        : data(value), left(nullptr), right(nullptr), height(1), parent(n) {}
+        : data(value), left(nullptr), right(nullptr), parent(n), height(1) {}
   } Node;
 
   template <class Iter>
@@ -72,7 +73,7 @@ class set {
   class SetConstIterator : public BaseIterator<SetConstIterator> {
     friend class BaseIterator<SetIterator>;
     friend class BaseIterator<SetConstIterator>;
-    friend class list;
+    friend class set;
 
    public:
     SetConstIterator(Node* const other = nullptr) { this->node = other; };
@@ -105,7 +106,7 @@ class set {
   Node* minValueNode(Node* node);
   Node* innerSearch(Node* n, T value) const;
   void innerInsert(T value);
-  void clear(Node* n);
+  void clear(Node*& n);
 
  public:
   size_type size();
@@ -125,16 +126,19 @@ class set {
   set(const set& s);
   set(set&& s);
   ~set();
+  set& operator=(const set& s);
   set& operator=(set&& s);
 
   bool empty() const;
 
   iterator begin();
   iterator end() { return iterator(nullptr); };
-  // const_iterator begin() const { return const_iterator(root); }
-  // const_iterator end() const { return const_iterator(); }
+  const_iterator begin() const;
+  const_iterator end() const { return const_iterator(); }
 };
 }  // namespace s21
 
 #include "avl_tree.tpp"
 #include "iter.tpp"
+
+#endif  // CPP2_S21_CONTAINERS_1_SRC_SET_AVL_TREE_AVL_TREE_H_
