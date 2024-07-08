@@ -98,7 +98,7 @@ TEST(SetTests, TestCopy1) {
   }
 }
 
-TEST(SetTests, TestCopy2) {
+TEST(SetTests, TestMoveConstructor1) {
   s21::set<int> s1 = {5, 4, 3, 2, 1};
   s21::set<int> s2;
   s2 = std::move(s1);
@@ -121,7 +121,7 @@ TEST(SetTests, TestCopy2) {
   }
 }
 
-TEST(SetTests, TestMoveConstructor1) {
+TEST(SetTests, TestMoveConstructor2) {
   s21::set<int> s1 = {1, 2, 3, 4, 5};
   auto tmp_size1 = s1.size();
   s21::set<int> s2 = std::move(s1);
@@ -145,7 +145,7 @@ TEST(SetTests, TestMoveConstructor1) {
   }
 }
 
-TEST(SetTests, TestMoveConstructor2) {
+TEST(SetTests, TestMoveConstructor3) {
   s21::set<double> s1 = {1.1, 2.2, 3.3, 4.4, 5.5};
   auto tmp_size1 = s1.size();
   s21::set<double> s2 = std::move(s1);
@@ -274,6 +274,14 @@ TEST(SetTests, TestMethodInsert1) {
 
   EXPECT_EQ(s1.empty(), s2.empty());
   EXPECT_EQ(s1.size(), s2.size());
+
+  s21::set<int>::iterator my_set_iter;
+  std::set<int>::iterator std_set_iter;
+
+  for (my_set_iter = s1.begin(), std_set_iter = s2.begin();
+       my_set_iter != s1.end(); ++my_set_iter, ++std_set_iter) {
+    EXPECT_EQ(*my_set_iter, *std_set_iter);
+  }
 }
 
 TEST(SetTests, TestMethodClear1) {
@@ -387,4 +395,11 @@ TEST(SetTests, TestMethodContains2) {
   s21::set<int> s1 = {1, 2, 3, 4, 5};
 
   EXPECT_FALSE(s1.contains(6));
+}
+
+TEST(SetTests, TestMaxSize1) {
+  s21::set<int> s1 = {1, 2, 3, 4, 5};
+  std::set<int> s2 = {1, 2, 3, 4, 5};
+
+  EXPECT_EQ(s1.max_size(), s2.max_size());
 }
