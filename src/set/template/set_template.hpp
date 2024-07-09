@@ -1,5 +1,5 @@
-#ifndef CPP2_S21_CONTAINERS_1_SRC_SET_AVL_TREE_AVL_TREE_TPP_
-#define CPP2_S21_CONTAINERS_1_SRC_SET_AVL_TREE_AVL_TREE_TPP_
+#ifndef CPP2_S21_CONTAINERS_1_SRC_SET_TEMPLATE_H_
+#define CPP2_S21_CONTAINERS_1_SRC_SET_TEMPLATE_H_
 
 #include <initializer_list>
 #include <iostream>
@@ -310,4 +310,4 @@ void set<T>::merge(set& other) {
 
 };  // namespace s21
 
-#endif  // CPP2_S21_CONTAINERS_1_SRC_SET_AVL_TREE_AVL_TREE_TPP_
+#endif  // CPP2_S21_CONTAINERS_1_SRC_SET_TEMPLATE_H_

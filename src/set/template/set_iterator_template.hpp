@@ -1,5 +1,5 @@
-#ifndef CPP2_S21_CONTAINERS_1_SRC_SET_AVL_TREE_ITER_TPP_
-#define CPP2_S21_CONTAINERS_1_SRC_SET_AVL_TREE_ITER_TPP_
+#ifndef CPP2_S21_CONTAINERS_1_SRC_SET_ITERATOR_TEMPLATE_H_
+#define CPP2_S21_CONTAINERS_1_SRC_SET_ITERATOR_TEMPLATE_H_
 
 namespace s21 {
 
@@ -108,4 +108,4 @@ const typename s21::set<T>::value_type* set<T>::const_iterator::operator->()
 }
 };  // namespace s21
 
-#endif  // CPP2_S21_CONTAINERS_1_SRC_SET_AVL_TREE_ITER_TPP_
+#endif  // CPP2_S21_CONTAINERS_1_SRC_SET_ITERATOR_TEMPLATE_H_

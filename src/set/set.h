@@ -111,7 +111,8 @@ class set {
  public:
   size_type size();
   size_type max_size();
-  std::pair<typename set<T>::iterator, bool> insert(const value_type& value);
+  virtual std::pair<typename set<T>::iterator, bool> insert(
+      const value_type& value);
 
   void clear();
   void erase(iterator pos);
@@ -138,7 +139,7 @@ class set {
 };
 }  // namespace s21
 
-#include "avl_tree.tpp"
-#include "iter.tpp"
+#include "template/set_iterator_template.hpp"
+#include "template/set_template.hpp"
 
 #endif  // CPP2_S21_CONTAINERS_1_SRC_SET_AVL_TREE_AVL_TREE_H_
