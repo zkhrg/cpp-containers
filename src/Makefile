@@ -3,7 +3,7 @@ CFLAGS=-Wall -Werror -Wextra -std=c++17
 MAIN_PROJECT=$(wildcard **/*.cc **/**/*.cc **/*.tpp **/*.h) # list of all the C source files in the project
 SOURCES=$(filter-out %.tpp %.h, $(MAIN_PROJECT))
 TEST_SOURCES=$(filter-out %.tpp %.h, $(MAIN_PROJECT))
-CONTAINER=$(filter containers_tests/test.cc containers_tests/list%, $(MAIN_PROJECT))
+CONTAINER=$(filter containers_tests/test.cc containers_tests/set%, $(MAIN_PROJECT))
 HEADERS_AND_TPP=$(filter %.tpp %.h, $(MAIN_PROJECT))
 MAIN=
 TEST_RESULT=test
@@ -35,7 +35,7 @@ $(RESULT): $(OBJECTS)
 %.o: %.cc $(HEADERS_AND_TPP)
 	$(CC) -c $(CFLAGS) $< -o $@
 
-gcov_report: $(TEST_SOURCES)
+gcov_report: $(CONTAINER)
 	$(CC) $(CFLAGS) --coverage $^ $(CHECK_LIB) -o $@
 	chmod +x *
 	./$@ 
