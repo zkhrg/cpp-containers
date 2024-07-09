@@ -52,8 +52,8 @@ class set {
     bool operator!=(const_iterator it) const { return node != it.node; };
 
    public:
-    Node* findNext(Node* z);
-    Node* findPrev(Node* z);
+    virtual Node* findNext(Node* z);
+    virtual Node* findPrev(Node* z);
   };
 
  public:
@@ -101,8 +101,8 @@ class set {
   Node* rotateRight(Node* y);
   Node* rotateLeft(Node* x);
 
-  Node* innerInsert(Node* n, T value, Node* p);
-  Node* innerRemove(Node* m, T value);
+  virtual Node* innerInsert(Node* n, T value, Node* p);
+  virtual Node* innerRemove(Node* m, T value);
   Node* minValueNode(Node* node);
   Node* innerSearch(Node* n, T value) const;
   void innerInsert(T value);
