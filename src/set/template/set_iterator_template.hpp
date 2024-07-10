@@ -8,6 +8,10 @@ template <typename T>
 template <class Iter>
 typename set<T>::Node* set<T>::BaseIterator<Iter>::findPrev(
     typename set<T>::Node* node) {
+  if (this->amount != node->amount) {
+    ++(this->amount);
+    return node;
+  }
   if (node->left) {
     node = node->left;
     while (node->right) {
@@ -27,6 +31,11 @@ template <typename T>
 template <class Iter>
 typename set<T>::Node* set<T>::BaseIterator<Iter>::findNext(
     typename set<T>::Node* z) {
+  if (this->amount != 1) {
+    --(this->amount);
+    return z;
+  }
+
   if (z == nullptr) return nullptr;
 
   if (z->right) {
@@ -47,8 +56,32 @@ typename set<T>::Node* set<T>::BaseIterator<Iter>::findNext(
 template <typename T>
 template <class Iter>
 Iter* s21::set<T>::BaseIterator<Iter>::operator++() {
+  Node* tmp_node = node;
   node = findNext(node);
+  int tmp_amount = this->amount;
   Iter* res = new Iter(node);
+
+  if (node == tmp_node) {
+    res->amount = tmp_amount;
+  } else if (node != nullptr) {
+    this->amount = node->amount;
+  }
+  return res;
+}
+
+template <typename T>
+template <class Iter>
+Iter* set<T>::BaseIterator<Iter>::operator--() {
+  Node* tmp_node = node;
+  node = findPrev(node);
+  int tmp_amount = this->amount;
+  Iter* res = new Iter(node);
+
+  if (res != nullptr && node == tmp_node) {
+    res->amount = tmp_amount;
+  } else if (node != nullptr) {
+    this->amount = 1;  // amount default is 1
+  }
   return res;
 }
 
@@ -57,14 +90,6 @@ template <class Iter>
 Iter set<T>::BaseIterator<Iter>::operator++(int) {
   Iter res(node);
   ++*this;
-  return res;
-}
-
-template <typename T>
-template <class Iter>
-Iter* set<T>::BaseIterator<Iter>::operator--() {
-  node = findPrev(node);
-  Iter* res = new Iter(node);
   return res;
 }
 

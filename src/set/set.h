@@ -43,9 +43,10 @@ class set {
   class BaseIterator {
    public:
     Node* node;
+    int amount;
 
    public:
-    BaseIterator() : node(nullptr){};
+    BaseIterator() : node(nullptr), amount(0){};
     ~BaseIterator(){};
 
     Iter* operator++();
@@ -69,7 +70,14 @@ class set {
     friend class set;
 
    public:
-    SetIterator(Node* other = nullptr) { this->node = other; };
+    SetIterator(Node* other = nullptr) {
+      this->node = other;
+      if (this->node != nullptr) {
+        this->amount = other->amount;
+      } else {
+        this->amount = 0;
+      }
+    };
     ~SetIterator(){};
 
     reference operator*();
@@ -82,11 +90,30 @@ class set {
     friend class set;
 
    public:
-    SetConstIterator(Node* const other = nullptr) { this->node = other; };
-    SetConstIterator(const SetIterator& other) { this->node = other.node; };
+    SetConstIterator(Node* const other = nullptr) {
+      this->node = other;
+      if (this->node != nullptr) {
+        this->amount = other->amount;
+      } else {
+        this->amount = 0;
+      }
+    };
+    SetConstIterator(const SetIterator& other) {
+      this->node = other.node;
+      if (this->node != nullptr) {
+        this->amount = other->amount;
+      } else {
+        this->amount = 0;
+      }
+    };
     SetConstIterator(SetIterator&& other) {
       this->node = other.node;
       other.node = nullptr;
+      if (this->node != nullptr) {
+        this->amount = other->amount;
+      } else {
+        this->amount = 0;
+      }
     };
     ~SetConstIterator(){};
 
