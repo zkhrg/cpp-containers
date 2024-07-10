@@ -188,9 +188,10 @@ typename set<T>::size_type set<T>::size() {
   return len;
 }
 
+// нужно будет переписать на ноду
 template <typename T>
 typename set<T>::size_type set<T>::max_size() {
-  return MAX_MEMORY / sizeof(set<T>::Node);
+  return MAX_MEMORY / sizeof(Node);
 }
 
 template <typename T>
@@ -217,7 +218,7 @@ std::pair<typename set<T>::iterator, bool> set<T>::insert(
 
 template <typename T>
 typename set<T>::iterator set<T>::begin() {
-  typename set<T>::Node* current = root;
+  Node* current = root;
   while (current && current->left) {
     current = current->left;
   }
@@ -226,7 +227,7 @@ typename set<T>::iterator set<T>::begin() {
 
 template <typename T>
 typename set<T>::const_iterator set<T>::begin() const {
-  typename set<T>::Node* current = root;
+  Node* current = root;
   while (current && current->left) {
     current = current->left;
   }

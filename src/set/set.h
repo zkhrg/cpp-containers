@@ -21,16 +21,22 @@ class set {
   using const_iterator = SetConstIterator;
   using size_type = size_t;
 
- public:
+ protected:
   typedef struct Node {
     T data;
     Node* left;
     Node* right;
     Node* parent;
     int height;
+    int amount;
 
     Node(T value, Node* n)
-        : data(value), left(nullptr), right(nullptr), parent(n), height(1) {}
+        : data(value),
+          left(nullptr),
+          right(nullptr),
+          parent(n),
+          height(1),
+          amount(1) {}
   } Node;
 
   template <class Iter>
@@ -51,9 +57,9 @@ class set {
     bool operator!=(iterator it) const { return node != it.node; };
     bool operator!=(const_iterator it) const { return node != it.node; };
 
-   public:
-    virtual Node* findNext(Node* z);
-    virtual Node* findPrev(Node* z);
+   protected:
+    Node* findNext(Node* z);
+    Node* findPrev(Node* z);
   };
 
  public:
@@ -89,20 +95,18 @@ class set {
     const value_type* operator->() const;
   };
 
- public:
+ protected:
   //  private:
   Node* root;
 
- private:
   int height(Node* n) const;
   int balanceFactor(Node* n) const;
   void updateHeight(Node* n);
   size_type len;
   Node* rotateRight(Node* y);
   Node* rotateLeft(Node* x);
-
-  virtual Node* innerInsert(Node* n, T value, Node* p);
-  virtual Node* innerRemove(Node* m, T value);
+  Node* innerInsert(Node* n, T value, Node* p);
+  Node* innerRemove(Node* m, T value);
   Node* minValueNode(Node* node);
   Node* innerSearch(Node* n, T value) const;
   void innerInsert(T value);
@@ -110,9 +114,10 @@ class set {
 
  public:
   size_type size();
+
   size_type max_size();
-  virtual std::pair<typename set<T>::iterator, bool> insert(
-      const value_type& value);
+
+  std::pair<typename set<T>::iterator, bool> insert(const value_type& value);
 
   void clear();
   void erase(iterator pos);

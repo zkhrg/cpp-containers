@@ -15,11 +15,33 @@ class multiset : public set<T> {
   using typename set<T>::iterator;
   using typename set<T>::const_iterator;
   using typename set<T>::size_type;
+
+ protected:
+  typedef struct Node : public set<T>::Node {
+    T data;
+    Node* left;
+    Node* right;
+    Node* parent;
+    int height;
+    int amount;
+
+    Node(T value, Node* n)
+        : data(value),
+          left(nullptr),
+          right(nullptr),
+          parent(n),
+          height(1),
+          amount(1) {}
+  } Node;
+
   // TODO: rewrite
-  std::pair<iterator, bool> insert(const value_type& value) override {
-    std::cout << value << std::endl;
-    return {nullptr, true};
-  }
+  Node* innerInsert(Node* n, T value, Node* p);
+  Node* innerRemove(Node* m, T value);
+  void innerInsert(T value);
+  // Node* innerSearch(Node* node, T value) const;
+
+ public:
+  std::pair<iterator, bool> insert(const T& value);
 };
 
 }  // namespace s21

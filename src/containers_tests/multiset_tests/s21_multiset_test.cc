@@ -13,6 +13,7 @@ TEST(MultiSetTests, TestDefaultConstractor1) {
 TEST(MultiSetTests, TestDefaultConstractor2) {
   s21::multiset<double> s1;
   std::multiset<double> s2;
+  s1.begin();
 
   EXPECT_EQ(s1.size(), s2.size());
   EXPECT_EQ(s1.empty(), s2.empty());
