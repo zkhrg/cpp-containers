@@ -26,8 +26,8 @@ class list {
     BaseIterator() : node(nullptr){};
     ~BaseIterator(){};
 
-    Iter operator++();
-    Iter operator--();
+    Iter operator++();  // переделать!
+    Iter operator--();  // переделать!
     Iter operator++(int);
     Iter operator--(int);
     bool operator!=(ListIterator it) const { return node != it.node; };

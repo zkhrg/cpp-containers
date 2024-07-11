@@ -1,5 +1,5 @@
-#ifndef CPP2_S21_CONTAINERS_1_SRC_SET_ITERATOR_TEMPLATE_H_
-#define CPP2_S21_CONTAINERS_1_SRC_SET_ITERATOR_TEMPLATE_H_
+#ifndef CPP2_S21_CONTAINERS_1_SRC_SET_TEMPLATE_S21_SET_ITERATOR_TEMPLATE_H_
+#define CPP2_S21_CONTAINERS_1_SRC_SET_TEMPLATE_S21_SET_ITERATOR_TEMPLATE_H_
 
 namespace s21 {
 
@@ -59,7 +59,7 @@ Iter* s21::set<T>::BaseIterator<Iter>::operator++() {
   Node* tmp_node = node;
   node = findNext(node);
   int tmp_amount = this->amount;
-  Iter* res = new Iter(node);
+  Iter* res = new Iter(node);  // надо переделать!!!
 
   if (node == tmp_node) {
     res->amount = tmp_amount;
@@ -133,4 +133,4 @@ const typename s21::set<T>::value_type* set<T>::const_iterator::operator->()
 }
 };  // namespace s21
 
-#endif  // CPP2_S21_CONTAINERS_1_SRC_SET_ITERATOR_TEMPLATE_H_
+#endif  // CPP2_S21_CONTAINERS_1_SRC_SET_TEMPLATE_S21_SET_ITERATOR_TEMPLATE_H_

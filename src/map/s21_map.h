@@ -1,5 +1,5 @@
-#ifndef S21_MAP_H
-#define S21_MAP_H
+#ifndef CPP2_S21_CONTAINERS_1_SRC_MAP_S21_MAP_H_
+#define CPP2_S21_CONTAINERS_1_SRC_MAP_S21_MAP_H_
 
 #include <initializer_list>
 #include <iterator>
@@ -143,4 +143,4 @@ class map {
 #include "map_support.tpp"
 #include "s21_map.tpp"
 
-#endif
+#endif  // CPP2_S21_CONTAINERS_1_SRC_MAP_S21_MAP_H_

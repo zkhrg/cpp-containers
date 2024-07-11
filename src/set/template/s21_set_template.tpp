@@ -1,5 +1,5 @@
-#ifndef CPP2_S21_CONTAINERS_1_SRC_SET_TEMPLATE_H_
-#define CPP2_S21_CONTAINERS_1_SRC_SET_TEMPLATE_H_
+#ifndef CPP2_S21_CONTAINERS_1_SRC_SET_TEMPLATE_S21_SET_TEMPLATE_H_
+#define CPP2_S21_CONTAINERS_1_SRC_SET_TEMPLATE_S21_SET_TEMPLATE_H_
 
 #include <initializer_list>
 #include <iostream>
@@ -322,4 +322,4 @@ set<T>::insert_many(Args&&... args) {
 
 };  // namespace s21
 
-#endif  // CPP2_S21_CONTAINERS_1_SRC_SET_TEMPLATE_H_
+#endif  // CPP2_S21_CONTAINERS_1_SRC_SET_TEMPLATE_S21_SET_TEMPLATE_H_

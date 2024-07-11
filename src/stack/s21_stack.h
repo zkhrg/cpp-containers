@@ -1,7 +1,7 @@
 #ifndef CPP2_S21_CONTAINERS_1_SRC_S21_STACK_S21_STACK_H_
 #define CPP2_S21_CONTAINERS_1_SRC_S21_STACK_S21_STACK_H_
 
-#include "../s21_list/s21_list.h"
+#include "../list/s21_list.h"
 
 namespace s21 {
 template <class T>

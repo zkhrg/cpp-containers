@@ -1,11 +1,9 @@
-#ifndef CPP2_S21_CONTAINERS_1_SRC_SET_AVL_TREE_AVL_TREE_H_
-#define CPP2_S21_CONTAINERS_1_SRC_SET_AVL_TREE_AVL_TREE_H_
+#ifndef CPP2_S21_CONTAINERS_1_SRC_SET_S21_SET_H_
+#define CPP2_S21_CONTAINERS_1_SRC_SET_S21_SET_H_
 
 #include <initializer_list>
 #include <iostream>
 #include <vector>
-
-#define MAX_MEMORY ((~(size_t)0) >> 1)
 
 namespace s21 {
 template <typename T>
@@ -175,7 +173,7 @@ class set {
 };
 }  // namespace s21
 
-#include "template/set_iterator_template.hpp"
-#include "template/set_template.hpp"
+#include "template/s21_set_iterator_template.tpp"
+#include "template/s21_set_template.tpp"
 
-#endif  // CPP2_S21_CONTAINERS_1_SRC_SET_AVL_TREE_AVL_TREE_H_
+#endif  // CPP2_S21_CONTAINERS_1_SRC_SET_S21_SET_H_

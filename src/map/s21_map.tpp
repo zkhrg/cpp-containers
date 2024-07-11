@@ -1,3 +1,6 @@
+#ifndef CPP2_S21_CONTAINERS_1_SRC_MAP_S21_MAP_TPP_
+#define CPP2_S21_CONTAINERS_1_SRC_MAP_S21_MAP_TPP_
+
 #include <iostream>
 
 namespace s21 {
@@ -166,3 +169,5 @@ bool map<Key, T>::contains(const Key& key) {
 }
 
 };  // namespace s21
+
+#endif  // CPP2_S21_CONTAINERS_1_SRC_MAP_S21_MAP_TPP_

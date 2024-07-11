@@ -1,3 +1,6 @@
+#ifndef CPP2_S21_CONTAINERS_1_SRC_MAP_MAP_ITERATOR_TPP_
+#define CPP2_S21_CONTAINERS_1_SRC_MAP_MAP_ITERATOR_TPP_
+
 namespace s21 {
 
 // BaseIterator===========================================================
@@ -128,3 +131,5 @@ map<Key, T>::const_iterator::operator->() const {
 }
 
 };  // namespace s21
+
+#endif  // CPP2_S21_CONTAINERS_1_SRC_MAP_MAP_ITERATOR_TPP_

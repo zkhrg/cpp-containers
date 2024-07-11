@@ -1,17 +1,15 @@
-#ifndef CPP2_S21_CONTAINERS_1_SRC_MULTISET_AVL_TREE_AVL_TREE_H_
-#define CPP2_S21_CONTAINERS_1_SRC_MULTISET_AVL_TREE_AVL_TREE_H_
+#ifndef CPP2_S21_CONTAINERS_1_SRC_MULTISET_S21_MULTISET_H_
+#define CPP2_S21_CONTAINERS_1_SRC_MULTISET_S21_MULTISET_H_
 
 #include <initializer_list>
 
-#include "../set/set.h"
+#include "../set/s21_set.h"
 
 namespace s21 {
 
 template <typename T>
 class multiset : public set<T> {
  public:
-  // class SetConstIterator;
-  // class SetIterator;
   using typename set<T>::key_type;
   using typename set<T>::value_type;
   using typename set<T>::reference;
@@ -39,7 +37,6 @@ class multiset : public set<T> {
     return this->innerSearch(this->root, value)->amount;
   };
 
-  // TODO: rewrite
   typename set<T>::Node* innerInsert(typename set<T>::Node* node, T value,
                                      typename set<T>::Node* parent);
   void innerInsert(T value);
@@ -49,6 +46,7 @@ class multiset : public set<T> {
 };
 
 }  // namespace s21
-#include "template/multiset_iterator_template.hpp"
-#include "template/multiset_template.hpp"
-#endif  // CPP2_S21_CONTAINERS_1_SRC_MULTISET_AVL_TREE_AVL_TREE_H_
+
+#include "template/s21_multiset_template.tpp"
+
+#endif  // CPP2_S21_CONTAINERS_1_SRC_MULTISET_S21_MULTISET_H_

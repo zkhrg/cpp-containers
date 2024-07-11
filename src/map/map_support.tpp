@@ -1,3 +1,6 @@
+#ifndef CPP2_S21_CONTAINERS_1_SRC_MAP_MAP_SUPPORT_TPP_
+#define CPP2_S21_CONTAINERS_1_SRC_MAP_MAP_SUPPORT_TPP_
+
 namespace s21 {
 template <typename Key, typename T>
 typename s21::map<Key, T>::iterator map<Key, T>::search(const Key& key) {
@@ -50,3 +53,5 @@ void map<Key, T>::set_node(iterator pos, iterator it) {
 }
 
 }  // namespace s21
+
+#endif  // CPP2_S21_CONTAINERS_1_SRC_MAP_MAP_SUPPORT_TPP_

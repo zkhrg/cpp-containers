@@ -1,3 +1,6 @@
+#ifndef CPP2_S21_CONTAINERS_1_SRC_MULTISET_TEMPLATE_S21_MULTISET_TEMPLATE_TPP_
+#define CPP2_S21_CONTAINERS_1_SRC_MULTISET_TEMPLATE_S21_MULTISET_TEMPLATE_TPP_
+
 #include <initializer_list>
 #include <iostream>
 #include <utility>
@@ -140,3 +143,5 @@ multiset<T>::insert_many(Args&&... args) {
 }
 
 };  // namespace s21
+
+#endif  // CPP2_S21_CONTAINERS_1_SRC_MULTISET_TEMPLATE_S21_MULTISET_TEMPLATE_TPP_

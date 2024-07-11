@@ -28,7 +28,7 @@ class vector {
 
   reference at(size_type pos);
   reference operator[](size_type pos);
-  const_reference operator[](size_type pos) const;  // ???????????? делаем?
+  const_reference operator[](size_type pos) const;
   const_reference front() const;
   const_reference back() const;
   iterator data() noexcept;
@@ -36,7 +36,7 @@ class vector {
 
   iterator begin();
   iterator end();
-  const_iterator cbegin() const;  // ??????????? делаем?
+  const_iterator cbegin() const;
   const_iterator cend() const;
 
   bool empty() const;

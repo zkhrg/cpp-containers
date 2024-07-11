@@ -864,7 +864,6 @@ TEST(VectorTests, TestMethodSwap5) {
   EXPECT_EQ(v1_copy.capacity(), v2_copy.capacity());
 }
 
-// iterator insert_many(const_iterator pos, Args &&...args)
 TEST(VectorTests, TestMethodInsertMany1) {
   s21::vector<int> v1 = {1, 2, 3, 4, 5};
 
