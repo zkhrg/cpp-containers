@@ -320,9 +320,16 @@ TEST(SetTests, TestMethodErase1) {
 
   EXPECT_EQ(s1.empty(), s2.empty());
   EXPECT_EQ(s1.size(), s2.size());
-
-  s1.erase(s1.begin()++);
-  s2.erase(s2.begin()++);
+  auto it = s1.begin()++;
+  it++;
+  it++;
+  it++;
+  s1.erase(it);
+  auto it2 = s2.begin()++;
+  it2++;
+  it2++;
+  it2++;
+  s2.erase(it2);
 
   while (!s1.empty()) {
     EXPECT_EQ(s1.empty(), s2.empty());
