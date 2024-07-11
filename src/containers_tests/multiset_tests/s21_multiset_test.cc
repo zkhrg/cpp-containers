@@ -311,17 +311,27 @@ TEST(MultiSetTests, TestMethodClear1) {
 }
 
 TEST(MultiSetTests, TestMethodErase1) {
-  s21::multiset<int> s1 = {5, 3, 5, 2, 3};
-  std::multiset<int> s2 = {5, 3, 5, 2, 3};
+  s21::multiset<int> s1 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 9, 9, 9, -1};
+  std::multiset<int> s2 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 9, 9, 9, -1};
 
   EXPECT_EQ(s1.empty(), s2.empty());
   EXPECT_EQ(s1.size(), s2.size());
+  auto it = s1.begin()++;
+  it++;
+  it++;
+  it++;
+  s1.erase(it);
+  auto it2 = s2.begin()++;
+  it2++;
+  it2++;
+  it2++;
+  s2.erase(it2);
 
   while (!s1.empty()) {
-    s1.erase(s1.begin());
-    s2.erase(s2.begin());
     EXPECT_EQ(s1.empty(), s2.empty());
     EXPECT_EQ(s1.size(), s2.size());
+    s1.erase(s1.begin());
+    s2.erase(s2.begin());
   }
 }
 
