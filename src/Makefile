@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -Werror -Wextra -std=c++17 
+CFLAGS=-Wall -Werror -Wextra -std=c++17
 MAIN_PROJECT=$(wildcard **/*.cc **/**/*.cc **/*.tpp **/*.h) # list of all the C source files in the project
 SOURCES=$(filter-out %.tpp %.h, $(MAIN_PROJECT))
 TEST_SOURCES=$(filter-out %.tpp %.h, $(MAIN_PROJECT))
@@ -25,7 +25,7 @@ endif
 
 all: test
 
-test: $(CONTAINER)
+test: $(TEST_SOURCES)
 	$(CC) $(CFLAGS) $^ -o $(TEST_RESULT) $(CHECK_LIB)
 	./$(TEST_RESULT)
 
@@ -35,7 +35,7 @@ $(RESULT): $(OBJECTS)
 %.o: %.cc $(HEADERS_AND_TPP)
 	$(CC) -c $(CFLAGS) $< -o $@
 
-gcov_report: $(CONTAINER)
+gcov_report: $(TEST_SOURCES)
 	$(CC) $(CFLAGS) --coverage $^ $(CHECK_LIB) -o $@
 	chmod +x *
 	./$@ 

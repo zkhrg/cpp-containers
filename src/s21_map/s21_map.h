@@ -2,10 +2,10 @@
 #define S21_MAP_H
 
 #include <initializer_list>
-#include <vector>
 #include <iterator>
+#include <vector>
 
-namespace s21{
+namespace s21 {
 
 template <class Key, class T>
 class map {
@@ -15,7 +15,7 @@ class map {
 
   using value_type = std::pair<const Key, T>;
   using reference = value_type&;
-  using const_reference =  const value_type&;
+  using const_reference = const value_type&;
   using iterator = MapIterator;
   using const_iterator = MapConstIterator;
   using size_type = size_t;
@@ -33,10 +33,10 @@ class map {
   class BaseIterator {
    protected:
     Node* node;
-    
+
    public:
-    BaseIterator(): node(nullptr) {};
-    ~BaseIterator() {};
+    BaseIterator() : node(nullptr){};
+    ~BaseIterator(){};
 
     Iter operator++();
     Iter operator--();
@@ -54,7 +54,7 @@ class map {
   };
 
  public:
-  class MapIterator: public BaseIterator<MapIterator> {
+  class MapIterator : public BaseIterator<MapIterator> {
     friend class map;
     friend class BaseIterator<MapIterator>;
     friend class BaseIterator<MapConstIterator>;
@@ -67,7 +67,7 @@ class map {
     value_type* operator->();
   };
 
-  class MapConstIterator: public BaseIterator<MapConstIterator> {
+  class MapConstIterator : public BaseIterator<MapConstIterator> {
     friend class map;
     friend class BaseIterator<MapIterator>;
     friend class BaseIterator<MapConstIterator>;
@@ -85,7 +85,7 @@ class map {
     const_reference operator*() const;
     const value_type* operator->() const;
   };
- 
+
  private:
   size_type size_;
   Node fake_;
@@ -97,10 +97,10 @@ class map {
   // Map Member functions
   map();
   ~map();
-  map(std::initializer_list<value_type> const &items);
-  map(const map &m);
-  map(map &&m);
-  map& operator=(map &&m);
+  map(std::initializer_list<value_type> const& items);
+  map(const map& m);
+  map(map&& m);
+  map& operator=(map&& m);
 
   // Map Element access
   T& at(const Key& key);
@@ -111,7 +111,6 @@ class map {
   iterator end() { return iterator(end_); };
   const_iterator begin() const { return const_iterator(min_); };
   const_iterator end() const { return const_iterator(end_); };
- 
 
   // Map Capacity
   bool empty();
@@ -127,9 +126,10 @@ class map {
   void swap(map& other);
   void merge(map& other);
   template <typename... Args>
-  std::vector<std::pair<iterator,bool>> insert_many(Args&&... args);
+  std::vector<std::pair<iterator, bool>> insert_many(Args&&... args);
   // Map Lookup
   bool contains(const Key& key);
+
  private:
   // Map Support
   iterator search(const Key& key);
@@ -137,7 +137,7 @@ class map {
   void set_node(iterator pos, iterator it);
 };
 
-};
+};  // namespace s21
 
 #include "map_iterator.tpp"
 #include "map_support.tpp"

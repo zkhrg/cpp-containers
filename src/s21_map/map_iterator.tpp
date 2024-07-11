@@ -6,9 +6,11 @@ template <typename Key, typename T>
 template <class Iter>
 Iter map<Key, T>::BaseIterator<Iter>::operator++() {
   if (goRight()) {
-    while (goLeft());
+    while (goLeft())
+      ;
   } else {
-    while (!node->less && goParent());
+    while (!node->less && goParent())
+      ;
     goParent();
   }
   Iter res(node);
@@ -27,9 +29,11 @@ template <typename Key, typename T>
 template <class Iter>
 Iter map<Key, T>::BaseIterator<Iter>::operator--() {
   if (goLeft()) {
-    while (goRight());
+    while (goRight())
+      ;
   } else {
-    while (node->less && goParent());
+    while (node->less && goParent())
+      ;
     goParent();
   }
   Iter res(node);
@@ -92,7 +96,6 @@ bool s21::map<Key, T>::BaseIterator<Iter>::goParent() {
   return res;
 }
 
-
 // MapIterator============================================================
 
 template <typename Key, typename T>
@@ -123,6 +126,5 @@ const typename s21::map<Key, T>::value_type*
 map<Key, T>::const_iterator::operator->() const {
   return &this->node->val;
 }
-
 
 };  // namespace s21

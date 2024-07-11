@@ -315,17 +315,27 @@ TEST(SetTests, TestMethodInsert2) {
 }
 
 TEST(SetTests, TestMethodErase1) {
-  s21::set<int> s1 = {1, 2, 3, 4, 5};
-  std::set<int> s2 = {1, 2, 3, 4, 5};
+  s21::set<int> s1 = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+  std::set<int> s2 = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 
   EXPECT_EQ(s1.empty(), s2.empty());
   EXPECT_EQ(s1.size(), s2.size());
+  auto it = s1.begin()++;
+  it++;
+  it++;
+  it++;
+  s1.erase(it);
+  auto it2 = s2.begin()++;
+  it2++;
+  it2++;
+  it2++;
+  s2.erase(it2);
 
   while (!s1.empty()) {
-    s1.erase(s1.begin());
-    s2.erase(s2.begin());
     EXPECT_EQ(s1.empty(), s2.empty());
     EXPECT_EQ(s1.size(), s2.size());
+    s1.erase(s1.begin());
+    s2.erase(s2.begin());
   }
 }
 
@@ -398,8 +408,19 @@ TEST(SetTests, TestMethodContains2) {
 }
 
 TEST(SetTests, TestMaxSize1) {
-  s21::set<int> s1 = {1, 2, 3, 4, 5};
-  std::set<int> s2 = {1, 2, 3, 4, 5};
+  s21::set<int> s1 = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+  std::set<int> s2 = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 
   EXPECT_EQ(s1.max_size(), s2.max_size());
+}
+
+TEST(SetTests, TestSetInsertMany) {
+  s21::set<int> s{5, 5, 5, 4, 12, -1, 4};
+  int i{};
+  bool check[]{false, false, true, true, true, false};
+  auto v = s.insert_many(5, 5, 0, 300, -41, 12);
+  for (auto& pr : v) {
+    EXPECT_EQ(pr.second, check[i]);
+    i++;
+  }
 }

@@ -8,7 +8,7 @@ map<Key, T>::map()
     : size_{},
       fake_{false, nullptr, nullptr, &fake_, {}},
       top_{fake_.left},
-      min_{fake_.right}, 
+      min_{fake_.right},
       end_{&fake_} {}
 
 template <typename Key, typename T>
@@ -30,7 +30,7 @@ template <typename Key, typename T>
 typename s21::map<Key, T>& map<Key, T>::operator=(map<Key, T>&& m) {
   if (this != &m) {
     clear();
-    if(!m.empty()) {
+    if (!m.empty()) {
       top_ = m.top_;
       top_->parent = &fake_;
       min_ = m.min_;
@@ -51,11 +51,9 @@ map<Key, T>::~map() {
 // Map Element access
 template <typename Key, typename T>
 T& map<Key, T>::at(const Key& key) {
-  if(empty())
-    throw std::out_of_range("Map is empty\n");
+  if (empty()) throw std::out_of_range("Map is empty\n");
   iterator it = search(key);
-  if (it->first != key)
-    throw std::out_of_range("Value doesn't exist\n");
+  if (it->first != key) throw std::out_of_range("Value doesn't exist\n");
   return it->second;
 }
 
@@ -104,7 +102,7 @@ std::pair<typename s21::map<Key, T>::iterator, bool> map<Key, T>::insert(
     min_ = top_;
     it.goLeft();
     size_++;
-  } else if(it->first != key) {
+  } else if (it->first != key) {
     elem.node = new Node{0, 0, 0, 0, value};
     set_node(it, elem);
     it = elem;
@@ -124,7 +122,7 @@ typename s21::map<Key, T>::iterator map<Key, T>::erase(iterator pos) {
 template <typename Key, typename T>
 void map<Key, T>::swap(map<Key, T>& other) {
   map buff;
-  if(this != &other) {
+  if (this != &other) {
     buff = std::move(other);
     other = std::move(*this);
     *this = std::move(buff);
@@ -133,13 +131,13 @@ void map<Key, T>::swap(map<Key, T>& other) {
 
 template <typename Key, typename T>
 void map<Key, T>::merge(map& other) {
-  if(this == &other || other.empty()) return;
-  if(empty()) {
+  if (this == &other || other.empty()) return;
+  if (empty()) {
     *this = std::move(other);
   } else {
-    for(auto it = other.begin(); it != other.end(); it++) {
+    for (auto it = other.begin(); it != other.end(); it++) {
       auto pos = search(it->first);
-      while(pos->first != it->first && it != other.end()) {
+      while (pos->first != it->first && it != other.end()) {
         auto buff = other.cut_node(it);
         set_node(pos, it);
         it = buff;
@@ -151,9 +149,10 @@ void map<Key, T>::merge(map& other) {
 
 template <typename Key, typename T>
 template <typename... Args>
-std::vector<std::pair<typename s21::map<Key,T>::iterator,bool>> map<Key,T>::insert_many(Args&&... args) {
-  std::vector<std::pair<iterator,bool>> res;
-  for(const auto& elem : {args...}) {
+std::vector<std::pair<typename s21::map<Key, T>::iterator, bool>>
+map<Key, T>::insert_many(Args&&... args) {
+  std::vector<std::pair<iterator, bool>> res;
+  for (const auto& elem : {args...}) {
     res.push_back(insert(elem));
   }
   return res;
@@ -162,7 +161,7 @@ std::vector<std::pair<typename s21::map<Key,T>::iterator,bool>> map<Key,T>::inse
 // Map Lookup
 template <typename Key, typename T>
 bool map<Key, T>::contains(const Key& key) {
-  if(empty()) return false;
+  if (empty()) return false;
   return search(key)->first == key;
 }
 

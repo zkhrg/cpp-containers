@@ -34,7 +34,6 @@ void queue<T>::swap(queue<T>& q) {
   if (this != &q) base.swap(q.base);
 }
 
-
 template <typename T>
 template <typename... Args>
 void queue<T>::insert_many_back(Args&&... args) {
@@ -43,6 +42,6 @@ void queue<T>::insert_many_back(Args&&... args) {
   }
 }
 
-}; // namespace s21
+};  // namespace s21
 
 #endif  // CPP2_S21_CONTAINERS_1_SRC_S21_QUEUE_S21_QUEUE_TPP_
