@@ -34,13 +34,8 @@ list<tmp>::list(const list<tmp>& l) : list<tmp>::list() {
 }
 
 template <typename tmp>
-list<tmp>::list(list<tmp>&& l)
-    : __fake(l.__fake), start(l.start), finish(&__fake) {
-  finish->back->next = finish;
-  finish->next->back = finish;
-  l.start = l.finish;
-  l.finish->next = l.finish;
-  l.finish->back = l.finish;
+list<tmp>::list(list<tmp>&& l) : list() {
+  *this = std::move(l);
 }
 
 template <typename tmp>
@@ -52,13 +47,15 @@ template <typename tmp>
 typename s21::list<tmp>& list<tmp>::operator=(list<tmp>&& l) {
   if (this != &l) {
     clear();
-    __fake = l.__fake;
-    finish->back->next = finish;
-    finish->next->back = finish;
-    start = l.start;
-    l.start = l.finish;
-    l.finish->next = l.finish;
-    l.finish->back = l.finish;
+    if (!l.empty()) {
+      __fake = l.__fake;
+      start = finish->next;
+      finish->back->next = finish;
+      finish->next->back = finish;
+      l.start = l.finish;
+      l.finish->next = l.finish;
+      l.finish->back = l.finish;
+    }
   }
   return *this;
 }

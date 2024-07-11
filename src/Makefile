@@ -50,6 +50,9 @@ valgrind: test
 clang:
 	clang-format -style=Google -n $(MAIN_PROJECT)
 
+apclang:
+	clang-format -style=Google -i $(MAIN_PROJECT)
+
 git: clean
 	git add .
 	git commit
