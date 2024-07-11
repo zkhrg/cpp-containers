@@ -86,6 +86,7 @@ void multiset<T>::erase(iterator pos) {
   typename set<T>::Node* n = this->innerSearch(this->root, *pos);
   if (n->amount > 1) {
     --(n->amount);
+    --(this->len);
     return;
   }
   this->root = this->innerRemove(this->root, *pos);
@@ -125,6 +126,17 @@ void multiset<T>::merge(multiset& other) {
   for (const auto& elem : other) {
     this->insert(elem);
   }
+}
+
+template <typename T>
+template <typename... Args>
+std::vector<std::pair<typename s21::multiset<T>::iterator, bool>>
+multiset<T>::insert_many(Args&&... args) {
+  std::vector<std::pair<iterator, bool>> res;
+  for (const auto& elem : {args...}) {
+    res.push_back(this->insert(elem));
+  }
+  return res;
 }
 
 };  // namespace s21

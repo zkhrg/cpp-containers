@@ -3,6 +3,7 @@
 
 #include <initializer_list>
 #include <iostream>
+#include <vector>
 
 #define MAX_MEMORY ((~(size_t)0) >> 1)
 
@@ -163,6 +164,9 @@ class set {
   set& operator=(set&& s);
 
   bool empty() const;
+
+  template <typename... Args>
+  std::vector<std::pair<iterator, bool>> insert_many(Args&&... args);
 
   iterator begin();
   iterator end() { return iterator(nullptr); };

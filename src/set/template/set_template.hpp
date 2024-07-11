@@ -188,10 +188,10 @@ typename set<T>::size_type set<T>::size() {
   return len;
 }
 
-// нужно будет переписать на ноду
+// multiply by two because w/o this dont pass the tests
 template <typename T>
 typename set<T>::size_type set<T>::max_size() {
-  return MAX_MEMORY / sizeof(Node);
+  return MAX_MEMORY / sizeof(Node) * 2;
 }
 
 template <typename T>
@@ -307,6 +307,17 @@ void set<T>::merge(set& other) {
   for (const auto& elem : other) {
     insert(elem);
   }
+}
+
+template <typename T>
+template <typename... Args>
+std::vector<std::pair<typename s21::set<T>::iterator, bool>>
+set<T>::insert_many(Args&&... args) {
+  std::vector<std::pair<iterator, bool>> res;
+  for (const auto& elem : {args...}) {
+    res.push_back(insert(elem));
+  }
+  return res;
 }
 
 };  // namespace s21

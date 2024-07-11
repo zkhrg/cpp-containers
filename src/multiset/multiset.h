@@ -43,6 +43,9 @@ class multiset : public set<T> {
   typename set<T>::Node* innerInsert(typename set<T>::Node* node, T value,
                                      typename set<T>::Node* parent);
   void innerInsert(T value);
+
+  template <typename... Args>
+  std::vector<std::pair<iterator, bool>> insert_many(Args&&... args);
 };
 
 }  // namespace s21

@@ -416,57 +416,26 @@ TEST(MultiSetTests, TestMethodContains2) {
   EXPECT_EQ(s1.contains(3), true);
 }
 
-// TEST(MultiSetTests, TestMethodEqualRange1) {
-//   s21::multiset<int> s1 = {3, 2, 2, 4, 5, 5, 1, 1};
-//   std::multiset<int> s2 = {3, 2, 2, 4, 5, 5, 1, 1};
+TEST(MultiSetTests, TestMultiSetInsertMany) {
+  s21::multiset<int> s{5, 5, 5, 4, 12, -1, 4};
+  std::multiset<int> s1{5, 5, 5, 4, 12, -1, 4};
+  int i{};
+  bool check[]{true, true, true, true, true, true};
+  auto v = s.insert_many(5, 5, 0, 300, -41, 12);
+  for (auto& pr : v) {
+    EXPECT_EQ(pr.second, check[i]);
+    i++;
+  }
+  s1.insert(5);
+  s1.insert(5);
+  s1.insert(0);
+  s1.insert(300);
+  s1.insert(-41);
+  s1.insert(12);
 
-//   s21::multiset<int>::iterator my_multiset_it = s1.equal_range(2).first;
-//   std::multiset<int>::iterator std_multiset_it = s2.equal_range(2).first;
-//   EXPECT_EQ(*my_multiset_it, *std_multiset_it);
-// }
-
-// TEST(MultiSetTests, TestMethodEqualRange2) {
-//   s21::multiset<int> s1 = {3, 2, 2, 4, 5, 5, 1, 1};
-//   std::multiset<int> s2 = {3, 2, 2, 4, 5, 5, 1, 1};
-
-//   s21::multiset<int>::iterator my_multiset_it = s1.equal_range(5).first;
-//   std::multiset<int>::iterator std_multiset_it = s2.equal_range(5).first;
-//   EXPECT_EQ(*my_multiset_it, *std_multiset_it);
-// }
-
-// TEST(MultiSetTests, TestMethodLoverBound1) {
-//   s21::multiset<int> s1 = {3, 2, 2, 4, 5, 5, 1, 1};
-//   std::multiset<int> s2 = {3, 2, 2, 4, 5, 5, 1, 1};
-
-//   s21::multiset<int>::iterator my_multiset_it = s1.lower_bound(2);
-//   std::multiset<int>::iterator std_multiset_it = s2.lower_bound(2);
-//   EXPECT_EQ(*my_multiset_it, *std_multiset_it);
-// }
-
-// TEST(MultiSetTests, TestMethodLoverBound2) {
-//   s21::multiset<int> s1 = {3, 2, 2, 4, 5, 5, 1, 1};
-//   std::multiset<int> s2 = {3, 2, 2, 4, 5, 5, 1, 1};
-
-//   s21::multiset<int>::iterator my_multiset_it = s1.lower_bound(5);
-//   std::multiset<int>::iterator std_multiset_it = s2.lower_bound(5);
-
-//   EXPECT_EQ(*my_multiset_it, *std_multiset_it);
-// }
-
-// TEST(MultiSetTests, TestMethodUpperBound1) {
-//   s21::multiset<int> s1 = {3, 2, 2, 4, 5, 5, 1, 1};
-//   std::multiset<int> s2 = {3, 2, 2, 4, 5, 5, 1, 1};
-
-//   s21::multiset<int>::iterator my_multiset_it = s1.upper_bound(2);
-//   std::multiset<int>::iterator std_multiset_it = s2.upper_bound(2);
-//   EXPECT_EQ(*my_multiset_it, *std_multiset_it);
-// }
-
-// TEST(MultiSetTests, TestMethodUpperBound2) {
-//   s21::multiset<int> s1 = {3, 2, 2, 4, 5, 5, 1, 1};
-//   std::multiset<int> s2 = {3, 2, 2, 4, 5, 5, 1, 1};
-
-//   s21::multiset<int>::iterator my_multiset_it = s1.upper_bound(5);
-//   std::multiset<int>::iterator std_multiset_it = s2.upper_bound(5);
-//   EXPECT_EQ(*my_multiset_it, *std_multiset_it);
-// }
+  auto my_multiset_it = s.begin();
+  auto std_multiset_it = s1.begin();
+  for (; my_multiset_it != s.end(); ++my_multiset_it, ++std_multiset_it) {
+    EXPECT_EQ(*my_multiset_it, *std_multiset_it);
+  }
+}
