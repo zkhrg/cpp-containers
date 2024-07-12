@@ -3,7 +3,8 @@
 
 #include <initializer_list>
 #include <iostream>
-#include <vector>
+
+#include "../vector/s21_vector.h"
 
 namespace s21 {
 template <typename T>
@@ -164,7 +165,7 @@ class set {
   bool empty() const;
 
   template <typename... Args>
-  std::vector<std::pair<iterator, bool>> insert_many(Args&&... args);
+  s21::vector<std::pair<iterator, bool>> insert_many(Args&&... args);
 
   iterator begin();
   iterator end() { return iterator(nullptr); };

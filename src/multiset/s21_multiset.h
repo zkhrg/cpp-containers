@@ -46,7 +46,7 @@ class multiset : public set<T> {
                                           T value);
 
   template <typename... Args>
-  std::vector<std::pair<iterator, bool>> insert_many(Args&&... args);
+  s21::vector<std::pair<iterator, bool>> insert_many(Args&&... args);
   std::pair<iterator, iterator> equal_range(const T& key);
   iterator lower_bound(const T& key);
   iterator upper_bound(const T& key);

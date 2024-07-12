@@ -152,9 +152,9 @@ void map<Key, T>::merge(map& other) {
 
 template <typename Key, typename T>
 template <typename... Args>
-std::vector<std::pair<typename s21::map<Key, T>::iterator, bool>>
+s21::vector<std::pair<typename s21::map<Key, T>::iterator, bool>>
 map<Key, T>::insert_many(Args&&... args) {
-  std::vector<std::pair<iterator, bool>> res;
+  s21::vector<std::pair<iterator, bool>> res;
   for (const auto& elem : {args...}) {
     res.push_back(insert(elem));
   }

@@ -3,7 +3,8 @@
 
 #include <initializer_list>
 #include <iterator>
-#include <vector>
+
+#include "../vector/s21_vector.h"
 
 namespace s21 {
 
@@ -126,7 +127,7 @@ class map {
   void swap(map& other);
   void merge(map& other);
   template <typename... Args>
-  std::vector<std::pair<iterator, bool>> insert_many(Args&&... args);
+  s21::vector<std::pair<iterator, bool>> insert_many(Args&&... args);
   // Map Lookup
   bool contains(const Key& key);
 

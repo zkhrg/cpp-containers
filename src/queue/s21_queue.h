@@ -11,18 +11,18 @@ class queue {
 
  public:
   using value_type = T;
-  using reference = T &;
-  using const_reference = const T &;
+  using reference = T&;
+  using const_reference = const T&;
   using size_type = size_t;
 
   // member func:
   queue() : base_(){};
-  queue(std::initializer_list<value_type> const &items) : base_(items){};
-  queue(const queue &q) : base_(q.base_){};
-  queue(queue &&q) : base_(std::move(q.base_)){};
+  queue(std::initializer_list<value_type> const& items) : base_(items){};
+  queue(const queue& q) : base_(q.base_){};
+  queue(queue&& q) : base_(std::move(q.base_)){};
   ~queue(){};
-  queue &operator=(queue &&q);
-  queue &operator=(const queue &q);
+  queue& operator=(queue&& q);
+  queue& operator=(const queue& q);
   // Queue Element access:
   const_reference front() { return base_.front(); };
   const_reference back() { return base_.back(); };
@@ -32,10 +32,10 @@ class queue {
   // Queue Modifiers:
   void push(const_reference value);
   void pop();
-  void swap(queue &other);
+  void swap(queue& other);
 
   template <typename... Args>
-  void insert_many_back(Args &&...args);
+  void insert_many_back(Args&&... args);
 };
 };  // namespace s21
 

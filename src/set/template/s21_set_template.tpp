@@ -311,9 +311,9 @@ void set<T>::merge(set& other) {
 
 template <typename T>
 template <typename... Args>
-std::vector<std::pair<typename s21::set<T>::iterator, bool>>
+s21::vector<std::pair<typename s21::set<T>::iterator, bool>>
 set<T>::insert_many(Args&&... args) {
-  std::vector<std::pair<iterator, bool>> res;
+  s21::vector<std::pair<iterator, bool>> res;
   for (const auto& elem : {args...}) {
     res.push_back(insert(elem));
   }

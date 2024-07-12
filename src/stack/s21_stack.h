@@ -11,18 +11,18 @@ class stack {
 
  public:
   using value_type = T;
-  using reference = T &;
-  using const_reference = const T &;
+  using reference = T&;
+  using const_reference = const T&;
   using size_type = size_t;
 
   // member func:
   stack() : base_(){};
-  stack(std::initializer_list<value_type> const &items) : base_(items){};
-  stack(const stack &s) : base_(s.base_){};
-  stack(stack &&s) : base_(std::move(s.base_)){};
+  stack(std::initializer_list<value_type> const& items) : base_(items){};
+  stack(const stack& s) : base_(s.base_){};
+  stack(stack&& s) : base_(std::move(s.base_)){};
   ~stack(){};
-  stack &operator=(stack &&s);
-  stack &operator=(const stack &s);
+  stack& operator=(stack&& s);
+  stack& operator=(const stack& s);
   // Queue Element access:
   const_reference top() { return base_.back(); };
   // Queue Capacity:
@@ -31,10 +31,10 @@ class stack {
   // Queue Modifiers:
   void push(const_reference value);
   void pop();
-  void swap(stack &other);
+  void swap(stack& other);
 
   template <typename... Args>
-  void insert_many_front(Args &&...args);
+  void insert_many_front(Args&&... args);
 };
 };  // namespace s21
 
