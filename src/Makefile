@@ -35,7 +35,7 @@ $(RESULT): $(OBJECTS)
 %.o: %.cc $(HEADERS_AND_TPP)
 	$(CC) -c $(CFLAGS) $< -o $@
 
-gcov_report: $(TEST_OBJECTS)
+gcov_report: $(TEST_SOURCES)
 	$(CC) $(CFLAGS) --coverage $^ $(CHECK_LIB) -o $@
 	chmod +x *
 	./$@ 
