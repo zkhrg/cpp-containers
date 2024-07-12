@@ -7,7 +7,7 @@
 namespace s21 {
 // set member functions
 template <typename T>
-set<T>::set() : root{nullptr}, len{} {}
+set<T>::set() : root_{nullptr}, len{} {}
 
 template <typename T>
 set<T>::set(std::initializer_list<T> const& items) : set() {
@@ -20,8 +20,8 @@ set<T>::set(const set& s) : set() {
 }
 
 template <typename T>
-set<T>::set(set&& s) : root{s.root}, len{s.len} {
-  s.root = nullptr;
+set<T>::set(set&& s) : root_{s.root_}, len{s.len} {
+  s.root_ = nullptr;
   s.len = 0;
 }
 
@@ -37,10 +37,10 @@ set<T>& set<T>::operator=(const set& s) {
 template <typename T>
 set<T>& set<T>::operator=(set&& s) {
   if (this != &s) {
-    clear(root);
-    root = s.root;
+    clear(root_);
+    root_ = s.root_;
     len = s.len;
-    s.root = nullptr;
+    s.root_ = nullptr;
     s.len = 0;
   }
   return *this;
@@ -48,7 +48,7 @@ set<T>& set<T>::operator=(set&& s) {
 
 template <typename T>
 set<T>::~set() {
-  clear(root);
+  clear(root_);
 }
 
 template <typename T>
@@ -104,7 +104,7 @@ typename set<T>::Node* set<T>::rotateLeft(Node* x) {
 
 template <typename T>
 void set<T>::innerInsert(T value) {
-  root = innerInsert(root, value, nullptr);
+  root_ = innerInsert(root_, value, nullptr);
 }
 
 template <typename T>
@@ -153,12 +153,12 @@ typename set<T>::Node* set<T>::innerInsert(Node* node, T value, Node* parent) {
 
 template <typename T>
 bool set<T>::contains(const_reference value) const {
-  return nullptr != innerSearch(root, value);
+  return nullptr != innerSearch(root_, value);
 }
 
 template <typename T>
 typename set<T>::iterator set<T>::find(const_reference value) const {
-  return iterator(innerSearch(root, value));
+  return iterator(innerSearch(root_, value));
 }
 
 template <typename T>
@@ -174,12 +174,12 @@ typename set<T>::Node* set<T>::innerSearch(Node* node, T value) const {
 
 template <typename T>
 bool set<T>::empty() const {
-  return root == nullptr;
+  return root_ == nullptr;
 }
 
 template <typename T>
 void set<T>::clear() {
-  clear(root);
+  clear(root_);
   len = 0;
 }
 
@@ -208,17 +208,17 @@ template <typename T>
 std::pair<typename set<T>::iterator, bool> set<T>::insert(
     const_reference value) {
   typename set<T>::size_type lc = this->size();
-  root = innerInsert(root, value, nullptr);
+  root_ = innerInsert(root_, value, nullptr);
   bool r = true;
   if (lc - this->size() == 0) r = false;
-  Node* current = innerSearch(root, value);
+  Node* current = innerSearch(root_, value);
 
   return {iterator(current), r};
 }
 
 template <typename T>
 typename set<T>::iterator set<T>::begin() {
-  Node* current = root;
+  Node* current = root_;
   while (current && current->left) {
     current = current->left;
   }
@@ -227,7 +227,7 @@ typename set<T>::iterator set<T>::begin() {
 
 template <typename T>
 typename set<T>::const_iterator set<T>::begin() const {
-  Node* current = root;
+  Node* current = root_;
   while (current && current->left) {
     current = current->left;
   }
@@ -293,12 +293,12 @@ typename set<T>::Node* set<T>::minValueNode(Node* node) {
 
 template <typename T>
 void set<T>::erase(iterator pos) {
-  root = innerRemove(root, *pos);
+  root_ = innerRemove(root_, *pos);
 }
 
 template <typename T>
 void set<T>::swap(set& other) {
-  std::swap(root, other.root);
+  std::swap(root_, other.root_);
   std::swap(len, other.len);
 }
 

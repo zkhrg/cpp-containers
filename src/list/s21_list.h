@@ -67,9 +67,9 @@ class list {
   };
 
  private:
-  Node __fake;
-  Node* start;
-  Node* finish;
+  Node fake_;
+  Node* start_;
+  Node* finish_;
 
  public:
   // List Member type
@@ -91,17 +91,17 @@ class list {
   list& operator=(list&& l);
 
   // List Element access
-  const_reference front() { return start->arg; }
-  const_reference back() { return finish->back->arg; }
+  const_reference front() { return start_->arg; }
+  const_reference back() { return finish_->back->arg; }
 
   // List Iterators
-  iterator begin() { return iterator(start); };
-  iterator end() { return iterator(finish); };
-  const_iterator begin() const { return const_iterator(start); }
-  const_iterator end() const { return const_iterator(finish); }
+  iterator begin() { return iterator(start_); };
+  iterator end() { return iterator(finish_); };
+  const_iterator begin() const { return const_iterator(start_); }
+  const_iterator end() const { return const_iterator(finish_); }
 
   // List Capacity
-  bool empty() { return start == finish; };
+  bool empty() { return start_ == finish_; };
   size_type size();
   size_type max_size();
 

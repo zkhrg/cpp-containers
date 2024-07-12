@@ -5,7 +5,7 @@ namespace s21 {
 template <typename T>
 queue<T>& queue<T>::operator=(queue<T>&& q) {
   if (this != &q) {
-    base = std::move(q.base);
+    base_ = std::move(q.base_);
   }
   return *this;
 }
@@ -21,17 +21,17 @@ queue<T>& queue<T>::operator=(const queue<T>& q) {
 
 template <typename T>
 void queue<T>::push(const_reference val) {
-  base.push_back(val);
+  base_.push_back(val);
 }
 
 template <typename T>
 void queue<T>::pop() {
-  base.pop_front();
+  base_.pop_front();
 }
 
 template <typename T>
 void queue<T>::swap(queue<T>& q) {
-  if (this != &q) base.swap(q.base);
+  if (this != &q) base_.swap(q.base_);
 }
 
 template <typename T>

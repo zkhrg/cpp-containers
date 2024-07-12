@@ -5,9 +5,9 @@
 namespace s21 {
 
 template <typename tmp>
-list<tmp>::list() : __fake{}, start{&__fake}, finish{&__fake} {
-  finish->next = finish;
-  finish->back = finish;
+list<tmp>::list() : fake_{}, start_{&fake_}, finish_{&fake_} {
+  finish_->next = finish_;
+  finish_->back = finish_;
 }
 
 template <typename tmp>
@@ -48,13 +48,13 @@ typename s21::list<tmp>& list<tmp>::operator=(list<tmp>&& l) {
   if (this != &l) {
     clear();
     if (!l.empty()) {
-      __fake = l.__fake;
-      start = finish->next;
-      finish->back->next = finish;
-      finish->next->back = finish;
-      l.start = l.finish;
-      l.finish->next = l.finish;
-      l.finish->back = l.finish;
+      fake_ = l.fake_;
+      start_ = finish_->next;
+      finish_->back->next = finish_;
+      finish_->next->back = finish_;
+      l.start_ = l.finish_;
+      l.finish_->next = l.finish_;
+      l.finish_->back = l.finish_;
     }
   }
   return *this;
@@ -67,7 +67,7 @@ typename s21::list<T>::ListIterator list<T>::insert(iterator pos,
   Node* tmp = new Node{pos.node, pos.node->back, value};
   tmp->back->next = tmp;
   pos.node->back = tmp;
-  if (pos.node == start) start = tmp;
+  if (pos.node == start_) start_ = tmp;
   pos--;
   return pos;
 }
@@ -77,7 +77,7 @@ typename s21::list<T>::iterator list<T>::erase(iterator pos) {
   Node* tmp{pos.node->next};
   pos.node->next->back = pos.node->back;
   pos.node->back->next = pos.node->next;
-  if (pos.node == start) start = pos.node->next;
+  if (pos.node == start_) start_ = pos.node->next;
   delete pos.node;
   pos.node = tmp;
   return pos;
@@ -112,7 +112,7 @@ size_t list<T>::size() {
 
 template <typename T>
 void list<T>::clear() {
-  while (start != finish) {
+  while (start_ != finish_) {
     pop_front();
   }
 }
@@ -120,15 +120,15 @@ void list<T>::clear() {
 template <typename T>
 void list<T>::swap(list<T>& other) {
   if (this != &other) {
-    std::swap(__fake, other.__fake);
-    if (other.empty()) finish->next = finish->back = finish;
-    if (empty()) other.finish->next = other.finish->back = other.finish;
-    finish->next->back = finish;
-    finish->back->next = finish;
-    start = finish->next;
-    other.finish->next->back = other.finish;
-    other.finish->back->next = other.finish;
-    other.start = other.finish->next;
+    std::swap(fake_, other.fake_);
+    if (other.empty()) finish_->next = finish_->back = finish_;
+    if (empty()) other.finish_->next = other.finish_->back = other.finish_;
+    finish_->next->back = finish_;
+    finish_->back->next = finish_;
+    start_ = finish_->next;
+    other.finish_->next->back = other.finish_;
+    other.finish_->back->next = other.finish_;
+    other.start_ = other.finish_->next;
   }
 }
 
@@ -149,14 +149,14 @@ template <typename T>
 void list<T>::splice(const_iterator pos, list<T>& other) {
   if (other.empty()) return;
   if (this == &other) return;  // throw?
-  pos.node->back->next = other.start;
-  other.start->back = pos.node->back;
-  other.finish->back->next = pos.node;
-  pos.node->back = other.finish->back;
-  other.start = other.finish;
-  other.finish->back = other.finish;
-  other.finish->next = other.finish;
-  if (pos == begin()) start = finish->next;
+  pos.node->back->next = other.start_;
+  other.start_->back = pos.node->back;
+  other.finish_->back->next = pos.node;
+  pos.node->back = other.finish_->back;
+  other.start_ = other.finish_;
+  other.finish_->back = other.finish_;
+  other.finish_->next = other.finish_;
+  if (pos == begin()) start_ = finish_->next;
 }
 
 template <typename T>
@@ -168,10 +168,10 @@ void list<T>::reverse() {
       it.node->next = it.node->back;
       it.node->back = tmp;
     }
-    tmp = finish->next;
-    finish->next = finish->back;
-    finish->back = tmp;
-    start = finish->next;
+    tmp = finish_->next;
+    finish_->next = finish_->back;
+    finish_->back = tmp;
+    start_ = finish_->next;
   }
 }
 

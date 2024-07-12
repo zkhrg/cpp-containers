@@ -123,7 +123,7 @@ class set {
 
  protected:
   //  private:
-  Node* root;
+  Node* root_;
 
   int height(Node* n) const;
   int balanceFactor(Node* n) const;

@@ -34,15 +34,16 @@ class multiset : public set<T> {
   void merge(multiset& other);
 
   size_type count(T value) {
-    return this->innerSearch(this->root, value)->amount;
+    return this->innerSearch(this->root_, value)->amount;
   };
 
   typename set<T>::Node* innerInsert(typename set<T>::Node* node, T value,
                                      typename set<T>::Node* parent);
   void innerInsert(T value);
-  typename set<T>::Node* findFirstGreaterEqual(typename set<T>::Node* root,
+  typename set<T>::Node* findFirstGreaterEqual(typename set<T>::Node* root_,
                                                T value);
-  typename set<T>::Node* findFirstGreater(typename set<T>::Node* root, T value);
+  typename set<T>::Node* findFirstGreater(typename set<T>::Node* root_,
+                                          T value);
 
   template <typename... Args>
   std::vector<std::pair<iterator, bool>> insert_many(Args&&... args);

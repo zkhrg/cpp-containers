@@ -7,7 +7,7 @@ namespace s21 {
 template <class T>
 class stack {
  private:
-  list<T> base;
+  list<T> base_;
 
  public:
   using value_type = T;
@@ -16,18 +16,18 @@ class stack {
   using size_type = size_t;
 
   // member func:
-  stack() : base(){};
-  stack(std::initializer_list<value_type> const &items) : base(items){};
-  stack(const stack &s) : base(s.base){};
-  stack(stack &&s) : base(std::move(s.base)){};
+  stack() : base_(){};
+  stack(std::initializer_list<value_type> const &items) : base_(items){};
+  stack(const stack &s) : base_(s.base_){};
+  stack(stack &&s) : base_(std::move(s.base_)){};
   ~stack(){};
   stack &operator=(stack &&s);
   stack &operator=(const stack &s);
   // Queue Element access:
-  const_reference top() { return base.back(); };
+  const_reference top() { return base_.back(); };
   // Queue Capacity:
-  bool empty() { return base.empty(); };
-  size_type size() { return base.size(); };
+  bool empty() { return base_.empty(); };
+  size_type size() { return base_.size(); };
   // Queue Modifiers:
   void push(const_reference value);
   void pop();

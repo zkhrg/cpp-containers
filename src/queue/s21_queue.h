@@ -7,7 +7,7 @@ namespace s21 {
 template <class T>
 class queue {
  private:
-  list<T> base;
+  list<T> base_;
 
  public:
   using value_type = T;
@@ -16,19 +16,19 @@ class queue {
   using size_type = size_t;
 
   // member func:
-  queue() : base(){};
-  queue(std::initializer_list<value_type> const &items) : base(items){};
-  queue(const queue &q) : base(q.base){};
-  queue(queue &&q) : base(std::move(q.base)){};
+  queue() : base_(){};
+  queue(std::initializer_list<value_type> const &items) : base_(items){};
+  queue(const queue &q) : base_(q.base_){};
+  queue(queue &&q) : base_(std::move(q.base_)){};
   ~queue(){};
   queue &operator=(queue &&q);
   queue &operator=(const queue &q);
   // Queue Element access:
-  const_reference front() { return base.front(); };
-  const_reference back() { return base.back(); };
+  const_reference front() { return base_.front(); };
+  const_reference back() { return base_.back(); };
   // Queue Capacity:
-  bool empty() { return base.empty(); };
-  size_type size() { return base.size(); };
+  bool empty() { return base_.empty(); };
+  size_type size() { return base_.size(); };
   // Queue Modifiers:
   void push(const_reference value);
   void pop();

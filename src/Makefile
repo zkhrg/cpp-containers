@@ -10,7 +10,7 @@ TEST_RESULT=test
 OBJECTS=$(SOURCES:.cc=.o)
 TEST_OBJECTS=$(TEST_SOURCES:.cc=.o)
 RESULT=
-CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+CURRENT_BRANCH=$(shell git rev-parse --abbrev-ref HEAD)
 
 OS := $(shell uname)
 ifeq ($(OS),Linux)
@@ -25,7 +25,7 @@ endif
 
 all: test
 
-test: $(TEST_SOURCES)
+test: $(TEST_OBJECTS)
 	$(CC) $(CFLAGS) $^ -o $(TEST_RESULT) $(CHECK_LIB)
 	./$(TEST_RESULT)
 
@@ -35,7 +35,7 @@ $(RESULT): $(OBJECTS)
 %.o: %.cc $(HEADERS_AND_TPP)
 	$(CC) -c $(CFLAGS) $< -o $@
 
-gcov_report: $(TEST_SOURCES)
+gcov_report: $(TEST_OBJECTS)
 	$(CC) $(CFLAGS) --coverage $^ $(CHECK_LIB) -o $@
 	chmod +x *
 	./$@ 

@@ -4,7 +4,7 @@
 namespace s21 {
 template <typename T>
 typename s21::stack<T>& stack<T>::operator=(stack<T>&& s) {
-  if (this != &s) base = std::move(s.base);
+  if (this != &s) base_ = std::move(s.base_);
   return *this;
 }
 
@@ -19,17 +19,17 @@ stack<T>& stack<T>::operator=(const stack<T>& s) {
 
 template <typename T>
 void stack<T>::push(const_reference val) {
-  base.push_back(val);
+  base_.push_back(val);
 }
 
 template <typename T>
 void stack<T>::pop() {
-  base.pop_back();
+  base_.pop_back();
 }
 
 template <typename T>
 void stack<T>::swap(stack<T>& s) {
-  if (this != &s) base.swap(s.base);
+  if (this != &s) base_.swap(s.base_);
 }
 
 template <typename T>

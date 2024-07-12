@@ -9,7 +9,7 @@ namespace s21 {
 // set member functions
 template <typename T>
 multiset<T>::multiset() {
-  this->root = nullptr;
+  this->root_ = nullptr;
   this->len = 0;
 }
 
@@ -27,8 +27,8 @@ multiset<T>::multiset(const multiset& s) : multiset() {
 template <typename T>
 typename std::pair<typename multiset<T>::iterator, bool> multiset<T>::insert(
     const T& value) {
-  this->root = innerInsert(this->root, value, nullptr);
-  typename set<T>::Node* current = this->innerSearch(this->root, value);
+  this->root_ = innerInsert(this->root_, value, nullptr);
+  typename set<T>::Node* current = this->innerSearch(this->root_, value);
 
   return {iterator(current), true};
 }
@@ -81,19 +81,19 @@ typename set<T>::Node* multiset<T>::innerInsert(typename set<T>::Node* node,
 
 template <typename T>
 void multiset<T>::innerInsert(T value) {
-  this->root = this->innerInsert(this->root, value, nullptr);
+  this->root_ = this->innerInsert(this->root_, value, nullptr);
 }
 
 template <typename T>
 typename set<T>::Node* multiset<T>::findFirstGreaterEqual(
-    typename set<T>::Node* root, T value) {
+    typename set<T>::Node* root_, T value) {
   typename set<T>::Node* result = nullptr;
-  while (root != nullptr) {
-    if (root->data >= value) {
-      result = root;
-      root = root->left;
+  while (root_ != nullptr) {
+    if (root_->data >= value) {
+      result = root_;
+      root_ = root_->left;
     } else {
-      root = root->right;
+      root_ = root_->right;
     }
   }
   return result;
@@ -101,14 +101,14 @@ typename set<T>::Node* multiset<T>::findFirstGreaterEqual(
 
 template <typename T>
 typename set<T>::Node* multiset<T>::findFirstGreater(
-    typename set<T>::Node* root, T value) {
+    typename set<T>::Node* root_, T value) {
   typename set<T>::Node* result = nullptr;
-  while (root != nullptr) {
-    if (root->data > value) {
-      result = root;
-      root = root->left;
+  while (root_ != nullptr) {
+    if (root_->data > value) {
+      result = root_;
+      root_ = root_->left;
     } else {
-      root = root->right;
+      root_ = root_->right;
     }
   }
   return result;
@@ -116,13 +116,13 @@ typename set<T>::Node* multiset<T>::findFirstGreater(
 
 template <typename T>
 void multiset<T>::erase(iterator pos) {
-  typename set<T>::Node* n = this->innerSearch(this->root, *pos);
+  typename set<T>::Node* n = this->innerSearch(this->root_, *pos);
   if (n->amount > 1) {
     --(n->amount);
     --(this->len);
     return;
   }
-  this->root = this->innerRemove(this->root, *pos);
+  this->root_ = this->innerRemove(this->root_, *pos);
 }
 
 template <typename T>
@@ -136,19 +136,19 @@ multiset<T>& multiset<T>::operator=(const multiset& s) {
 
 template <typename T>
 multiset<T>::multiset(multiset&& s) {
-  this->root = s.root;
+  this->root_ = s.root_;
   this->len = s.len;
-  s.root = nullptr;
+  s.root_ = nullptr;
   s.len = 0;
 }
 
 template <typename T>
 multiset<T>& multiset<T>::operator=(multiset&& s) {
   if (this != &s) {
-    this->clear(this->root);
-    this->root = s.root;
+    this->clear(this->root_);
+    this->root_ = s.root_;
     this->len = s.len;
-    s.root = nullptr;
+    s.root_ = nullptr;
     s.len = 0;
   }
   return *this;
@@ -175,7 +175,7 @@ multiset<T>::insert_many(Args&&... args) {
 template <typename T>
 std::pair<typename multiset<T>::iterator, typename multiset<T>::iterator>
 multiset<T>::equal_range(const T& key) {
-  typename set<T>::Node* n = this->innerSearch(this->root, key);
+  typename set<T>::Node* n = this->innerSearch(this->root_, key);
   iterator it1(n);
   iterator it2(n);
   for (; it2 != this->end() && it2.node->data == it1.node->data; ++it2) {
@@ -186,13 +186,13 @@ multiset<T>::equal_range(const T& key) {
 
 template <typename T>
 typename multiset<T>::iterator multiset<T>::lower_bound(const T& key) {
-  iterator res(this->findFirstGreaterEqual(this->root, key));
+  iterator res(this->findFirstGreaterEqual(this->root_, key));
   return res;
 }
 
 template <typename T>
 typename multiset<T>::iterator multiset<T>::upper_bound(const T& key) {
-  iterator res(this->findFirstGreater(this->root, key));
+  iterator res(this->findFirstGreater(this->root_, key));
   return res;
 }
 
