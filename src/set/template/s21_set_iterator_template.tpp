@@ -55,14 +55,14 @@ typename set<T>::Node* set<T>::BaseIterator<Iter>::findNext(
 
 template <typename T>
 template <class Iter>
-Iter* s21::set<T>::BaseIterator<Iter>::operator++() {
+Iter s21::set<T>::BaseIterator<Iter>::operator++() {
   Node* tmp_node = node;
   node = findNext(node);
   int tmp_amount = this->amount;
-  Iter* res = new Iter(node);  // надо переделать!!!
+  Iter res = Iter(node);  // надо переделать!!!
 
   if (node == tmp_node) {
-    res->amount = tmp_amount;
+    res.amount = tmp_amount;
   } else if (node != nullptr) {
     this->amount = node->amount;
   }
@@ -71,14 +71,14 @@ Iter* s21::set<T>::BaseIterator<Iter>::operator++() {
 
 template <typename T>
 template <class Iter>
-Iter* set<T>::BaseIterator<Iter>::operator--() {
+Iter set<T>::BaseIterator<Iter>::operator--() {
   Node* tmp_node = node;
   node = findPrev(node);
   int tmp_amount = this->amount;
-  Iter* res = new Iter(node);
+  Iter res = Iter(node);
 
-  if (res != nullptr && node == tmp_node) {
-    res->amount = tmp_amount;
+  if (node == tmp_node) {
+    res.amount = tmp_amount;
   } else if (node != nullptr) {
     this->amount = 1;  // amount default is 1
   }

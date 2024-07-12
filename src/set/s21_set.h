@@ -48,8 +48,8 @@ class set {
     BaseIterator() : node(nullptr), amount(0){};
     ~BaseIterator(){};
 
-    Iter* operator++();
-    Iter* operator--();
+    Iter operator++();
+    Iter operator--();
     Iter operator++(int);
     Iter operator--(int);
     bool operator==(iterator it) const { return node == it.node; };
