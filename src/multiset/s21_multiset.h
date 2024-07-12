@@ -40,9 +40,15 @@ class multiset : public set<T> {
   typename set<T>::Node* innerInsert(typename set<T>::Node* node, T value,
                                      typename set<T>::Node* parent);
   void innerInsert(T value);
+  typename set<T>::Node* findFirstGreaterEqual(typename set<T>::Node* root,
+                                               T value);
+  typename set<T>::Node* findFirstGreater(typename set<T>::Node* root, T value);
 
   template <typename... Args>
   std::vector<std::pair<iterator, bool>> insert_many(Args&&... args);
+  std::pair<iterator, iterator> equal_range(const T& key);
+  iterator lower_bound(const T& key);
+  iterator upper_bound(const T& key);
 };
 
 }  // namespace s21

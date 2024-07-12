@@ -448,3 +448,58 @@ TEST(MultiSetTests, TestMultiSetInsertMany) {
     EXPECT_EQ(*my_multiset_it, *std_multiset_it);
   }
 }
+
+TEST(MultiSetTests, TestMethodEqualRange1) {
+  s21::multiset<int> s1 = {3, 2, 2, 4, 5, 5, 1, 1};
+  std::multiset<int> s2 = {3, 2, 2, 4, 5, 5, 1, 1};
+
+  s21::multiset<int>::iterator my_multiset_it = s1.equal_range(2).first;
+  std::multiset<int>::iterator std_multiset_it = s2.equal_range(2).first;
+  EXPECT_EQ(*my_multiset_it, *std_multiset_it);
+}
+
+TEST(MultiSetTests, TestMethodEqualRange2) {
+  s21::multiset<int> s1 = {3, 2, 2, 2, 4, 5, 5, 1, 1};
+  std::multiset<int> s2 = {3, 2, 2, 2, 4, 5, 5, 1, 1};
+
+  s21::multiset<int>::iterator my_multiset_it = s1.equal_range(2).second;
+  std::multiset<int>::iterator std_multiset_it = s2.equal_range(2).second;
+  EXPECT_EQ(*my_multiset_it, *std_multiset_it);
+}
+
+TEST(MultiSetTests, TestMethodLoverBound1) {
+  s21::multiset<int> s1 = {3, 2, 2, 4, 5, 5, 1, 1};
+  std::multiset<int> s2 = {3, 2, 2, 4, 5, 5, 1, 1};
+
+  s21::multiset<int>::iterator my_multiset_it = s1.lower_bound(2);
+  std::multiset<int>::iterator std_multiset_it = s2.lower_bound(2);
+  EXPECT_EQ(*my_multiset_it, *std_multiset_it);
+}
+
+TEST(MultiSetTests, TestMethodLoverBound2) {
+  s21::multiset<int> s1 = {3, 2, 2, 4, 5, 5, 1, 1};
+  std::multiset<int> s2 = {3, 2, 2, 4, 5, 5, 1, 1};
+
+  s21::multiset<int>::iterator my_multiset_it = s1.lower_bound(5);
+  std::multiset<int>::iterator std_multiset_it = s2.lower_bound(5);
+
+  EXPECT_EQ(*my_multiset_it, *std_multiset_it);
+}
+
+TEST(MultiSetTests, TestMethodUpperBound1) {
+  s21::multiset<int> s1 = {3, 2, 2, 4, 5, 5, 1, 1};
+  std::multiset<int> s2 = {3, 2, 2, 4, 5, 5, 1, 1};
+
+  s21::multiset<int>::iterator my_multiset_it = s1.upper_bound(2);
+  std::multiset<int>::iterator std_multiset_it = s2.upper_bound(2);
+  EXPECT_EQ(*my_multiset_it, *std_multiset_it);
+}
+
+TEST(MultiSetTests, TestMethodUpperBound2) {
+  s21::multiset<int> s1 = {3, 2, 2, 4, 5, 5, 1, 1};
+  std::multiset<int> s2 = {3, 2, 2, 4, 5, 5, 1, 1};
+
+  s21::multiset<int>::iterator my_multiset_it = s1.upper_bound(5);
+  std::multiset<int>::iterator std_multiset_it = s2.upper_bound(5);
+  EXPECT_EQ(my_multiset_it == s1.end(), std_multiset_it == s2.end());
+}

@@ -85,6 +85,36 @@ void multiset<T>::innerInsert(T value) {
 }
 
 template <typename T>
+typename set<T>::Node* multiset<T>::findFirstGreaterEqual(
+    typename set<T>::Node* root, T value) {
+  typename set<T>::Node* result = nullptr;
+  while (root != nullptr) {
+    if (root->data >= value) {
+      result = root;
+      root = root->left;
+    } else {
+      root = root->right;
+    }
+  }
+  return result;
+}
+
+template <typename T>
+typename set<T>::Node* multiset<T>::findFirstGreater(
+    typename set<T>::Node* root, T value) {
+  typename set<T>::Node* result = nullptr;
+  while (root != nullptr) {
+    if (root->data > value) {
+      result = root;
+      root = root->left;
+    } else {
+      root = root->right;
+    }
+  }
+  return result;
+}
+
+template <typename T>
 void multiset<T>::erase(iterator pos) {
   typename set<T>::Node* n = this->innerSearch(this->root, *pos);
   if (n->amount > 1) {
@@ -139,6 +169,30 @@ multiset<T>::insert_many(Args&&... args) {
   for (const auto& elem : {args...}) {
     res.push_back(this->insert(elem));
   }
+  return res;
+}
+
+template <typename T>
+std::pair<typename multiset<T>::iterator, typename multiset<T>::iterator>
+multiset<T>::equal_range(const T& key) {
+  typename set<T>::Node* n = this->innerSearch(this->root, key);
+  iterator it1(n);
+  iterator it2(n);
+  for (; it2 != this->end() && it2.node->data == it1.node->data; ++it2) {
+    ;
+  }
+  return {it1, it2};
+}
+
+template <typename T>
+typename multiset<T>::iterator multiset<T>::lower_bound(const T& key) {
+  iterator res(this->findFirstGreaterEqual(this->root, key));
+  return res;
+}
+
+template <typename T>
+typename multiset<T>::iterator multiset<T>::upper_bound(const T& key) {
+  iterator res(this->findFirstGreater(this->root, key));
   return res;
 }
 

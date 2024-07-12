@@ -59,7 +59,7 @@ Iter s21::set<T>::BaseIterator<Iter>::operator++() {
   Node* tmp_node = node;
   node = findNext(node);
   int tmp_amount = this->amount;
-  Iter res = Iter(node);  // надо переделать!!!
+  Iter res = Iter(node);
 
   if (node == tmp_node) {
     res.amount = tmp_amount;
