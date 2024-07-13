@@ -102,17 +102,7 @@ TEST(ListTests, S21_TestConstListIterator) {
     EXPECT_EQ(*it, *cit);
   }
 }
-/*  //std check
-TEST(ListTests, STD_TestConstListIterator) {
-  std::list<int> l{1, 5, 3, 7};
-  std::list<int>::iterator it = l.begin();
-  std::list<int>::const_iterator cit = l.begin();
-  for(; it != l.end() && cit != l.end(); it++, cit++) {
-    EXPECT_EQ(it, cit);
-    EXPECT_EQ(*it, *cit);
-  }
-}
-*/
+
 // List Modifiers
 
 TEST(ListTests, TestListInsert) {
@@ -129,17 +119,6 @@ TEST(ListTests, TestListInsert) {
   EXPECT_EQ(l1.back(), 5);
   EXPECT_EQ(l2.back(), 5);
 }
-/* //std check
-TEST(ListTests, STD_TestListErase){
-  std::list<int> l{1, 2, 3, 4, 5, 6};
-  for(auto it = l.begin(); it != l.end(); it++) {
-    if(*it % 2) it = l.erase(it);
-  }
-  EXPECT_EQ(l.size(), 3);
-  EXPECT_EQ(l.front(), 2);
-  EXPECT_EQ(l.back(), 6);
-}
-*/
 
 TEST(ListTests, S21_TestListErase) {
   s21::list<int> l{1, 2, 3, 4, 5, 6};
@@ -151,17 +130,6 @@ TEST(ListTests, S21_TestListErase) {
   EXPECT_EQ(l.back(), 6);
 }
 
-/* //fake node is not allocate
-TEST(ListTests, EXPECT_THROW_TestListErase){
-  std::list<int> l{1, 2, 3, 4, 5, 6};
-  EXPECT_ANY_THROW(l.erase(l.end()));
-}
-*/
-
-/* //already tested
-  push: using insert
-  pop/clear: using erase
-*/
 TEST(ListTests, TestListPush_Pop_Erase) {
   s21::list<int> l{5, 6, 7, 9, 2, 1};
   l.push_back(52);
@@ -287,17 +255,6 @@ TEST(ListTests, TestListSort) {
   for (int i{}; i < 4 && it != l.end(); i++, it++) EXPECT_EQ(*it, arr[i]);
 }
 
-/* //std check
-TEST(ListTests, STD_TestListUnique) {
-  std::list<int> l{1, 5, 1, 6, 5, 8, 1, 4, 4};
-  //l.sort();
-  l.unique();
-  for(auto it = l.begin(); it != l.end(); it++)
-    std::cout << *it << " ";
-  std::cout << std::endl;
-}
-*/
-
 TEST(ListTests, TestListUnique) {
   s21::list<int> l{1, 5, 1, 6, 5, 8, 1, 4, 4};
   l.unique();
@@ -314,19 +271,7 @@ TEST(ListTests, TestListUnique) {
     EXPECT_EQ(*it, arr2[i]);
   }
 }
-/* //std check
-TEST(ListTests, STD_TestListMerge) {
-  std::list<int> l1{4, 6, 5, 7, 9};
-  std::list<int> l2{4, 8, 9, 7};
-  l1.sort();
-  l2.sort();
-  l1.merge(l2);
-  EXPECT_EQ(l2.empty(), true);
-  for(auto it = l1.begin(); it != l1.end(); it++)
-    std::cout << *it << " ";
-  std::cout << std::endl;
-}
-*/
+
 TEST(ListTests, TestListMerge) {
   s21::list<int> l1{4, 6, 5, 7, 9};
   s21::list<int> l2{4, 8, 9, 7};
