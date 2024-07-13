@@ -5,7 +5,7 @@
 
 namespace s21 {
 
-template <class T>
+template <typename T>
 class list {
  public:
   class ListConstIterator;
@@ -26,8 +26,8 @@ class list {
     BaseIterator() : node(nullptr){};
     ~BaseIterator(){};
 
-    Iter operator++();  // переделать!
-    Iter operator--();  // переделать!
+    Iter operator++();
+    Iter operator--();
     Iter operator++(int);
     Iter operator--(int);
     bool operator!=(ListIterator it) const { return node != it.node; };
@@ -89,6 +89,7 @@ class list {
   ~list();
 
   list& operator=(list&& l);
+  list& operator=(const list& l);
 
   // List Element access
   const_reference front() { return start_->arg; }

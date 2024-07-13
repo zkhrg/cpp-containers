@@ -401,3 +401,21 @@ TEST(ListTests, TestInsertManyFrontMethod1) {
   it++;
   EXPECT_EQ(*it, 5);
 }
+
+TEST(ListTest, TestCopyOperator1) {
+  s21::list<int> l1{1, 5, 6, 7, 98, 3};
+  s21::list<int> l2;
+  l2 = l1;
+  auto it = l2.begin();
+  EXPECT_EQ(*it, 1);
+  it++;
+  EXPECT_EQ(*it, 5);
+  it++;
+  EXPECT_EQ(*it, 6);
+  it++;
+  EXPECT_EQ(*it, 7);
+  it++;
+  EXPECT_EQ(*it, 98);
+  it++;
+  EXPECT_EQ(*it, 3);
+}

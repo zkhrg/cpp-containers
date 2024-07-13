@@ -940,3 +940,13 @@ TEST(VectorTests, TestMethodInsertManyBack1) {
     EXPECT_EQ(v1[i], i + 1);
   }
 }
+
+TEST(VectorTests, TestIterator1) {
+  s21::vector<std::string> v1 = {"This", "is", "test"};
+
+  auto it = v1.begin();
+  EXPECT_EQ(*it, "This");
+  EXPECT_EQ(*++it, "is");
+  EXPECT_EQ(*++it, "test");
+  EXPECT_EQ(++it, v1.end());
+}

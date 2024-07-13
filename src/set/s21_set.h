@@ -123,7 +123,6 @@ class set {
   };
 
  protected:
-  //  private:
   Node* root_;
 
   int height(Node* n) const;

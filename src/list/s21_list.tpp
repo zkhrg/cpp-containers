@@ -59,6 +59,16 @@ typename s21::list<tmp>& list<tmp>::operator=(list<tmp>&& l) {
   }
   return *this;
 }
+
+template <typename tmp>
+typename s21::list<tmp>& list<tmp>::operator=(const list& l) {
+  if (this != &l) {
+    clear();
+    list<tmp> buf(l);
+    *this = std::move(buf);
+  }
+  return *this;
+}
 // funcs
 
 template <typename T>
@@ -148,7 +158,7 @@ void list<T>::merge(list<T>& other) {
 template <typename T>
 void list<T>::splice(const_iterator pos, list<T>& other) {
   if (other.empty()) return;
-  if (this == &other) return;  // throw?
+  if (this == &other) return;
   pos.node->back->next = other.start_;
   other.start_->back = pos.node->back;
   other.finish_->back->next = pos.node;

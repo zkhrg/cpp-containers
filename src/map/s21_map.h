@@ -8,7 +8,7 @@
 
 namespace s21 {
 
-template <class Key, class T>
+template <typename Key, typename T>
 class map {
  public:
   class MapConstIterator;
